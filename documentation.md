@@ -35,17 +35,21 @@ Installation des composants pour le serveur Python
 >
 
 Nous allons maintenant installer les modules node.js requis au déploiement de l'application
-
+>- pip install numpy
+>- pip install scipy
+>- pip install atlas
 >- pip install zerorpc
 >- pip install msgpack-python --force-reinstall --upgrade
->- pip install coclust
+>- pip install coclust[alldeps]
 
 Installation des composants pour le client Node.js
 -------------
 > **Prérequis:**
 
 > - Dans un premier nous conseillons activement d'avoir les librairies C++ Visual Studio 2015 et les outils de compilation associés.
-Pour cela Microsoft propose un standalone à installer répondant aux prérequis ci-dessus: http://landinghub.visualstudio.com/visual-cpp-build-tools
+Pour cela Microsoft propose un standalone à installer répondant aux prérequis ci-dessus: http://landinghub.visualstudio.com/visual-cpp-build-tools OU exécuter ces commandes :
+>- npm install --global --production windows-build-tools
+>- npm config set msvs_version 2015
 > - Il faut ensuite avoir Node.js installer sur sa machine pour ce faire nous conseillons de télécharger la dernière version stable de Node.js disponible sur leur site internet : https://nodejs.org/en/
 >
 
@@ -53,6 +57,7 @@ Nous allons maintenant installer les modules node.js requis au déploiement de l
 
 >- npm -g install npm@next
 >- npm install -g bower
+>- npm install node-gyp
 >- npm install zerorpc
 
 
