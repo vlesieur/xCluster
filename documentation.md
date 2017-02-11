@@ -59,6 +59,7 @@ Nous allons maintenant installer les modules node.js requis au déploiement de l
 >- npm install -g bower
 >- npm install node-gyp
 >- npm install zerorpc
+>- npm install zmq
 
 
 ----------
