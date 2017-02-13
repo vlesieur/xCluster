@@ -35,12 +35,14 @@ Installation des composants pour le serveur Python
 >
 
 Nous allons maintenant installer les modules node.js requis au déploiement de l'application
->- pip install numpy
->- pip install scipy
->- pip install atlas
+
+Dans un premier temps la librairie python coclust doit être installé pour cela veuillez vous réferer à la documentation d'installation ci-dessous :
+http://coclust.readthedocs.io/en/v0.2.0/install.html
+
+Après l'installation de coclust, il faut installer les packages pour l'utilisation de zeroRPC :
+
 >- pip install zerorpc
 >- pip install msgpack-python --force-reinstall --upgrade
->- pip install coclust[alldeps]
 
 Installation des composants pour le client Node.js
 -------------
