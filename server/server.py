@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import matplotlib.pyplot as plt
+import numpy as np
 import zerorpc
 import coclust
 from coclust.coclustering import CoclustInfo
@@ -9,12 +11,15 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.metrics.cluster import normalized_mutual_info_score
 
+from coclust.visualization import plot_reorganized_matrix
 from scipy.io import loadmat
 from coclust.coclustering import CoclustMod
 
 import signal
 import sys
 import zerorpc
+import time
+import os
 from datetime import datetime
 
 def getDateTimeNowString():
@@ -41,7 +46,15 @@ class Api(object):
         model.fit(X)
         predicted_row_labels = model.row_labels_
         predicted_column_labels = model.column_labels_
-        return [predicted_row_labels, predicted_column_labels]
+        row_indices = np.argsort(model.row_labels_)
+        col_indices = np.argsort(model.column_labels_)
+        X_reorg = X[row_indices, :]
+        X_reorg = X_reorg[:, col_indices]
+        plt.spy(X_reorg, precision=0.8, markersize=0.9)
+        file_path = '%s\\tmp\\%s.png' % (os.getcwd(), int(time.time()))
+        plt.savefig(file_path)
+        plt.close()
+        return [predicted_row_labels, predicted_column_labels, file_path]
 
 signal.signal(signal.SIGINT, exit_handler)
 

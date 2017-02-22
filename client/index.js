@@ -6,7 +6,7 @@ const callbackFunction = function(err, result, start) {
 	if (typeof result == 'string') {
 		console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result + "\n\n")
 	} else {
-		console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result[0] + "\n\n" + result[1]);
+		console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result[0] + "\n\n" + result[1] + "\n\n" + result[2]);
 	}
 }
 const zerorpc = require('zerorpc');
