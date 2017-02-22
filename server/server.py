@@ -22,6 +22,9 @@ import time
 import os
 from datetime import datetime
 
+import logging
+logging.basicConfig()
+
 def getDateTimeNowString():
     string = datetime.now().strftime("%Y %m %d %H %M %S %f")
     return string

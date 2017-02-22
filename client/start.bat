@@ -1,4 +1,5 @@
 SET mypath=%~dp0
-node %mypath%index.js
+cd %mypath%
+node index.js
 @echo off
 pause

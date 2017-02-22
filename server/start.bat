@@ -1,5 +1,6 @@
 SET mypath=%~dp0
-python %mypath%server.py
+cd %mypath%
+python server.py
 @echo off
 pause
 
