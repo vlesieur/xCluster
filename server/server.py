@@ -41,7 +41,7 @@ class Api(object):
         model.fit(X)
         predicted_row_labels = model.row_labels_
         predicted_column_labels = model.column_labels_
-        return 'Predicted row labels : %s \n Predicted column labels : %s' % (predicted_row_labels, predicted_column_labels)
+        return [predicted_row_labels, predicted_column_labels]
 
 signal.signal(signal.SIGINT, exit_handler)
 

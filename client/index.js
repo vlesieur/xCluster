@@ -3,8 +3,11 @@ const callbackFunction = function(err, result, start) {
     if(err){
         console.log('ERREUR: ',err)
     }
-    var text = result.toString('utf8');
-    console.log('Execution en: ', end + " ms", "\r\nresultat: ", text + "\n");
+	if (typeof result == 'string') {
+		console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result + "\n\n")
+	} else {
+		console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result[0] + "\n\n" + result[1]);
+	}
 }
 const zerorpc = require('zerorpc');
 const client = new zerorpc.Client({
@@ -18,9 +21,9 @@ const start = new Date();
 console.log("Debut des invokes python...");
 
 client.invoke("hello", "Classification croisée", function(error, res, more) {
-        callbackFunction(error,res, start);
+        callbackFunction(error, res, start);
 });
 
 client.invoke("coclustMod", "user", "cstr.mat", function(error, res, more) {
-    callbackFunction(error,res, start);
+    callbackFunction(error, res, start);
 });
