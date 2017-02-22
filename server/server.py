@@ -52,6 +52,7 @@ class Api(object):
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
         file_path = '%s\\tmp\\%s\\%s.png' % (os.getcwd(), username, int(time.time()))
+        plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()
         return [predicted_row_labels, predicted_column_labels, file_path]
