@@ -22,7 +22,7 @@ def getDateTimeNowString():
     return string
 
 def exit_handler(signal, frame):
-    print "You are now leaving the Python sector."
+    print("You are now leaving the Python sector.")
     sys.exit(0)
 
 
@@ -49,7 +49,7 @@ try:
     server = zerorpc.Server(Api(), heartbeat=360)
     bindingData = "{0}:{1}".format("tcp://0.0.0.0", 4242)
     server.bind(bindingData)
-    print "RPC Channels Server ecoute sur : {0}".format(bindingData)
+    print("RPC Channels Server ecoute sur : {0}".format(bindingData))
     server.run()
 except Exception as e:
-    print str(e)
+    print(str(e))
