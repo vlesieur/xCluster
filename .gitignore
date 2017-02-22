@@ -4,3 +4,4 @@ server.js.debug
 settings.json
 iisnode
 *.png
+server/tmp/*
