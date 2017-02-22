@@ -22,9 +22,6 @@ import time
 import os
 from datetime import datetime
 
-import logging
-logging.basicConfig()
-
 def getDateTimeNowString():
     string = datetime.now().strftime("%Y %m %d %H %M %S %f")
     return string
@@ -54,7 +51,7 @@ class Api(object):
         X_reorg = X[row_indices, :]
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
-        file_path = '%s\\tmp\\%s.png' % (os.getcwd(), int(time.time()))
+        file_path = '%s\\tmp\\%s\\%s.png' % (os.getcwd(), username, int(time.time()))
         plt.savefig(file_path)
         plt.close()
         return [predicted_row_labels, predicted_column_labels, file_path]
