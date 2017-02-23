@@ -178,8 +178,8 @@
         };
 
         $scope.isInThisPath = function(path) {
-            var currentPath = $scope.fileNavigator.currentPath.join('/');
-            return currentPath.indexOf(path) !== -1;
+            var currentPath = $scope.fileNavigator.currentPath.join('/') + '/';
+            return currentPath.indexOf(path + '/') !== -1;
         };
 
         $scope.edit = function() {
@@ -190,6 +190,7 @@
 
         $scope.changePermissions = function() {
             $scope.apiMiddleware.changePermissions($scope.temps, $scope.temp).then(function() {
+                $scope.fileNavigator.refresh();
                 $scope.modal('changepermissions', true);
             });
         };
