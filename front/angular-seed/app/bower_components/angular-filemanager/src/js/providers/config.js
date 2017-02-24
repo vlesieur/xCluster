@@ -44,10 +44,10 @@
                 pickFolders: false
             },
 
-            multipleDownloadFileName: 'angular-filemanager.zip',
+            multipleDownloadFileName: 'xCluster_datas.zip',
             filterFileExtensions: [],
             showExtensionIcons: true,
-            showSizeForDirectories: false,
+            showSizeForDirectories: true,
             useBinarySizePrefixes: false,
             downloadFilesByAjax: true,
             previewImagesInModal: true,
