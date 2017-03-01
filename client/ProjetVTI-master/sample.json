@@ -1,0 +1,62 @@
+[
+{
+"_id": "movie:1",
+"title": "Vertigo",
+"year": 1958,
+"genre": "drama",
+"summary": "Scottie Ferguson, ancien inspecteur de police, est sujet au vertige depuis qu'il a vu mourir son collègue. Elster, son ami, le charge de surveiller sa femme, Madeleine, ayant des tendances suicidaires. Amoureux de la jeune femme Scottie ne remarque pas le piège qui se trame autour de lui et dont il va être la victime... ",
+"country": "DE",
+"director": 	{
+	"_id": "artist:3",
+	"last_name": "Hitchcock",
+	"first_name": "Alfred",
+	"birth_date": "1899"	
+	},
+"actors": [
+	{
+	"_id": "artist:15",
+	"first_name": "James",
+	"last_name": "Stewart",
+	"birth_date": "1908",
+	"role": "John Ferguson"	
+	},
+	{
+	"_id": "artist:16",
+	"first_name": "Kim",
+	"last_name": "Novak",
+	"birth_date": "1925",
+	"role": "Madeleine Elster"	
+	},
+	{
+	"_id": "artist:282",
+	"first_name": "Arthur",
+	"last_name": "Pierre",
+	"birth_date": null,
+	"role": null	
+	}
+	]
+},
+{
+"_id": "movie:2",
+"title": "Alien",
+"year": 1979,
+"genre": "Science-fiction",
+"summary": "Près d'un vaisseau spatial échoué sur une lointaine planète, des Terriens en mission découvrent de bien étranges \"oeufs\". Ils en ramènent un à bord, ignorant qu'ils viennent d'introduire parmi eux un huitième passager particulièrement féroce et meurtrier. ",
+"country": "USA",
+"director": 	{
+	"_id": "artist:4",
+	"last_name": "Scott",
+	"first_name": "Ridley",
+	"birth_date": "1937"	
+	},
+"actors": [
+	{
+	"_id": "artist:5",
+	"first_name": "Sigourney",
+	"last_name": "Weaver",
+	"birth_date": "1949",
+	"role": "Ripley"	
+	}
+	]
+}
+]
