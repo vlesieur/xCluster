@@ -7,11 +7,16 @@
             this.apiMiddleware = new ApiMiddleware();
             this.requesting = false;
             this.fileList = [];
-            this.currentPath = [];
+            this.currentPath = this.getBasePath();
             this.history = [];
             this.error = '';
 
             this.onRefresh = function() {};
+        };
+
+        FileNavigator.prototype.getBasePath = function() {
+            var path = (fileManagerConfig.basePath || '').replace(/^\//, '');
+            return path.trim() ? path.split('/') : [];
         };
 
         FileNavigator.prototype.deferredHandler = function(data, deferred, code, defaultMsg) {
@@ -20,6 +25,9 @@
             }
             if (code == 404) {
                 this.error = 'Error 404 - Backend bridge is not working, please check the ajax response.';
+            }
+            if (code == 200) {
+                this.error = null;
             }
             if (!this.error && data.result && data.result.error) {
                 this.error = data.result.error;
@@ -42,6 +50,9 @@
 
         FileNavigator.prototype.refresh = function() {
             var self = this;
+            if (! self.currentPath.length) {
+                self.currentPath = this.getBasePath();
+            }
             var path = self.currentPath.join('/');
             self.requesting = true;
             self.fileList = [];
@@ -61,7 +72,7 @@
 
             function recursive(parent, item, path) {
                 var absName = path ? (path + '/' + item.model.name) : item.model.name;
-                if (parent.name.trim() && path.trim().indexOf(parent.name) !== 0) {
+                if (parent.name && parent.name.trim() && path.trim().indexOf(parent.name) !== 0) {
                     parent.nodes = [];
                 }
                 if (parent.name !== path) {
@@ -95,7 +106,8 @@
                 })[0];
             }
 
-            !this.history.length && this.history.push({name: '', nodes: []});
+            //!this.history.length && this.history.push({name: '', nodes: []});
+            !this.history.length && this.history.push({ name: this.getBasePath()[0] || '', nodes: [] });
             flatten(this.history[0], flatNodes);
             selectedNode = findNode(flatNodes, path);
             selectedNode && (selectedNode.nodes = []);
@@ -128,7 +140,7 @@
 
         FileNavigator.prototype.fileNameExists = function(fileName) {
             return this.fileList.find(function(item) {
-                return fileName.trim && item.model.name.trim() === fileName.trim();
+                return fileName && item.model.name.trim() === fileName.trim();
             });
         };
 
@@ -136,6 +148,10 @@
             return this.fileList.find(function(item) {
                 return item.model.type === 'dir';
             });
+        };
+
+        FileNavigator.prototype.getCurrentFolderName = function() {
+            return this.currentPath.slice(-1)[0] || '/';
         };
 
         return FileNavigator;

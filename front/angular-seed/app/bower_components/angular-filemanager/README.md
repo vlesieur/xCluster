@@ -13,8 +13,7 @@ This project is under free license. If you want to support the angular-filemanag
 ![](https://raw.githubusercontent.com/joni2back/angular-filemanager/master/screenshot.gif)
 
 ### Features
-  - Multilanguage (
-  English, Chinese, Spanish, Russian, Portuguese, French, German, Slovak, Hebrew, Persan, Ukrainian, Turkish)
+  - Multilanguage (English, Chinese, Spanish, Russian, Portuguese, French, German, Italian, Slovak, Hebrew, Persian, Polish, Ukrainian, Turkish)
   - Multiple templates (List / Icons)
   - Multiple file upload
   - Multiple file support
@@ -112,6 +111,8 @@ angular.module('FileManagerApp').config(['fileManagerConfigProvider', function (
 }]);
 </script>
 ```
+
+You can do many things by extending the configuration. Like hide the sidebar or the search button. See [the list of default configurations](/src/js/providers/config.js).
 
 ---------
 
