@@ -9,6 +9,9 @@ angular.module('myApp.view2', ['ngRoute'])
   });
 }])
 
-.controller('View2Ctrl', [function() {
-
+.controller('View2Ctrl', [function($scope, $http) {
+ $http.get("http://127.0.0.1:3000/")
+    .then(function(response) {
+        $scope.myWelcome = response.data;
+    });
 }]);
