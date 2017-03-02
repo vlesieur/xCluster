@@ -5,10 +5,10 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser');
 
-var db = require('./model/db'),
-    film = require('./model/users')
-var routes = require('./routes/index'),
-    films = require('./routes/films');
+/*var db = require('./model/db'),
+    film = require('./model/users')*/
+var routes = require('./routes/index');
+    //films = require('./routes/films');
 
 var app = express();
 
@@ -23,7 +23,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/films',films);
+
+//app.use('/films',films);
 
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

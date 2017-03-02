@@ -6,6 +6,17 @@ a {
   color: #00B7FF;
 }
 
+.resultat {
+  max-width: 500px;
+  text-align: left;
+}
+
+.resultat p {
+  width: 400px;
+  max-width: inherit;
+  display: block;
+}
+
 .button-ajout {
   position:fixed !important;
   right:1em;

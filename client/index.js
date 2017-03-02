@@ -21,7 +21,7 @@ const start = new Date();
 console.log("Debut des invokes python...");
 
 client.invoke("hello", "Classification croisée", function(error, res, more) {
-        callbackFunction(error, res, start);
+    callbackFunction(error, res, start);
 });
 
 client.invoke("coclustMod", "user", "cstr.mat", function(error, res, more) {
