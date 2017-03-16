@@ -4,27 +4,22 @@ var router = express.Router();
 const zerorpc = require('zerorpc');
 const uri = "tcp://127.0.0.1:4242";
 
-var result = "";
-const setGlobalResult = function(str){
-  result=str;
-}
-
-const callbackFunction = function (err, result, start) {
+var callbackFunction = function (err, result, start) {
   const end = new Date() - start;
   if (err) {
     console.log('ERREUR: ', err)
-    return err;
+    return result;
   }
   if (typeof result == 'string') {
     console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result + "\n\n")
     return result;
   } else {
     console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result[0] + "\n\n" + result[1] + "\n\n" + result[2]);
-    return result;
+	return result;
   }
 };
 
-const createClient = function () {
+var createClient = function () {
   var client = new zerorpc.Client({
     timeout: 360,
     heartbeatInterval: 360000
@@ -32,34 +27,26 @@ const createClient = function () {
   return client;
 };
 
-const connectClient = function (client) {
+var connectClient = function (client) {
   console.log("Connexion au RPC avec ", uri);
   client.connect(uri);
   return client;
 };
 
-const callCoclust = function (client) {
+var callCoclust = function (client, toSend) {
   const start = new Date();
-  var response ="";
+  var response = "";
   client.invoke("coclustMod", "user", "cstr.mat", function (error, res, more) {
-    response = callbackFunction(error, res, start);
+	response = callbackFunction(error, res, start);
+	toSend.json({ row: response[0], column: response[1], img: response[2]});
   });
-  setTimeout(function () {
-    setGlobalResult(response);
-    return response;
-  }, 2500);
-  return response;
 };
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
   var client = createClient();
   client = connectClient(client);
-  callCoclust(client);
-  setTimeout(function () {
-    res.render('index', { title: result });
-  }, 3000);
-
+  callCoclust(client, res);
 });
 
 module.exports = router;
