@@ -10,14 +10,26 @@ angular.module('myApp.view2', ['ngRoute'])
 }])
 
 .controller('View2Ctrl', function($scope, $http) {
-	
+	$scope.img = null;
+	$scope.row = null;
+	$scope.err = null;
 	$http({
         method : "GET",
         url : "http://127.0.0.1:3000/"
     }).then(
 		function mySucces(response) {
-			$scope.test = response.data;
+			$scope.row = $scope.$eval("row",response.data);
+			var imgSrc = $scope.$eval("img",response.data)+".png";//TODO imgSrc
+			//imgSrc = "bower_components/angular-filemanager/bridges/php-local/index.php?action=download&path=%2Fuser%2"+imgSrc;
+			//imgSrc = "bower_components/angular-filemanager/bridges/php-local/index.php?action=download&path=%2Fuser%2"+imgSrc;
+			
+			$scope.img =  imgSrc;
     },  function myError(response) {
-			$scope.test = response.statusText;
-    });
+			$scope.err = response.statusText;
+    });	
+
 });
+
+
+
+
