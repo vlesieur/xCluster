@@ -52,7 +52,7 @@ class Api(object):
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
         file_name = int(time.time())
-        file_path = '%s\\..\\storage\\%s\\%s.png' % (os.getcwd(), username, file_name)
+        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\%s\\%s.png' % (os.getcwd(), username, file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()

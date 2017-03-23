@@ -14,7 +14,7 @@ include 'LocalBridge/Rest.php';
 include 'LocalBridge/Translate.php';
 include 'LocalBridge/FileManagerApi.php';
 
-$fileManagerApi = new FileManagerApi('../../../../../../../storage','en', false);
+$fileManagerApi = new FileManagerApi('../../../../storage','en', false);
 
 $rest = new Rest();
 $rest->post([$fileManagerApi, 'postHandler'])
