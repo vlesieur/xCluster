@@ -157,10 +157,10 @@ class FileManagerApi
                 break;
 				
 			case 'coclustMod':
-                $extracted = $this->coclustModAction($request['destination'], $request['item'], $request['folderName']);
-                if ($extracted === true) {
+                $callCoclust = $this->coclustModAction($request['destination'], $request['item'], $request['folderName']);
+                if ($callCoclust === true) {
                     $response = $this->simpleSuccessResponse();
-                } elseif ($extracted === 'unsupported') {
+                } elseif ($callCoclust === 'unsupported') {
                     $response = $this->simpleErrorResponse($t->archive_opening_failed);
                 } else {
                     $response = $this->simpleErrorResponse($t->extraction_failed);
@@ -168,10 +168,10 @@ class FileManagerApi
                 break;
 			
 			case 'coclustSpecMod':
-                $extracted = $this->coclustSpecModAction($request['destination'], $request['item'], $request['folderName']);
-                if ($extracted === true) {
+                $callCoclust = $this->coclustSpecModAction($request['destination'], $request['item'], $request['folderName']);
+                if ($callCoclust === true) {
                     $response = $this->simpleSuccessResponse();
-                } elseif ($extracted === 'unsupported') {
+                } elseif ($callCoclust === 'unsupported') {
                     $response = $this->simpleErrorResponse($t->archive_opening_failed);
                 } else {
                     $response = $this->simpleErrorResponse($t->extraction_failed);
@@ -179,10 +179,10 @@ class FileManagerApi
                 break;
 			
 			case 'coclustInfo':
-                $extracted = $this->coclustInfoAction($request['destination'], $request['item'], $request['folderName']);
-                if ($extracted === true) {
+                $callCoclust = $this->coclustInfoAction($request['destination'], $request['item'], $request['folderName']);
+                if ($callCoclust === true) {
                     $response = $this->simpleSuccessResponse();
-                } elseif ($extracted === 'unsupported') {
+                } elseif ($callCoclust === 'unsupported') {
                     $response = $this->simpleErrorResponse($t->archive_opening_failed);
                 } else {
                     $response = $this->simpleErrorResponse($t->extraction_failed);
@@ -432,11 +432,6 @@ class FileManagerApi
         return $zip->close();
     }
 	
-    private function coclustModAction($destination, $archivePath, $folderName)
-    {
-		//TODO
-		return;
-    }
 
     private function simpleSuccessResponse()
     {

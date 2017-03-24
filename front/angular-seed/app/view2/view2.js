@@ -19,7 +19,7 @@ angular.module('myApp.view2', ['ngRoute'])
 			function succes(response) {
 				$scope.row = $scope.$eval("row",response.data);
 				$scope.column = $scope.$eval("column",response.data);
-				$scope.img = "../storage/user/" + $scope.$eval("img",response.data)+".png";
+				$scope.img = "../storage/user/" + $scope.$eval("img",response.data) + ".png";
 		},
 			function error(response) {
 				$scope.err = response.statusText;

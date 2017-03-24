@@ -323,10 +323,17 @@
 				  <h4 class="modal-title">CoclustMod</h4>
 			</div>
 			<div class="modal-body">
+				<p>{{"Row:" | translate}}{{row}}</p>
+				<p>{{"Column:" | translate}}{{column}}</p>
+				<figure>
+					<img class='preview' src='{{img}}' alt=''/>
+					<figcaption>{{"File saved at:" | translate}}"{{img}}"</figcaption>
+				</figure>
+				<strong>{{err}}</strong>
 			</div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">{{"cancel" | translate}}</button>
-              <button type="submit" class="btn btn-primary" ng-disabled="">{{'change' | translate}}</button>
+              <button type="submit" class="btn btn-primary" ng-disabled="">{{'Get a coclust matrix' | translate}}</button>
             </div>
 		</form>
     </div>
@@ -345,10 +352,11 @@
 				  <h4 class="modal-title">CoclustSpecMod</h4>
 			</div>
 			<div class="modal-body">
+				<strong>Not implemented yet !</strong>
 			</div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">{{"cancel" | translate}}</button>
-              <button type="submit" class="btn btn-primary" ng-disabled="">{{'change' | translate}}</button>
+              <button type="submit" class="btn btn-primary" ng-disabled="">{{'TODO' | translate}}</button>
             </div>
 		</form>
     </div>
@@ -367,10 +375,11 @@
 				  <h4 class="modal-title">CoclustInfo</h4>
 			</div>
 			<div class="modal-body">
+				<strong>Not implemented yet !</strong>
 			</div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">{{"cancel" | translate}}</button>
-              <button type="submit" class="btn btn-primary" ng-disabled="">{{'change' | translate}}</button>
+              <button type="submit" class="btn btn-primary" ng-disabled="">{{'TODO' | translate}}</button>
             </div>
 		</form>
     </div>

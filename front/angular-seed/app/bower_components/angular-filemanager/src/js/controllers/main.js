@@ -1,8 +1,8 @@
 (function(angular, $) {
     'use strict';
     angular.module('FileManagerApp').controller('FileManagerCtrl', [
-        '$scope', '$rootScope', '$window', '$translate', 'fileManagerConfig', 'item', 'fileNavigator', 'apiMiddleware',
-        function($scope, $rootScope, $window, $translate, fileManagerConfig, Item, FileNavigator, ApiMiddleware) {
+        '$http', '$scope', '$rootScope', '$window', '$translate', 'fileManagerConfig', 'item', 'fileNavigator', 'apiMiddleware',
+        function($http, $scope, $rootScope, $window, $translate, fileManagerConfig, Item, FileNavigator, ApiMiddleware) {
 
         var $storage = $window.localStorage;
         $scope.config = fileManagerConfig;
@@ -275,79 +275,57 @@
             });
         };        
 		
-		$scope.coclustMod = function() {
-            var item = $scope.temp;
-            var name = $scope.temp.tempModel.name.trim();
-            var nameExists = $scope.fileNavigator.fileNameExists(name);
-
-            if (nameExists && validateSamePath($scope.temp)) {
-                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
-                return false;
-            }
-            if (!name) {
-                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
-                return false;
-            }
-
-            $scope.apiMiddleware.coclustMod(item, name, $rootScope.selectedModalPath).then(function() {
-                $scope.fileNavigator.refresh();
-                if (! $scope.config.extractAsync) {
-                    return $scope.modal('coclustMod', true);
-                }
-                $scope.apiMiddleware.apiHandler.asyncSuccess = true;
-            }, function() {
-                $scope.apiMiddleware.apiHandler.asyncSuccess = false;
-            });
-        };		
+		$scope.coclustMod = function() {       
+			$http({
+				method : 'GET',
+				url : 'http://127.0.0.1:3000/'
+			}).then(
+				function succes(response) {
+					$scope.row = $scope.$eval('row',response.data);
+					$scope.column = $scope.$eval('column',response.data);
+					$scope.img = '../storage/user/' + $scope.$eval('img',response.data)+'.png';
+					return $scope.modal('coclustMod', false);
+			},
+				function error(response) {
+					$scope.err = response.statusText;
+					return $scope.modal('coclustMod', false);
+			});	
+		};		
 		
 		$scope.coclustSpecMod = function() {
-            var item = $scope.temp;
-            var name = $scope.temp.tempModel.name.trim();
-            var nameExists = $scope.fileNavigator.fileNameExists(name);
-
-            if (nameExists && validateSamePath($scope.temp)) {
-                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
-                return false;
-            }
-            if (!name) {
-                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
-                return false;
-            }
-
-            $scope.apiMiddleware.coclustSpecMod(item, name, $rootScope.selectedModalPath).then(function() {
-                $scope.fileNavigator.refresh();
-                if (! $scope.config.extractAsync) {
-                    return $scope.modal('coclustSpecMod', true);
-                }
-                $scope.apiMiddleware.apiHandler.asyncSuccess = true;
-            }, function() {
-                $scope.apiMiddleware.apiHandler.asyncSuccess = false;
-            });
+			/*
+			$http({
+				method : 'GET',
+				url : 'http://127.0.0.1:3000/spec/'
+			}).then(
+				function succes(response) {
+					//TODO
+					return $scope.modal('coclustSpecMod', true);
+			},
+				function error(response) {
+					$scope.err = response.statusText;
+					return $scope.modal('coclustSpecMod', false);
+			});	
+			*/
+			return $scope.modal('coclustSpecMod', false);
         };
 
 		$scope.coclustInfo = function() {
-            var item = $scope.temp;
-            var name = $scope.temp.tempModel.name.trim();
-            var nameExists = $scope.fileNavigator.fileNameExists(name);
-
-            if (nameExists && validateSamePath($scope.temp)) {
-                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
-                return false;
-            }
-            if (!name) {
-                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
-                return false;
-            }
-
-            $scope.apiMiddleware.coclustInfo(item, name, $rootScope.selectedModalPath).then(function() {
-                $scope.fileNavigator.refresh();
-                if (! $scope.config.extractAsync) {
-                    return $scope.modal('coclustInfo', true);
-                }
-                $scope.apiMiddleware.apiHandler.asyncSuccess = true;
-            }, function() {
-                $scope.apiMiddleware.apiHandler.asyncSuccess = false;
-            });
+			/*
+			$http({
+				method : 'GET',
+				url : 'http://127.0.0.1:3000/info/'
+			}).then(
+				function succes(response) {
+					//TODO
+					return $scope.modal('coclustInfo', true);
+			},
+				function error(response) {
+					$scope.err = response.statusText;
+					return $scope.modal('coclustInfo', false);
+			});
+			*/
+			return $scope.modal('coclustInfo', false);
         };
 
         $scope.remove = function() {
