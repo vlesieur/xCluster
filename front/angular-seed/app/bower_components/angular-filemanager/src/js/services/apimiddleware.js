@@ -119,6 +119,16 @@
             var itemPath = this.getFilePath(item);
             return this.apiHandler.coclustMod(fileManagerConfig.coclustModUrl, itemPath, folderName, this.getPath(path));
         };
+        
+		ApiMiddleware.prototype.coclustSpecMod = function(item, folderName, path) {
+            var itemPath = this.getFilePath(item);
+            return this.apiHandler.coclustSpecMod(fileManagerConfig.coclustSpecModUrl, itemPath, folderName, this.getPath(path));
+        };
+        
+		ApiMiddleware.prototype.coclustInfo = function(item, folderName, path) {
+            var itemPath = this.getFilePath(item);
+            return this.apiHandler.coclustInfo(fileManagerConfig.coclustInfoUrl, itemPath, folderName, this.getPath(path));
+        };
 
         ApiMiddleware.prototype.changePermissions = function(files, dataItem) {
             var items = this.getFileList(files);

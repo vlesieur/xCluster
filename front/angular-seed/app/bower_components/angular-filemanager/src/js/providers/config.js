@@ -36,14 +36,16 @@
                 compress: true,
                 compressChooseName: true,
                 extract: true,
-				coclustMod:true,
                 download: true,
                 downloadMultiple: true,
                 preview: true,
                 remove: true,
                 createFolder: true,
                 pickFiles: false,
-                pickFolders: false
+                pickFolders: false,
+				coclustMod:true,
+				coclustSpecMod:true,
+				coclustInfo:true
             },
 
             multipleDownloadFileName: 'xCluster_datas.zip',

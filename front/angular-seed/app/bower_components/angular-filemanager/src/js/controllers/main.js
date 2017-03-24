@@ -298,6 +298,56 @@
             }, function() {
                 $scope.apiMiddleware.apiHandler.asyncSuccess = false;
             });
+        };		
+		
+		$scope.coclustSpecMod = function() {
+            var item = $scope.temp;
+            var name = $scope.temp.tempModel.name.trim();
+            var nameExists = $scope.fileNavigator.fileNameExists(name);
+
+            if (nameExists && validateSamePath($scope.temp)) {
+                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
+                return false;
+            }
+            if (!name) {
+                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
+                return false;
+            }
+
+            $scope.apiMiddleware.coclustSpecMod(item, name, $rootScope.selectedModalPath).then(function() {
+                $scope.fileNavigator.refresh();
+                if (! $scope.config.extractAsync) {
+                    return $scope.modal('coclustSpecMod', true);
+                }
+                $scope.apiMiddleware.apiHandler.asyncSuccess = true;
+            }, function() {
+                $scope.apiMiddleware.apiHandler.asyncSuccess = false;
+            });
+        };
+
+		$scope.coclustInfo = function() {
+            var item = $scope.temp;
+            var name = $scope.temp.tempModel.name.trim();
+            var nameExists = $scope.fileNavigator.fileNameExists(name);
+
+            if (nameExists && validateSamePath($scope.temp)) {
+                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
+                return false;
+            }
+            if (!name) {
+                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
+                return false;
+            }
+
+            $scope.apiMiddleware.coclustInfo(item, name, $rootScope.selectedModalPath).then(function() {
+                $scope.fileNavigator.refresh();
+                if (! $scope.config.extractAsync) {
+                    return $scope.modal('coclustInfo', true);
+                }
+                $scope.apiMiddleware.apiHandler.asyncSuccess = true;
+            }, function() {
+                $scope.apiMiddleware.apiHandler.asyncSuccess = false;
+            });
         };
 
         $scope.remove = function() {

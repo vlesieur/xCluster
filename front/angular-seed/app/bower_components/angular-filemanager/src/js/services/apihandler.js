@@ -341,6 +341,48 @@
             });
             return deferred.promise;
         };
+        ApiHandler.prototype.coclustSpecMod = function(apiUrl, item, folderName, path) {
+            var self = this;
+            var deferred = $q.defer();
+            var data = {
+                action: 'coclustSpecMod',
+                item: item,
+                destination: path,
+                folderName: folderName
+            };
+
+            self.inprocess = true;
+            self.error = '';
+            $http.post(apiUrl, data).success(function(data, code) {
+                self.deferredHandler(data, deferred, code);
+            }).error(function(data, code) {
+                self.deferredHandler(data, deferred, code, $translate.instant('error_extracting'));
+            })['finally'](function() {
+                self.inprocess = false;
+            });
+            return deferred.promise;
+        };
+        ApiHandler.prototype.coclustInfo = function(apiUrl, item, folderName, path) {
+            var self = this;
+            var deferred = $q.defer();
+            var data = {
+                action: 'coclustInfo',
+                item: item,
+                destination: path,
+                folderName: folderName
+            };
+
+            self.inprocess = true;
+            self.error = '';
+            $http.post(apiUrl, data).success(function(data, code) {
+                self.deferredHandler(data, deferred, code);
+            }).error(function(data, code) {
+                self.deferredHandler(data, deferred, code, $translate.instant('error_extracting'));
+            })['finally'](function() {
+                self.inprocess = false;
+            });
+            return deferred.promise;
+        };
 
         ApiHandler.prototype.changePermissions = function(apiUrl, items, permsOctal, permsCode, recursive) {
             var self = this;
