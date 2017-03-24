@@ -273,6 +273,31 @@
             }, function() {
                 $scope.apiMiddleware.apiHandler.asyncSuccess = false;
             });
+        };        
+		
+		$scope.coclustMod = function() {
+            var item = $scope.temp;
+            var name = $scope.temp.tempModel.name.trim();
+            var nameExists = $scope.fileNavigator.fileNameExists(name);
+
+            if (nameExists && validateSamePath($scope.temp)) {
+                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
+                return false;
+            }
+            if (!name) {
+                $scope.apiMiddleware.apiHandler.error = $translate.instant('error_invalid_filename');
+                return false;
+            }
+
+            $scope.apiMiddleware.coclustMod(item, name, $rootScope.selectedModalPath).then(function() {
+                $scope.fileNavigator.refresh();
+                if (! $scope.config.extractAsync) {
+                    return $scope.modal('coclustMod', true);
+                }
+                $scope.apiMiddleware.apiHandler.asyncSuccess = true;
+            }, function() {
+                $scope.apiMiddleware.apiHandler.asyncSuccess = false;
+            });
         };
 
         $scope.remove = function() {

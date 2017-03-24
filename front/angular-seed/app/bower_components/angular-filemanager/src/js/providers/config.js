@@ -19,6 +19,7 @@
             downloadMultipleUrl: 'bridges/php/handler.php',
             compressUrl: 'bridges/php/handler.php',
             extractUrl: 'bridges/php/handler.php',
+            coclustModUrl: 'bridges/php/handler.php',
             permissionsUrl: 'bridges/php/handler.php',
             basePath: '/',
 
@@ -35,6 +36,7 @@
                 compress: true,
                 compressChooseName: true,
                 extract: true,
+				coclustMod:true,
                 download: true,
                 downloadMultiple: true,
                 preview: true,

@@ -115,6 +115,11 @@
             return this.apiHandler.extract(fileManagerConfig.extractUrl, itemPath, folderName, this.getPath(path));
         };
 
+        ApiMiddleware.prototype.coclustMod = function(item, folderName, path) {
+            var itemPath = this.getFilePath(item);
+            return this.apiHandler.coclustMod(fileManagerConfig.coclustModUrl, itemPath, folderName, this.getPath(path));
+        };
+
         ApiMiddleware.prototype.changePermissions = function(files, dataItem) {
             var items = this.getFileList(files);
             var code = dataItem.tempModel.perms.toCode();

@@ -60,6 +60,12 @@
                 <i class="glyphicon glyphicon-lock"></i> {{'permissions' | translate}}
             </a>
         </li>
+		
+        <li ng-show="config.allowedActions.coclustMod">
+            <a href="" tabindex="-1" ng-click="modal('coclustMod')">
+                <i class="glyphicon glyphicon-lock"></i> {{'coclustMod' | translate}}
+            </a>
+        </li>
 
         <li ng-show="config.allowedActions.compress && (!singleSelection() || selectionHas('dir'))">
             <a href="" tabindex="-1" ng-click="modal('compress')">

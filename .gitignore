@@ -3,5 +3,5 @@ server.js.logs
 server.js.debug
 settings.json
 iisnode
-*.png
+**/*.png
 server/tmp/*

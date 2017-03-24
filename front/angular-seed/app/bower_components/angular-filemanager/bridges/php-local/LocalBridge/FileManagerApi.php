@@ -155,6 +155,17 @@ class FileManagerApi
                     $response = $this->simpleErrorResponse($t->extraction_failed);
                 }
                 break;
+				
+			case 'coclustMod':
+                $extracted = $this->coclustModAction($request['destination'], $request['item'], $request['folderName']);
+                if ($extracted === true) {
+                    $response = $this->simpleSuccessResponse();
+                } elseif ($extracted === 'unsupported') {
+                    $response = $this->simpleErrorResponse($t->archive_opening_failed);
+                } else {
+                    $response = $this->simpleErrorResponse($t->extraction_failed);
+                }
+                break;
             
             default:
                 $response = $this->simpleErrorResponse($t->function_not_implemented);
@@ -385,6 +396,21 @@ class FileManagerApi
     }
 
     private function extractAction($destination, $archivePath, $folderName)
+    {
+        $archivePath = $this->basePath . $archivePath;
+        $folderPath = $this->basePath . rtrim($destination, '/') . '/' . $folderName;
+
+        $zip = new ZipArchive;
+        if ($zip->open($archivePath) === false) {
+            return 'unsupported';
+        }
+
+        mkdir($folderPath);
+        $zip->extractTo($folderPath);
+        return $zip->close();
+    }
+	
+    private function coclustModAction($destination, $archivePath, $folderName)
     {
         $archivePath = $this->basePath . $archivePath;
         $folderPath = $this->basePath . rtrim($destination, '/') . '/' . $folderName;
