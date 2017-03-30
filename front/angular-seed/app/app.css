@@ -23,3 +23,14 @@
   content: "|";
   padding-right: 0.3em;
 }
+
+.content_head {
+  background : rgba(33, 150, 243, .2);
+}
+
+.logo {
+  display: block;
+  margin: auto auto;
+  padding-top:1em;
+  padding-bottom:1em;
+}
