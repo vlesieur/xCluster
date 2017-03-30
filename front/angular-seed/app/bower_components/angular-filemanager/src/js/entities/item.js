@@ -16,9 +16,6 @@
                     var path = this.path.filter(Boolean);
                     return ('/' + path.join('/') + '/' + this.name).replace(/\/\//, '/');
                 },
-				row: model && model.row || '',
-				column: model && model.column || '',
-				img: model && model.img || '',
 				n_clusters: model && model.n_clusters || 2, 
 				init: model && model.init || null, 
 				max_iter: model && model.max_iter || 20, 

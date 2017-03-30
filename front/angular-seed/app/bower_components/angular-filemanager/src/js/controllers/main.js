@@ -275,12 +275,22 @@
             });
         };        
 		
-		$scope.coclustMod = function() {       
-			$scope.apiMiddleware.coclustMod($scope.temp).then(function() {
+		$scope.coclustMod = function() {	
+			$scope.apiMiddleware.coclustMod($scope.temp).then(function(result) {
                 $scope.fileNavigator.refresh();
+				$scope.row = result.row;
+                $scope.column = result.column;
+                $scope.img = '../storage/user/' + result.img + '.png';
                 $scope.modal('coclustMod', false);
-            });	
-		};		
+            });
+		};	
+
+		$scope.resetCoclustModal = function() {
+			$scope.row = '';
+            $scope.column = '';
+            $scope.img = '';
+			$scope.modal('coclustMod', true);
+		};
 		
 		$scope.coclustSpecMod = function() {
 			/*

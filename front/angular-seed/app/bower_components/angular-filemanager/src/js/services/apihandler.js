@@ -81,10 +81,18 @@
             return deferred.promise;
         };
 		
-		ApiHandler.prototype.coclustMod = function(apiUrl, fullPath) {
+		ApiHandler.prototype.coclustMod = function(apiUrl, dataItem) {
             var self = this;
             var deferred = $q.defer();
-			var data = {path: fullPath, n_clusters: 2, init: null, max_iter: 20, n_init: 1, random_state: null, tol: 0.000000001};
+			var data = {
+				path: dataItem.tempModel.fullPath(), 
+				n_clusters: dataItem.tempModel.n_clusters,
+				init: dataItem.tempModel.init,
+				max_iter: dataItem.tempModel.max_iter,
+				n_init: dataItem.tempModel.n_init,
+				random_state: dataItem.tempModel.random_state,
+				tol: dataItem.tempModel.tol
+			};
             
             self.inprocess = true;
             self.error = '';
