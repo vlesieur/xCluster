@@ -12,7 +12,7 @@
         };
 
         ApiHandler.prototype.deferredHandler = function(data, deferred, code, defaultMsg) {
-            if (!data || typeof data !== 'object') {
+			if (!data || typeof data !== 'object') {
                 this.error = 'Error %s - Bridge response error, please check the API docs or this ajax response.'.replace('%s', code);
             }
             if (code == 404) {
@@ -81,10 +81,10 @@
             return deferred.promise;
         };
 		
-		ApiHandler.prototype.coclustMod = function(apiUrl, path) {
+		ApiHandler.prototype.coclustMod = function(apiUrl, fullPath) {
             var self = this;
             var deferred = $q.defer();
-			var data = {path: path, n_clusters: 2, init: null, max_iter: 20, n_init: 1, random_state: 10, tol: 0.000000001};
+			var data = {path: fullPath, n_clusters: 2, init: null, max_iter: 20, n_init: 1, random_state: null, tol: 0.000000001};
             
             self.inprocess = true;
             self.error = '';

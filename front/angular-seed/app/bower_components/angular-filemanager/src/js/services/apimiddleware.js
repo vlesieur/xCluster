@@ -32,7 +32,7 @@
         };
 		
 		ApiMiddleware.prototype.coclustMod = function(dataItem) {
-            var path = dataItem.tempModel.fullPath;
+            var path = dataItem.tempModel.fullPath();
             return this.apiHandler.coclustMod(fileManagerConfig.coclustModUrl, path);
         };
 

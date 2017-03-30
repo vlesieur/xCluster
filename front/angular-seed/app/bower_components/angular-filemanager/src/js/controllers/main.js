@@ -278,7 +278,7 @@
 		$scope.coclustMod = function() {       
 			$scope.apiMiddleware.coclustMod($scope.temp).then(function() {
                 $scope.fileNavigator.refresh();
-                $scope.modal('coclustMod', true);
+                $scope.modal('coclustMod', false);
             });	
 		};		
 		
