@@ -35,12 +35,8 @@ angular.module('FileManagerApp').config(['fileManagerConfigProvider', function (
   config.set({
     appName: 'angular-filemanager',
     pickCallback: function(item) {
-      var msg = 'Picked %s "%s" for external use'
-        .replace('%s', item.type)
-        .replace('%s', item.fullPath());
-      window.alert(msg);
+		return;
     },
-
     listUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
     uploadUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
     renameUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
