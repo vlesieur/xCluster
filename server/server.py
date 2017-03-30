@@ -37,12 +37,30 @@ class Api(object):
         print('hello appel le : %s' % getDateTimeNowString())
         return 'Hello, %s' % name
 
-    def coclustMod(self, username, path):
+#############################################################################
+# COCLUST MOD 
+# Parameters:	
+# n_clusters (int, optional, default: 2) – Number of co-clusters to form
+# init (numpy array or scipy sparse matrix, shape (n_features, n_clusters), optional, default: None) – Initial column labels
+# max_iter (int, optional, default: 20) – Maximum number of iterations
+# n_init (int, optional, default: 1) – Number of time the algorithm will be run with different initializations. The final results will be the best output of n_init consecutive runs in terms of modularity.
+# random_state (integer or numpy.RandomState, optional) – The generator used to initialize the centers. If an integer is given, it fixes the seed. Defaults to the global numpy random number generator.
+# tol (float, default: 1e-9) – Relative tolerance with regards to modularity to declare convergence
+#############################################################################
+
+    def coclustMod(self, username, path, parameters):
         print('coclustMod appel le : %s' % getDateTimeNowString())
         file_name = 'tmp/%s/%s' % (username, path)
         matlab_dict = loadmat(file_name)
         X = matlab_dict['fea']
-        model = CoclustMod(n_clusters=4)
+        model = CoclustMod(
+            n_clusters=parameters[0],
+            init=parameters[1],
+            max_iter=parameters[2],
+            n_init=parameters[3],
+            random_state=parameters[4],
+            tol=parameters[5]
+            )
         model.fit(X)
         predicted_row_labels = model.row_labels_
         predicted_column_labels = model.column_labels_
