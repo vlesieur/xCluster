@@ -45,6 +45,7 @@ var callCoclust = function (client, req, res) {
 
 /* GET home page. */
 router.post('/', function (req, res) {
+  console.log(req);
   var client = createClient();
   client = connectClient(client);
   callCoclust(client, req, res);

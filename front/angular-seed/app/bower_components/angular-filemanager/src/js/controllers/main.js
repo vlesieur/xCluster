@@ -276,21 +276,10 @@
         };        
 		
 		$scope.coclustMod = function() {       
-			$http({
-				method : 'POST',
-				url : 'http://127.0.0.1:3000/',
-				data : {path: 'cstr.mat', n_clusters: 2, init: null, max_iter: 20, n_init: 1, random_state: 10, tol: 0.000000001}
-			}).then(
-				function succes(response) {
-					$scope.row = $scope.$eval('row',response.data);
-					$scope.column = $scope.$eval('column',response.data);
-					$scope.img = '../storage/user/' + $scope.$eval('img',response.data)+'.png';
-					return $scope.modal('coclustMod', false);
-			},
-				function error(response) {
-					$scope.err = response.statusText;
-					return $scope.modal('coclustMod', false);
-			});	
+			$scope.apiMiddleware.coclustMod($scope.temp).then(function() {
+                $scope.fileNavigator.refresh();
+                $scope.modal('coclustMod', false);
+            });	
 		};		
 		
 		$scope.coclustSpecMod = function() {

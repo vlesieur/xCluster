@@ -10,6 +10,7 @@
             uploadUrl: 'bridges/php/handler.php',
             renameUrl: 'bridges/php/handler.php',
             copyUrl: 'bridges/php/handler.php',
+			coclustModUrl: 'caca',
             moveUrl: 'bridges/php/handler.php',
             removeUrl: 'bridges/php/handler.php',
             editUrl: 'bridges/php/handler.php',
@@ -19,7 +20,6 @@
             downloadMultipleUrl: 'bridges/php/handler.php',
             compressUrl: 'bridges/php/handler.php',
             extractUrl: 'bridges/php/handler.php',
-            coclustModUrl: 'bridges/php/handler.php',
             permissionsUrl: 'bridges/php/handler.php',
             basePath: '/',
 
