@@ -10,6 +10,7 @@
             uploadUrl: 'bridges/php/handler.php',
             renameUrl: 'bridges/php/handler.php',
             copyUrl: 'bridges/php/handler.php',
+			coclustModUrl: 'http://127.0.0.1:3000/',
             moveUrl: 'bridges/php/handler.php',
             removeUrl: 'bridges/php/handler.php',
             editUrl: 'bridges/php/handler.php',

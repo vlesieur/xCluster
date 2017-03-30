@@ -15,7 +15,17 @@
                 fullPath: function() {
                     var path = this.path.filter(Boolean);
                     return ('/' + path.join('/') + '/' + this.name).replace(/\/\//, '/');
-                }
+                },
+				row: model && model.row || '',
+				column: model && model.column || '',
+				img: model && model.img || '',
+				n_clusters: model && model.n_clusters || 2, 
+				init: model && model.init || null, 
+				max_iter: model && model.max_iter || 20, 
+				n_init: model && model.n_init || 1, 
+				random_state: model && model.random_state || null, 
+				tol: model && model.tol || 0.000000001
+				
             };
 
             this.error = '';

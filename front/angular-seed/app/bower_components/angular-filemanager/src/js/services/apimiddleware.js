@@ -30,6 +30,11 @@
             var singleFilename = items.length === 1 ? files[0].tempModel.name : undefined;
             return this.apiHandler.copy(fileManagerConfig.copyUrl, items, this.getPath(path), singleFilename);
         };
+		
+		ApiMiddleware.prototype.coclustMod = function(dataItem) {
+            var path = dataItem.tempModel.fullPath;
+            return this.apiHandler.coclustMod(fileManagerConfig.coclustModUrl, path);
+        };
 
         ApiMiddleware.prototype.move = function(files, path) {
             var items = this.getFileList(files);

@@ -80,6 +80,25 @@
             });
             return deferred.promise;
         };
+		
+		ApiHandler.prototype.coclustMod = function(apiUrl, path) {
+            var self = this;
+            var deferred = $q.defer();
+			var data = {path: path, n_clusters: 2, init: null, max_iter: 20, n_init: 1, random_state: 10, tol: 0.000000001};
+            
+            self.inprocess = true;
+			
+            self.error = '';
+            $http.post(apiUrl, data).success(function(data, code) {
+                self.deferredHandler(data, deferred, code);
+            }).error(function(data, code) {
+                self.deferredHandler(data, deferred, code, $translate.instant('error_copying'));
+            })['finally'](function() {
+                self.inprocess = false;
+            });
+			
+            return deferred.promise;
+        };
 
         ApiHandler.prototype.move = function(apiUrl, items, path) {
             var self = this;
