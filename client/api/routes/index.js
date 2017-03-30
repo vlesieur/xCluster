@@ -33,20 +33,21 @@ var connectClient = function (client) {
   return client;
 };
 
-var callCoclust = function (client, toSend) {
+var callCoclust = function (client, req, res) {
   const start = new Date();
   var response = "";
-  client.invoke("coclustMod", "user", "cstr.mat", function (error, res, more) {
-	response = callbackFunction(error, res, start);
-	toSend.json({ row: response[0], column: response[1], img: response[2]});
+  client.invoke("coclustMod", "user", req.body.path, req.body.n_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.random_state, req.body.tol, 
+  function (error, result, more) {
+	response = callbackFunction(error, result, start);
+	res.json({ row: response[0], column: response[1], img: response[2]});
   });
 };
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.post('/', function (req, res) {
   var client = createClient();
   client = connectClient(client);
-  callCoclust(client, res);
+  callCoclust(client, req, res);
 });
 
 module.exports = router;

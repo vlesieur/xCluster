@@ -48,18 +48,18 @@ class Api(object):
 # tol (float, default: 1e-9) – Relative tolerance with regards to modularity to declare convergence
 #############################################################################
 
-    def coclustMod(self, username, path, parameters):
+    def coclustMod(self, username, path, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9):
         print('coclustMod appel le : %s' % getDateTimeNowString())
         file_name = 'tmp/%s/%s' % (username, path)
         matlab_dict = loadmat(file_name)
         X = matlab_dict['fea']
         model = CoclustMod(
-            n_clusters=parameters[0],
-            init=parameters[1],
-            max_iter=parameters[2],
-            n_init=parameters[3],
-            random_state=parameters[4],
-            tol=parameters[5]
+            n_clusters=n_clusters,
+            init=init,
+            max_iter=max_iter,
+            n_init=n_init,
+            random_state=random_state,
+            tol=tol
             )
         model.fit(X)
         predicted_row_labels = model.row_labels_
