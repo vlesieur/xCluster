@@ -78,7 +78,6 @@
         };
 
         ApiMiddleware.prototype.download = function(item, forceNewWindow) {
-            //TODO: add spinner to indicate file is downloading
             var itemPath = this.getFilePath(item);
             var toFilename = item.model.name;
 
