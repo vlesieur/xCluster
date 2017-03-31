@@ -314,7 +314,7 @@
 <div class="modal animated fadeIn" id="coclustMod" data-backdrop="static">
   <div class="modal-dialog">
     <div class="modal-content">
-		<form ng-submit="coclustMod()">
+		<form class="form-horizontal" ng-submit="coclustMod()" role="form">
 			<div class="modal-header">
 				<button ng-if="!row" type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true">&times;</span>
@@ -326,19 +326,49 @@
 				</button> 
 				<h4 class="modal-title">CoclustMod</h4>
 			</div>
-			<div ng-if="!row" class="modal-body">
-				<label for="n_clusters">{{'n_clusters: ' | translate}}</label>
-				<input type="number" id="n_clusters" ng-model="temp.tempModel.n_clusters"/><br/>
-				<label for="init">{{'init: ' | translate}}</label>
-				<input type="number" id="init" ng-model="temp.tempModel.n_clusters"/><br/>
-				<label for="max_iter">{{'max_iter: ' | translate}}</label>
-				<input type="number" id="max_iter" ng-model="temp.tempModel.max_iter"/><br/>
-				<label for="n_init">{{'n_init: ' | translate}}</label>
-				<input type="number" id="n_init" ng-model="temp.tempModel.n_init"/><br/>
-				<label for="random_state">{{'random_state: ' | translate}}</label>
-				<input type="number" id="random_state" ng-model="temp.tempModel.random_state"/><br/>
-				<label for="tol">{{'tol: ' | translate}}</label>
-				<input type="number" id="tol" ng-model="temp.tempModel.tol"/><br/>
+			<div ng-if="!row" class="modal-body form-horizontal">
+				<div class="form-group">
+					<label for="n_clusters" class="col-sm-3 control-label">{{'n_clusters: ' | translate}}</label>
+					<div class="col-sm-6">
+						<input type="number" id="n_clusters" class="form-control" ng-model="temp.tempModel.n_clusters"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div class="form-group">
+					<label for="init" class="col-sm-3 control-label">{{'init: ' | translate}}</label>
+					<div class="col-sm-6">
+						<input type="number" id="init" class="form-control" ng-model="temp.tempModel.n_clusters"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div class="form-group">
+					<label for="max_iter" class="col-sm-3 control-label">{{'max_iter: ' | translate}}</label>
+					<div class="col-sm-6">	
+						<input type="number" id="max_iter" class="form-control" ng-model="temp.tempModel.max_iter"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div class="form-group">
+					<label for="n_init" class="col-sm-3 control-label">{{'n_init: ' | translate}}</label>
+					<div class="col-sm-6">
+						<input type="number" id="n_init" class="form-control" ng-model="temp.tempModel.n_init"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div class="form-group">
+					<label for="random_state" class="col-sm-3 control-label">{{'random_state: ' | translate}}</label>
+					<div class="col-sm-6">
+						<input type="number" id="random_state" class="form-control" ng-model="temp.tempModel.random_state"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div class="form-group">
+					<label for="tol" class="col-sm-3 control-label">{{'tol: ' | translate}}</label>
+					<div class="col-sm-6">
+						<input type="number" id="tol" class="form-control" ng-model="temp.tempModel.tol"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
 			</div>
 			<div ng-if="row" class="modal-body">
 				<p>{{"Row:" | translate}}{{row}}</p>
