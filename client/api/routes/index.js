@@ -36,7 +36,7 @@ var connectClient = function (client) {
 var callCoclust = function (client, req, res) {
   const start = new Date();
   var response = "";
-  client.invoke("coclustMod", "user", req.body.path, req.body.n_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.random_state, req.body.tol, 
+  client.invoke("coclustMod", "user", req.body.path, req.body.name, req.body.n_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.random_state, req.body.tol, 
   function (error, result, more) {
 	response = callbackFunction(error, result, start);
 	res.json({ row: response[0], column: response[1], img: response[2]});

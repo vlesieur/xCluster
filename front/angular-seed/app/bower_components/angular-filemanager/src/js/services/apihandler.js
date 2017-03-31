@@ -85,7 +85,8 @@
             var self = this;
             var deferred = $q.defer();
 			var data = {
-				path: dataItem.tempModel.fullPath(), 
+				path: dataItem.tempModel.path.join('/'),
+				name: dataItem.tempModel.name,
 				n_clusters: dataItem.tempModel.n_clusters,
 				init: dataItem.tempModel.init,
 				max_iter: dataItem.tempModel.max_iter,
