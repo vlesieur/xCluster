@@ -276,13 +276,16 @@
         };        
 		
 		$scope.coclustMod = function() {	
-			$scope.apiMiddleware.coclustMod($scope.temp).then(function(result) {
-                $scope.fileNavigator.refresh();
-				$scope.row = result.row;
-                $scope.column = result.column;
-                $scope.img = '../storage/user/' + result.img + '.png';
-                $scope.modal('coclustMod', false);
-            });
+			var item = $scope.singleSelection();		
+            if (item.isCoclustCompatible()) {
+				$scope.apiMiddleware.coclustMod($scope.temp).then(function(result) {
+					$scope.fileNavigator.refresh();
+					$scope.row = result.row;
+					$scope.column = result.column;
+					$scope.img = '../storage/user/' + result.img + '.png';
+					$scope.modal('coclustMod', false);
+				});
+            }
 		};	
 
 		$scope.resetCoclustModal = function() {

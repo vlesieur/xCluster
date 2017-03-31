@@ -69,6 +69,10 @@
         Item.prototype.isSelectable = function() {
             return (this.isFolder() && fileManagerConfig.allowedActions.pickFolders) || (!this.isFolder() && fileManagerConfig.allowedActions.pickFiles);
         };
+		
+		Item.prototype.isCoclustCompatible = function() {
+			return fileManagerConfig.isCoclustFilePattern.test(this.model.name);
+		};
 
         return Item;
     }]);
