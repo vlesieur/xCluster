@@ -50,7 +50,7 @@ class Api(object):
 
     def coclustMod(self, username, path, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9):
         print('coclustMod appel le : %s' % getDateTimeNowString())
-        file_name = 'tmp/%s/%s' % (username, path)
+        file_name = '../front/angular-seed/app/storage/%s/%s' % (username, path)
         matlab_dict = loadmat(file_name)
         X = matlab_dict['fea']
         model = CoclustMod(
