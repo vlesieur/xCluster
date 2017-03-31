@@ -7,8 +7,10 @@ angular.module('myApp', [
   'myApp.view2',
   'myApp.version',
   'FileManagerApp'
-]).
-config(['$locationProvider', '$routeProvider', 'fileManagerConfigProvider', function($locationProvider, $routeProvider, config) {
+])
+.config(['$locationProvider', '$routeProvider', 'fileManagerConfigProvider', function($locationProvider, $routeProvider, config) {
   $locationProvider.hashPrefix('!');
   $routeProvider.otherwise({redirectTo: '/view1'});
-}]);
+}])
+.controller('View1Ctrl', [function() {}])
+.run([function(){document.getElementById('start').style.visibility='hidden';}]);
