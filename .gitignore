@@ -3,6 +3,6 @@ server.js.logs
 server.js.debug
 settings.json
 iisnode
-**/*.png
+front/angular-seed/app/storage/**/*.png
 server/tmp/*
 front/angular-seed/app/bower_components/angular-filemanager/dist/*

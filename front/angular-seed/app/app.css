@@ -25,8 +25,7 @@
 }
 
 .content_head {
-  //background : rgba(33, 150, 243, .5);
-  background: rgba(33, 150, 243, 0.2); /* fallback for old browsers */
+  background: rgba(33, 150, 243, 0.2);
   background: -webkit-linear-gradient(right, rgba(33, 150, 243, 0.3), rgba(33, 150, 243, 0.9));
   background: -moz-linear-gradient(right, rgba(33, 150, 243, 0.3), rgba(33, 150, 243, 0.9));
   background: -o-linear-gradient(right, rgba(33, 150, 243, 0.3), rgba(33, 150, 243, 0.9));
@@ -90,4 +89,3 @@
 	background : white;
 	z-index : 10;
 }
-
