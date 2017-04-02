@@ -10,14 +10,12 @@ var routes = require('./routes/index');
 
 var app = express();
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.listen(3000, function () {
   console.log('API listening on port 3000!');
 });
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
 
 app.all("/*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -39,8 +37,6 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
-
-
 
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {

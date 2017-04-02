@@ -296,21 +296,16 @@
 		};
 		
 		$scope.coclustSpecMod = function() {
-			/*
-			$http({
-				method : 'GET',
-				url : 'http://127.0.0.1:3000/spec/'
-			}).then(
-				function succes(response) {
-					//TODO
-					return $scope.modal('coclustSpecMod', true);
-			},
-				function error(response) {
-					$scope.err = response.statusText;
-					return $scope.modal('coclustSpecMod', false);
-			});	
-			*/
-			return $scope.modal('coclustSpecMod', false);
+			var item = $scope.singleSelection();		
+            if (item.isCoclustCompatible()) {
+				$scope.apiMiddleware.coclustSpecMod($scope.temp).then(function(result) {
+					$scope.fileNavigator.refresh();
+					$scope.row = result.row;
+					$scope.column = result.column;
+					$scope.img = '../storage/user/' + result.img + '.png';
+					$scope.modal('coclustSpecMod', false);
+				});
+            }
         };
 
 		$scope.coclustInfo = function() {

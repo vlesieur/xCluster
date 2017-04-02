@@ -34,6 +34,10 @@
 		ApiMiddleware.prototype.coclustMod = function(dataItem) {
             return this.apiHandler.coclustMod(fileManagerConfig.coclustModUrl, dataItem);
         };
+		
+		ApiMiddleware.prototype.coclustSpecMod = function(dataItem) {
+            return this.apiHandler.coclustMod(fileManagerConfig.coclustSpecModUrl, dataItem);
+        };
 
         ApiMiddleware.prototype.move = function(files, path) {
             var items = this.getFileList(files);
