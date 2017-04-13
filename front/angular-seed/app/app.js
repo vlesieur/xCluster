@@ -10,7 +10,7 @@ angular.module('myApp', [
 ])
 .config(['$locationProvider', '$routeProvider', 'fileManagerConfigProvider', function($locationProvider, $routeProvider, config) {
   $locationProvider.hashPrefix('!');
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.otherwise({redirectTo: '/view2'});
 }])
 .controller('View1Ctrl', [function() {}])
 .run([function(){document.getElementById('start').style.visibility='hidden';}]);
