@@ -17,6 +17,8 @@
                     return ('/' + path.join('/') + '/' + this.name).replace(/\/\//, '/');
                 },
 				n_clusters: model && model.n_clusters || 2, 
+				n_row_clusters: model && model.n_row_clusters || 2, 
+				n_col_clusters: model && model.n_col_clusters || 2, 
 				init: model && model.init || null, 
 				max_iter: model && model.max_iter || 20, 
 				n_init: model && model.n_init || 1, 

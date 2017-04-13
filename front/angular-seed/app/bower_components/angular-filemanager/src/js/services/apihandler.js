@@ -133,6 +133,34 @@
 			
             return deferred.promise;
         };
+		
+		ApiHandler.prototype.coclustInfo = function(apiUrl, dataItem) {
+            var self = this;
+            var deferred = $q.defer();
+			var data = {
+				path: dataItem.tempModel.path.join('/'),
+				name: dataItem.tempModel.name,
+				n_row_clusters: dataItem.tempModel.n_row_clusters,
+				n_col_clusters: dataItem.tempModel.n_col_clusters,
+				init: dataItem.tempModel.init,
+				max_iter: dataItem.tempModel.max_iter,
+				n_init: dataItem.tempModel.n_init,
+				random_state: dataItem.tempModel.random_state,
+				tol: dataItem.tempModel.tol
+			};
+            
+            self.inprocess = true;
+            self.error = '';
+            $http.post(apiUrl, data).success(function(data, code) {
+                self.deferredHandler(data, deferred, code);
+            }).error(function(data, code) {
+                self.deferredHandler(data, deferred, code, $translate.instant('error_coclustering'));
+            })['finally'](function() {
+                self.inprocess = false;
+            });
+			
+            return deferred.promise;
+        };
 
         ApiHandler.prototype.move = function(apiUrl, items, path) {
             var self = this;

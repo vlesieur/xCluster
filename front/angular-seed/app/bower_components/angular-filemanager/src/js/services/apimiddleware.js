@@ -36,7 +36,11 @@
         };
 		
 		ApiMiddleware.prototype.coclustSpecMod = function(dataItem) {
-            return this.apiHandler.coclustMod(fileManagerConfig.coclustSpecModUrl, dataItem);
+            return this.apiHandler.coclustSpecMod(fileManagerConfig.coclustSpecModUrl, dataItem);
+        };	
+		
+		ApiMiddleware.prototype.coclustInfo = function(dataItem) {
+            return this.apiHandler.coclustInfo(fileManagerConfig.coclustInfoUrl, dataItem);
         };
 
         ApiMiddleware.prototype.move = function(files, path) {

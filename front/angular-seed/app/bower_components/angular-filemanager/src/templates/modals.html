@@ -461,23 +461,78 @@
 </div>
 
 <div class="modal animated fadeIn" id="coclustInfo" data-backdrop="static">
-  <div class="modal-dialog">
+ <div class="modal-dialog">
     <div class="modal-content">
 		<form ng-submit="coclustInfo()">
 			<div class="modal-header">
-				  <button type="button" class="close" data-dismiss="modal">
-					  <span aria-hidden="true">&times;</span>
-					  <span class="sr-only">{{"close" | translate}}</span>
-				  </button>
-				  <h4 class="modal-title">CoclustInfo</h4>
+				<button ng-if="!row" type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">{{"close" | translate}}</span>
+				</button>
+				<button ng-if="row" ng-click="resetCoclustModal()" type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">{{"close" | translate}}</span>
+				</button> 
+				<h4 class="modal-title">coclustInfo</h4>
 			</div>
-			<div class="modal-body">
-				<strong>Not implemented yet !</strong>
+			<div ng-if="!row" class="modal-body form-horizontal">
+				<div class="form-group">
+					<label for="n_row_clusters" class="col-sm-3 control-label">{{'n_row_clusters: ' | translate}}</label>
+					<div class="col-sm-6">
+						<input type="number" id="n_row_clusters" class="form-control" ng-model="temp.tempModel.n_row_clusters"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div class="form-group">
+					<label for="n_col_clusters" class="col-sm-3 control-label">{{'n_col_clusters: ' | translate}}</label>
+					<div class="col-sm-6">
+						<input type="number" id="n_col_clusters" class="form-control" ng-model="temp.tempModel.n_col_clusters"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div class="form-group">
+					<label for="max_iter" class="col-sm-3 control-label">{{'max_iter: ' | translate}}</label>
+					<div class="col-sm-6">	
+						<input type="number" id="max_iter" class="form-control" ng-model="temp.tempModel.max_iter"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div class="form-group">
+					<label for="n_init" class="col-sm-3 control-label">{{'n_init: ' | translate}}</label>
+					<div class="col-sm-6">
+						<input type="number" id="n_init" class="form-control" ng-model="temp.tempModel.n_init"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div class="form-group">
+					<label for="random_state" class="col-sm-3 control-label">{{'random_state: ' | translate}}</label>
+					<div class="col-sm-6">
+						<input type="number" id="random_state" class="form-control" ng-model="temp.tempModel.random_state"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div class="form-group">
+					<label for="tol" class="col-sm-3 control-label">{{'tol: ' | translate}}</label>
+					<div class="col-sm-6">
+						<input type="number" id="tol" class="form-control" ng-model="temp.tempModel.tol"/>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+			</div>
+			<div ng-if="row" class="modal-body">
+				<p>{{"Row:" | translate}}{{row}}</p>
+				<p>{{"Column:" | translate}}{{column}}</p>
+				<figure>
+					<img class='preview' src='{{img}}' alt=''/>
+					<figcaption>{{"File saved at:" | translate}}"{{img}}"</figcaption>
+				</figure>
 			</div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">{{"cancel" | translate}}</button>
-              <button type="submit" class="btn btn-primary" ng-disabled="">{{'TODO' | translate}}</button>
-            </div>
+              <button ng-if="!row" type="button" class="btn btn-default" data-dismiss="modal">{{"cancel" | translate}}</button>
+			  <button ng-if="row" ng-click="resetCoclustModal()" type="button" class="btn btn-default" data-dismiss="modal">{{"close" | translate}}</button>
+              <button ng-if="!row" type="submit" class="btn btn-primary" ng-disabled="apiMiddleware.apiHandler.inprocess">{{'Get a coclust matrix' | translate}}</button>
+              <div class="loading" ng-if="apiMiddleware.apiHandler.inprocess"></div>
+			</div>
 		</form>
     </div>
   </div>

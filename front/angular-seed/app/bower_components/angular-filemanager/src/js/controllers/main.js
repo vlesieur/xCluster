@@ -310,21 +310,16 @@
         };
 
 		$scope.coclustInfo = function() {
-			/*
-			$http({
-				method : 'GET',
-				url : 'http://127.0.0.1:3000/info/'
-			}).then(
-				function succes(response) {
-					//TODO
-					return $scope.modal('coclustInfo', true);
-			},
-				function error(response) {
-					$scope.err = response.statusText;
-					return $scope.modal('coclustInfo', false);
-			});
-			*/
-			return $scope.modal('coclustInfo', false);
+			var item = $scope.singleSelection();		
+            if (item.isCoclustCompatible()) {
+				$scope.apiMiddleware.coclustInfo($scope.temp).then(function(result) {
+					$scope.fileNavigator.refresh();
+					$scope.row = result.row;
+					$scope.column = result.column;
+					$scope.img = '../storage/user/' + result.img + '.png';
+					$scope.modal('coclustInfo', false);
+				});
+            }
         };
 
         $scope.remove = function() {
