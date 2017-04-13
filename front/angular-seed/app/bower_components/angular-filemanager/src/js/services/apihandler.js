@@ -85,9 +85,36 @@
             var self = this;
             var deferred = $q.defer();
 			var data = {
-				path: dataItem.tempModel.fullPath(), 
+				path: dataItem.tempModel.path.join('/'),
+				name: dataItem.tempModel.name,
 				n_clusters: dataItem.tempModel.n_clusters,
 				init: dataItem.tempModel.init,
+				max_iter: dataItem.tempModel.max_iter,
+				n_init: dataItem.tempModel.n_init,
+				random_state: dataItem.tempModel.random_state,
+				tol: dataItem.tempModel.tol
+			};
+            
+            self.inprocess = true;
+            self.error = '';
+            $http.post(apiUrl, data).success(function(data, code) {
+                self.deferredHandler(data, deferred, code);
+            }).error(function(data, code) {
+                self.deferredHandler(data, deferred, code, $translate.instant('error_coclustering'));
+            })['finally'](function() {
+                self.inprocess = false;
+            });
+			
+            return deferred.promise;
+        };
+
+		ApiHandler.prototype.coclustSpecMod = function(apiUrl, dataItem) {
+            var self = this;
+            var deferred = $q.defer();
+			var data = {
+				path: dataItem.tempModel.path.join('/'),
+				name: dataItem.tempModel.name,
+				n_clusters: dataItem.tempModel.n_clusters,
 				max_iter: dataItem.tempModel.max_iter,
 				n_init: dataItem.tempModel.n_init,
 				random_state: dataItem.tempModel.random_state,

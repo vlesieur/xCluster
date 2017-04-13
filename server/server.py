@@ -14,6 +14,7 @@ from sklearn.metrics.cluster import normalized_mutual_info_score
 from coclust.visualization import plot_reorganized_matrix
 from scipy.io import loadmat
 from coclust.coclustering import CoclustMod
+from coclust.coclustering import CoclustSpecMod
 
 import signal
 import sys
@@ -33,10 +34,6 @@ def exit_handler(signal, frame):
 
 class Api(object):
 
-    def hello(self, name):
-        print('hello appel le : %s' % getDateTimeNowString())
-        return 'Hello, %s' % name
-
 #############################################################################
 # COCLUST MOD 
 # Parameters:	
@@ -48,10 +45,10 @@ class Api(object):
 # tol (float, default: 1e-9) – Relative tolerance with regards to modularity to declare convergence
 #############################################################################
 
-    def coclustMod(self, username, path, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9):
-        print('coclustMod appel le : %s' % getDateTimeNowString())
-        file_name = '../front/angular-seed/app/storage/%s/%s' % (username, path)
-        matlab_dict = loadmat(file_name)
+    def coclustMod(self, username, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9):
+        print('coclustMod appel le : %s/%s' % (path, original_file_name))
+        original_file_path = '../front/angular-seed/app/storage/%s/%s/%s' % (username, path, original_file_name)
+        matlab_dict = loadmat(original_file_path)
         X = matlab_dict['fea']
         model = CoclustMod(
             n_clusters=n_clusters,
@@ -70,11 +67,40 @@ class Api(object):
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
         file_name = int(time.time())
-        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\%s\\%s.png' % (os.getcwd(), username, file_name)
+        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\%s\\%s\\%s.png' % (os.getcwd(), username, path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()
-        return [predicted_row_labels, predicted_column_labels, file_name]
+        new_file_path = '%s/%s' % (path, file_name)
+        return [predicted_row_labels, predicted_column_labels, new_file_path]
+
+    def coclustSpecMod(self, username, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9):
+        print('coclustMod appel le : %s/%s' % (path, original_file_name))
+        original_file_path = '../front/angular-seed/app/storage/%s/%s/%s' % (username, path, original_file_name)
+        matlab_dict = loadmat(original_file_path)
+        X = matlab_dict['fea']
+        model = CoclustSpecMod(
+            n_clusters=n_clusters,
+            max_iter=max_iter,
+            n_init=n_init,
+            random_state=random_state,
+            tol=tol
+            )
+        model.fit(X)
+        predicted_row_labels = model.row_labels_
+        predicted_column_labels = model.column_labels_
+        row_indices = np.argsort(model.row_labels_)
+        col_indices = np.argsort(model.column_labels_)
+        X_reorg = X[row_indices, :]
+        X_reorg = X_reorg[:, col_indices]
+        plt.spy(X_reorg, precision=0.8, markersize=0.9)
+        file_name = int(time.time())
+        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\%s\\%s\\%s.png' % (os.getcwd(), username, path.replace("/", "\\"), file_name)
+        plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
+        plt.savefig(file_path)
+        plt.close()
+        new_file_path = '%s/%s' % (path, file_name)
+        return [predicted_row_labels, predicted_column_labels, new_file_path]
 
 signal.signal(signal.SIGINT, exit_handler)
 
