@@ -392,6 +392,10 @@
             });
         };
 
+        $scope.upDir = function() {
+            $scope.fileNavigator.upDir();
+        };
+
         var validateSamePath = function(item) {
             var selectedPath = $rootScope.selectedModalPath.join('');
             var selectedItemsPath = item && item.model.path.join('');
