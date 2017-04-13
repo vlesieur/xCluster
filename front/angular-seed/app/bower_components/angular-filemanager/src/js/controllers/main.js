@@ -293,6 +293,7 @@
             $scope.column = '';
             $scope.img = '';
 			$scope.modal('coclustMod', true);
+			$scope.modal('coclustSpecMod', true);
 		};
 		
 		$scope.coclustSpecMod = function() {
