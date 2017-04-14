@@ -10,9 +10,9 @@ angular.module('myApp.view2', ['ngRoute'])
 }])
 
 .controller('View2Ctrl', ["$scope", "$http", "$location", function ($scope, $http, $location) {
-	$scope.swap = function () {
-		console.log($('form'));
-		$('form').animate({ "height": 'toggle', "opacity": 'toggle' }, "slow", function(){});
+	$scope.swap = function ($event) {
+		$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+		$event.preventDefault();
 	};
 	$scope.go = function (path) {
 		$location.path(path);
