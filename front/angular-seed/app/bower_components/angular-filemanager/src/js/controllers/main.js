@@ -294,6 +294,7 @@
             $scope.img = '';
 			$scope.modal('coclustMod', true);
 			$scope.modal('coclustSpecMod', true);
+			$scope.modal('coclustInfo', true);
 		};
 		
 		$scope.coclustSpecMod = function() {
