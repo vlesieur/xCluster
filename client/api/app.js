@@ -14,7 +14,7 @@ var morgan      = require('morgan');
 var mongoose    = require('mongoose');
 var passport	= require('passport');
 var config      = require('./config/database'); // get db config file
-var User        = require('./app/models/user'); // get the mongoose model
+var User        = require('./model/users'); // get the mongoose model
 var jwt         = require('jwt-simple');
 
 // get our request parameters
@@ -49,11 +49,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 
-app.use(function(req, res, next) {
+/* app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
-});
+});*/
 
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
@@ -73,8 +73,16 @@ app.use(function(err, req, res, next) {
     });
 });
 
+/* MONGO */
+
 // connect to database
-mongoose.connect(config.database);
+mongoose.connect(config.database, function(error, db) {
+    if (error) {
+        console.log("Erreur de connexion à la base xclusterdb");
+    } else {
+        console.log("Connecté à la base de données 'xclusterdb'");
+    }
+});
  
 // pass passport for configuration
 require('./config/passport')(passport);
@@ -84,12 +92,13 @@ var apiRoutes = express.Router();
  
 // create a new user account (POST http://localhost:8080/api/signup)
 apiRoutes.post('/signup', function(req, res) {
-  if (!req.body.name || !req.body.password) {
+  if (!req.body.login || !req.body.password || !req.body.mail) {
     res.json({success: false, msg: 'Veuiller saisir votre nom d\'utilisateur et votre mot de passe.'});
   } else {
     var newUser = new User({
-      name: req.body.name,
-      password: req.body.password
+      login: req.body.login,
+      password: req.body.password,
+      mail: req.body.mail
     });
     // save the user
     newUser.save(function(err) {
@@ -104,7 +113,7 @@ apiRoutes.post('/signup', function(req, res) {
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
 apiRoutes.post('/authenticate', function(req, res) {
   User.findOne({
-    name: req.body.name
+    login: req.body.login
   }, function(err, user) {
     if (err) throw err;
  
@@ -135,14 +144,14 @@ apiRoutes.get('/authorize', passport.authenticate('jwt', { session: false}), fun
   if (token) {
     var decoded = jwt.decode(token, config.secret);
     User.findOne({
-      name: decoded.name
+      login: decoded.login
     }, function(err, user) {
         if (err) throw err;
  
         if (!user) {
           return res.status(403).send({success: false, msg: 'Echec d\'authentification. Utilisateur non trouvé.'});
         } else {
-          res.json({success: true, msg: 'Utilisateur' + user.name + ' autorisé !'});
+          res.json({success: true, msg: 'Utilisateur' + user.login + ' autorisé !'});
         }
     });
   } else {

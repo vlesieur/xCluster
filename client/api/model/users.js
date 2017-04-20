@@ -9,7 +9,6 @@ var UserSchema = new Schema({
   _id: {
     type: String,
     unique: true,
-    required: true
   },
   login: {
     type: String,
