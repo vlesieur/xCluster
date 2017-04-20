@@ -16,6 +16,11 @@
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
     "zerorpc": "^0.9.7",
-    "zmq": "^2.15.3"
+    "zmq": "^2.15.3",
+    "bcrypt": "^0.8.5",
+    "jwt-simple": "^0.3.1",
+    "mongoose": "~4.2.4",
+    "passport": "^0.3.0",
+    "passport-jwt": "^1.2.1"
   }
 }

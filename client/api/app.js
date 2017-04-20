@@ -10,6 +10,23 @@ var routes = require('./routes/index');
 
 var app = express();
 
+var morgan      = require('morgan');
+var mongoose    = require('mongoose');
+var passport	= require('passport');
+var config      = require('./config/database'); // get db config file
+var User        = require('./app/models/user'); // get the mongoose model
+var jwt         = require('jwt-simple');
+
+// get our request parameters
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+ 
+// log to console
+app.use(morgan('dev'));
+ 
+// Use the passport package in our application
+app.use(passport.initialize());
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -55,5 +72,98 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+// connect to database
+mongoose.connect(config.database);
+ 
+// pass passport for configuration
+require('./config/passport')(passport);
+ 
+// bundle our routes
+var apiRoutes = express.Router();
+ 
+// create a new user account (POST http://localhost:8080/api/signup)
+apiRoutes.post('/signup', function(req, res) {
+  if (!req.body.name || !req.body.password) {
+    res.json({success: false, msg: 'Veuiller saisir votre nom d\'utilisateur et votre mot de passe.'});
+  } else {
+    var newUser = new User({
+      name: req.body.name,
+      password: req.body.password
+    });
+    // save the user
+    newUser.save(function(err) {
+      if (err) {
+        return res.json({success: false, msg: 'Utilisateur déjà existant.'});
+      }
+      res.json({success: true, msg: 'Compte enregistré !'});
+    });
+  }
+});
+ 
+// route to authenticate a user (POST http://localhost:8080/api/authenticate)
+apiRoutes.post('/authenticate', function(req, res) {
+  User.findOne({
+    name: req.body.name
+  }, function(err, user) {
+    if (err) throw err;
+ 
+    if (!user) {
+      res.send({success: false, msg: 'Echec de l\'authentification. Utilisateur non trouvé.'});
+    } else {
+      // check if password matches
+      user.comparePassword(req.body.password, function (err, isMatch) {
+        if (isMatch && !err) {
+          // if user is found and password is right create a token
+          var token = jwt.encode(user, config.secret);
+          // return the information including token as JSON
+          res.json({success: true, token: 'JWT ' + token});
+        } else {
+          res.send({success: false, msg: 'Echec de l\'authentification. Nom d\'utilisateur ou mot de passe invalide.'});
+        }
+      });
+    }
+  });
+});
+
+// route to authenticate a user (POST http://localhost:8080/api/authenticate)
+// ...
+ 
+// route to a restricted info (GET http://localhost:8080/api/memberinfo)
+apiRoutes.get('/authorize', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({
+      name: decoded.name
+    }, function(err, user) {
+        if (err) throw err;
+ 
+        if (!user) {
+          return res.status(403).send({success: false, msg: 'Echec d\'authentification. Utilisateur non trouvé.'});
+        } else {
+          res.json({success: true, msg: 'Utilisateur' + user.name + ' autorisé !'});
+        }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Token non fourni.'});
+  }
+});
+ 
+getToken = function (headers) {
+  if (headers && headers.authorization) {
+    var parted = headers.authorization.split(' ');
+    if (parted.length === 2) {
+      return parted[1];
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
+
+// connect the api routes under /api/*
+app.use('/api', apiRoutes);
 
 module.exports = app;
