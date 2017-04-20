@@ -105,3 +105,14 @@ You can save the current document to a file by clicking <i class="icon-hdd"></i>
 
 
 ----------
+
+
+Installation de MongoDB
+===================
+
+Télécharger la version community 3.4 à partir de ce lien :
+
+https://www.mongodb.com/download-center?jmp=docs&_ga=1.266151433.748348421.1492676042#community
+
+----------
+
