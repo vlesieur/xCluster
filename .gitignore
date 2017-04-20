@@ -6,3 +6,5 @@ iisnode
 front/angular-seed/app/storage/**/*.png
 server/tmp/*
 front/angular-seed/app/bower_components/angular-filemanager/dist/*
+database/MongoDB/Server/3.4/bin/*.pdb
+database/MongoDB/Server/3.4/data/db/*
