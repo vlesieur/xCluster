@@ -114,10 +114,9 @@ apiRoutes.post('/signup', function (req, res) {
 
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
 apiRoutes.post('/authenticate', function (req, res) {
-    var mail = req.body.mail;
-    console.log(mail);
+    var login = req.body.login;
     User.findOne({
-        mail: req.body.mail
+        login: req.body.login
     }, function (err, user) {
         if (err) {
             throw err;
@@ -134,7 +133,7 @@ apiRoutes.post('/authenticate', function (req, res) {
                     // return the information including token as JSON
                     res.json({ success: true, token: 'JWT ' + token });
                 } else {
-                    res.send({ success: false, msg: 'Echec de l\'authentification. Adresse email ou mot de passe invalide.' });
+                    res.send({ success: false, msg: 'Echec de l\'authentification. Login ou mot de passe invalide.' });
                 }
             });
         }
@@ -149,7 +148,6 @@ apiRoutes.get('/authorize', passport.authenticate('jwt', { session: false }), fu
     var token = getToken(req.headers);
     if (token) {
         var decoded = jwt.decode(token, config.secret);
-        console.log(decoded);
         User.findOne({
             login: decoded.login
         }, function (err, user) {
