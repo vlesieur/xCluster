@@ -117,7 +117,6 @@ apiRoutes.post('/authenticate', function (req, res) {
     User.findOne({
         login: req.body.login
     }, function (err, user) {
-        console.log(err);
         if (err) {
             throw err;
         }

@@ -1,16 +1,16 @@
 <div ng-app="myApp.view2" ng-controller='View2Ctrl' class="login-page"> 
   <div class="formulaire">
-    <form class="register-form">
-      <input type="text" placeholder="Identifiant"/>
-      <input type="password" placeholder="Mot de passe"/>
-      <input type="text" placeholder="Adresse email"/>
-      <button>Créer le compte</button>
+    <form ng-submit="createAccount()" class="register-form">
+      <input type="text" ng-model="login" placeholder="Identifiant"/>
+      <input type="password" ng-model="password" placeholder="Mot de passe"/>
+      <input type="text" ng-model="email" placeholder="Adresse email"/>
+      <button type="submit">Créer le compte</button>
       <p class="message">Déjà inscrit? <a href="#" ng-click="swap($event)">Se connecter</a></p>
     </form>
-    <form class="login-form">
-      <input type="text" placeholder="Identifiant"/>
-      <input type="password" placeholder="Mot de passe"/>
-      <button ng-click="go('/view1')">Connexion</button>
+    <form ng-submit="authenticate()" class="login-form">
+      <input type="text" ng-model="login" placeholder="Identifiant"/>
+      <input type="password" ng-model="password" placeholder="Mot de passe"/>
+      <button type="submit">Connexion</button>
       <p class="message">Pas encore inscrit? <a href="#" ng-click="swap($event)">Créer un compte</a></p>
     </form>
   </div>
