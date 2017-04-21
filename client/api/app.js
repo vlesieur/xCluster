@@ -90,10 +90,10 @@ var callCoclust = function (client, req, res, fn) {
     });
 };
 
-var callCoclustInfo = function (client, req, res, fn) {
+var callCoclustInfo = function (client, req, res) {
   const start = new Date();
   var response = "";
-  client.invoke(fn, req.body.path, req.body.name, req.body.n_row_clusters, req.body.n_col_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.tol, req.body.random_state,
+  client.invoke("coclustInfo", req.body.path, req.body.name, req.body.n_row_clusters, req.body.n_col_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.tol, req.body.random_state,
     function (error, result, more) {
       response = callbackFunction(error, result, start);
       res.json({ row: response[0], column: response[1], img: response[2] });
@@ -138,7 +138,7 @@ routes.post('/info', function (req, res) {
   console.log(req);
   var client = createClient();
   client = connectClient(client);
-  callCoclustInfo(client, req, res, "coclustInfo");
+  callCoclustInfo(client, req, res);
 });
 
 app.use('/coclust', routes);
