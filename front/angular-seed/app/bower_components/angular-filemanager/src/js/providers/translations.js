@@ -99,7 +99,8 @@
             open: 'Open',
             these_elements: 'these {{total}} elements',
             new_folder: 'New folder',
-            download_as_zip: 'Download as ZIP'
+            download_as_zip: 'Download as ZIP',
+            signout: 'Sign out'
         });
 
         $translateProvider.translations('he', {
@@ -494,7 +495,8 @@
             open: 'Ouvrir',
             these_elements: 'ces {{total}} éléments',
             new_folder: 'Nouveau dossier',
-            download_as_zip: 'Télécharger comme ZIP'
+            download_as_zip: 'Télécharger comme ZIP',
+            signout: 'Se déconnecter'
         });
 
         $translateProvider.translations('de', {

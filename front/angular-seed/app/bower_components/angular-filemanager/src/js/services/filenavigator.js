@@ -1,7 +1,7 @@
 (function(angular) {
     'use strict';
     angular.module('FileManagerApp').service('fileNavigator', [
-        'apiMiddleware', 'fileManagerConfig', 'item', function (ApiMiddleware, fileManagerConfig, Item) {
+        'apiMiddleware', 'fileManagerConfig', 'item', '$window', function (ApiMiddleware, fileManagerConfig, Item, $window) {
 
         var FileNavigator = function() {
             this.apiMiddleware = new ApiMiddleware();
@@ -131,6 +131,12 @@
                 this.currentPath = this.currentPath.slice(0, -1);
                 this.refresh();
             }
+        };
+
+        FileNavigator.prototype.signout = function() {
+            $window.sessionStorage.removeItem("token");
+            $window.sessionStorage.removeItem("login");
+            $window.location.reload();
         };
 
         FileNavigator.prototype.goTo = function(index) {
