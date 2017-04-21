@@ -284,8 +284,7 @@
 					$scope.column = result.column;
 					$scope.img = '../storage/user/' + result.img + '.png';
 					$scope.modal('coclustMod', false);
-				}
-                ,function(reason){
+				}, function(reason){
                     $scope.modal('coclustMod', false);
                     $window.location.reload();
                 });
@@ -310,7 +309,10 @@
 					$scope.column = result.column;
 					$scope.img = '../storage/user/' + result.img + '.png';
 					$scope.modal('coclustSpecMod', false);
-				});
+				}, function(reason){
+                    $scope.modal('coclustSpecMod', false);
+                    $window.location.reload();
+                });
             }
         };
 
@@ -323,7 +325,10 @@
 					$scope.column = result.column;
 					$scope.img = '../storage/user/' + result.img + '.png';
 					$scope.modal('coclustInfo', false);
-				});
+				}, function(reason){
+                    $scope.modal('coclustSpecMod', false);
+                    $window.location.reload();
+                });
             }
         };
 

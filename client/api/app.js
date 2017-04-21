@@ -128,17 +128,29 @@ routes.post('/mod', function (req, res) {
 });
 
 routes.post('/spec', function (req, res) {
-  console.log(req);
-  var client = createClient();
-  client = connectClient(client);
-  callCoclust(client, req, res, "coclustSpecMod");
+  var isAuthorized = checkAuthorize(req, res);
+  console.log("isAuthorized value : "+isAuthorized);
+  if (isAuthorized) {
+    console.log(req);
+    var client = createClient();
+	client = connectClient(client);
+	callCoclust(client, req, res, "coclustSpecMod");
+  } else { 
+      res.status(403).send({ success: false, msg: 'Non autorisé !' });
+  }
 });
 
 routes.post('/info', function (req, res) {
-  console.log(req);
-  var client = createClient();
-  client = connectClient(client);
-  callCoclustInfo(client, req, res);
+  var isAuthorized = checkAuthorize(req, res);
+  console.log("isAuthorized value : "+isAuthorized);
+  if (isAuthorized) {
+    console.log(req);
+    var client = createClient();
+	client = connectClient(client);
+	callCoclust(client, req, res, "coclustInfo");
+  } else { 
+      res.status(403).send({ success: false, msg: 'Non autorisé !' });
+  }
 });
 
 app.use('/coclust', routes);

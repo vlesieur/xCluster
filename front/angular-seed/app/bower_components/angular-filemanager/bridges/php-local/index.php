@@ -14,7 +14,7 @@ include 'LocalBridge/Rest.php';
 include 'LocalBridge/Translate.php';
 include 'LocalBridge/FileManagerApi.php';
 
-$basePath = '../../../../storage/user';
+$basePath = '../../../../storage/users';
 $fileManagerApi = new FileManagerApi($basePath,'en', false);
 
 $rest = new Rest();
