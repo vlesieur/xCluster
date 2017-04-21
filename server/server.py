@@ -46,9 +46,9 @@ class Api(object):
 # tol (float, default: 1e-9) – Relative tolerance with regards to modularity to declare convergence
 #############################################################################
 
-    def coclustMod(self, username, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9):
+    def coclustMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9):
         print('coclustMod appel le : %s/%s' % (path, original_file_name))
-        original_file_path = '../front/angular-seed/app/storage/%s/%s/%s' % (username, path, original_file_name)
+        original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
         X = matlab_dict['fea']
         model = CoclustMod(
@@ -68,16 +68,16 @@ class Api(object):
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
         file_name = int(time.time())
-        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\%s\\%s\\%s.png' % (os.getcwd(), username, path.replace("/", "\\"), file_name)
+        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()
         new_file_path = '%s/%s' % (path, file_name)
         return [predicted_row_labels, predicted_column_labels, new_file_path]
 
-    def coclustSpecMod(self, username, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9):
+    def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9):
         print('coclustSpecMod appel le : %s/%s' % (path, original_file_name))
-        original_file_path = '../front/angular-seed/app/storage/%s/%s/%s' % (username, path, original_file_name)
+        original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
         X = matlab_dict['fea']
         model = CoclustSpecMod(
@@ -96,7 +96,7 @@ class Api(object):
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
         file_name = int(time.time())
-        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\%s\\%s\\%s.png' % (os.getcwd(), username, path.replace("/", "\\"), file_name)
+        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()
@@ -105,7 +105,7 @@ class Api(object):
 		
     def coclustInfo(self, username, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None):
         print('coclustInfo appel le : %s/%s' % (path, original_file_name))
-        original_file_path = '../front/angular-seed/app/storage/%s/%s/%s' % (username, path, original_file_name)
+        original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
         X = matlab_dict['fea']
         model = CoclustInfo(
@@ -125,17 +125,17 @@ class Api(object):
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
         file_name = int(time.time())
-        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\%s\\%s\\%s.png' % (os.getcwd(), username, path.replace("/", "\\"), file_name)
+        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()
         new_file_path = '%s/%s' % (path, file_name)
         return [predicted_row_labels, predicted_column_labels, new_file_path]
-		
+
     def createUserDirectory(self, username, mode=0777):
-        directory = '%s\\..\\front\\angular-seed\\app\\storage\\%s' % (os.getcwd(), username)
+        directory = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s' % (os.getcwd(), username)
         if not os.path.exists(directory) and not os.path.isdir(directory) :
-        	os.mkdir(directory, mode)
+            os.mkdir(directory, mode)
         success = os.path.exists(directory) and os.path.isdir(directory)
         return success
 

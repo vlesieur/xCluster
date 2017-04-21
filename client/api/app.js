@@ -83,7 +83,7 @@ var connectClient = function (client) {
 var callCoclust = function (client, req, res, fn) {
   const start = new Date();
   var response = "";
-  client.invoke(fn, "user", req.body.path, req.body.name, req.body.n_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.random_state, req.body.tol,
+  client.invoke(fn, req.body.path, req.body.name, req.body.n_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.random_state, req.body.tol,
     function (error, result, more) {
       response = callbackFunction(error, result, start);
       res.json({ row: response[0], column: response[1], img: response[2] });
@@ -93,10 +93,24 @@ var callCoclust = function (client, req, res, fn) {
 var callCoclustInfo = function (client, req, res, fn) {
   const start = new Date();
   var response = "";
-  client.invoke(fn, "user", req.body.path, req.body.name, req.body.n_row_clusters, req.body.n_col_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.tol, req.body.random_state,
+  client.invoke(fn, req.body.path, req.body.name, req.body.n_row_clusters, req.body.n_col_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.tol, req.body.random_state,
     function (error, result, more) {
       response = callbackFunction(error, result, start);
       res.json({ row: response[0], column: response[1], img: response[2] });
+    });
+};
+
+var callCreateFolder = function (client, login, res) {
+  const start = new Date();
+  var response = "";
+  client.invoke("createUserDirectory", login,
+    function (error, result, more) {
+      response = callbackFunction(error, result, start);
+	  if (response) {
+		res.json({ success: true, msg: 'Compte enregistré !' });  
+	  } else {
+		res.json({ success: false, msg: 'Impossible de créer le repertoire !' })
+	  }
     });
 };
 
@@ -187,7 +201,9 @@ apiRoutes.post('/signup', function (req, res) {
                 console.log(err);
                 return res.json({ success: false, msg: 'Utilisateur déjà existant.' });
             }
-            res.json({ success: true, msg: 'Compte enregistré !' });
+			var client = createClient();
+			client = connectClient(client);
+			callCreateFolder(client, req.body.login, res);
         });
     }
 });
