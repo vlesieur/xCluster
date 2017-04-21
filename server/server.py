@@ -103,7 +103,7 @@ class Api(object):
         new_file_path = '%s/%s' % (path, file_name)
         return [predicted_row_labels, predicted_column_labels, new_file_path]
 		
-    def coclustInfo(self, username, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None):
+    def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None):
         print('coclustInfo appel le : %s/%s' % (path, original_file_name))
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)

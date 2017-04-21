@@ -282,7 +282,7 @@
 					$scope.fileNavigator.refresh();
 					$scope.row = result.row;
 					$scope.column = result.column;
-					$scope.img = '../storage/user/' + result.img + '.png';
+					$scope.img = '../storage/users/' + result.img + '.png';
 					$scope.modal('coclustMod', false);
 				}, function(reason){
                     $scope.modal('coclustMod', false);
@@ -307,7 +307,7 @@
 					$scope.fileNavigator.refresh();
 					$scope.row = result.row;
 					$scope.column = result.column;
-					$scope.img = '../storage/user/' + result.img + '.png';
+					$scope.img = '../storage/users/' + result.img + '.png';
 					$scope.modal('coclustSpecMod', false);
 				}, function(reason){
                     $scope.modal('coclustSpecMod', false);
@@ -323,7 +323,7 @@
 					$scope.fileNavigator.refresh();
 					$scope.row = result.row;
 					$scope.column = result.column;
-					$scope.img = '../storage/user/' + result.img + '.png';
+					$scope.img = '../storage/users/' + result.img + '.png';
 					$scope.modal('coclustInfo', false);
 				}, function(reason){
                     $scope.modal('coclustSpecMod', false);
