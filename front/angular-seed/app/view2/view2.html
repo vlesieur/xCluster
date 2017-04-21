@@ -1,14 +1,14 @@
-<div ng-app="myApp.view2" ng-controller='View2Ctrl' class="login-page"> 
+<div ng-app="myApp.view2" class="login-page"> 
   <div class="formulaire">
     <p ng-if="msg" class="message-login-signup"><span class="erreur-login-signup">{{ msg }} </span></p>
-    <form ng-submit="createAccount()" class="register-form">
+    <form ng-submit="createAccount($event)" class="register-form">
       <input type="text" ng-model="login" placeholder="Identifiant"/>
       <input type="password" ng-model="password" placeholder="Mot de passe"/>
       <input type="text" ng-model="email" placeholder="Adresse email"/>
       <button type="submit">Créer le compte</button>
       <p class="message">Déjà inscrit? <a href="#" ng-click="swap($event)">Se connecter</a></p>
     </form>
-    <form ng-submit="authenticate()" class="login-form">
+    <form ng-submit="authenticate($event)" class="login-form">
       <input type="text" ng-model="login" placeholder="Identifiant"/>
       <input type="password" ng-model="password" placeholder="Mot de passe"/>
       <button type="submit">Connexion</button>

@@ -2,6 +2,7 @@
 
 angular.module('myApp.view2', ['ngRoute'])
 
+<<<<<<< HEAD
 	.config(['$routeProvider', function ($routeProvider) {
 		$routeProvider.when('/view2', {
 			templateUrl: 'view2/view2.html',
@@ -33,6 +34,7 @@ angular.module('myApp.view2', ['ngRoute'])
 					sessionStorage.setItem("login", $scope.login);
 					$window.location.reload();
 					$scope.go('/view1');
+					$event.preventDefault();
 				}
 				else {
 					$scope.msg = response.data.msg;
@@ -46,6 +48,7 @@ angular.module('myApp.view2', ['ngRoute'])
 				if (response.data.success == true) {
 					sessionStorage.setItem("newUser", "true");
 					$scope.authenticate();
+					$event.preventDefault();
 				}
 				else {
 					$scope.msg = response.data.msg;
