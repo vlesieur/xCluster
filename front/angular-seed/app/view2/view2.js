@@ -20,17 +20,18 @@ angular.module('myApp.view2', ['ngRoute'])
 		$location.path(path);
 	};
 
-	$scope.authenticate = function () {
-		$http.post('http://localhost:3000/api/authenticate', {login: $scope.login, password: $scope.password}).then(function (response) {
+	$scope.authenticate = function ($event) {
+		$http.post('http://127.0.0.1:3000/api/authenticate', {login: $scope.login, password: $scope.password}).then(function (response) {
 			console.log(response.data);
-			//$scope.go('/view1');
+			$scope.go('/view1');
+			$event.preventDefault();
 		});
 	}
 	
-	$scope.createAccount = function () {
-		$http.post('http://localhost:3000/api/signup', {login: $scope.login, password: $scope.password, mail: $scope.email}).then(function (response) {
+	$scope.createAccount = function ($event) {
+		$http.post('http://127.0.0.1:3000/api/signup', {login: $scope.login, password: $scope.password, mail: $scope.email}).then(function (response) {
 			console.log(response.data);
-			//$scope.go('/view1');
+			$event.preventDefault();
 		});
 	}
 	

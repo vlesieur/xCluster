@@ -131,6 +131,13 @@ class Api(object):
         plt.close()
         new_file_path = '%s/%s' % (path, file_name)
         return [predicted_row_labels, predicted_column_labels, new_file_path]
+		
+    def createUserDirectory(self, username, mode=0777):
+        directory = '%s\\..\\front\\angular-seed\\app\\storage\\%s' % (os.getcwd(), username)
+        if not os.path.exists(directory) and not os.path.isdir(directory) :
+        	os.mkdir(directory, mode)
+        success = os.path.exists(directory) and os.path.isdir(directory)
+        return success
 
 signal.signal(signal.SIGINT, exit_handler)
 
