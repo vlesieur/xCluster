@@ -1,13 +1,43 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute'])
+angular.module('myApp.view1', ['ngRoute', 'FileManagerApp'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {
-    templateUrl: 'view1/view1.html',
-    controller: 'View1Ctrl'
-  });
-}])
+  .config(['$routeProvider', 'fileManagerConfigProvider', function ($routeProvider, config) {
+    $routeProvider.when('/view1', {
+      templateUrl: 'view1/view1.html',
+      controller: 'View1Ctrl'
+    });
+    var sessionLogin = sessionStorage.getItem("login");
+    var defaults = config.$get();
+    console.log("session login : " + sessionLogin);
+    console.log("default basePath : " + defaults.basePath);
+    config.set({
+      appName: 'xcluster-filemanager',
+      basePath: sessionLogin != null ? sessionLogin : '/',
+      listUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      uploadUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      renameUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      copyUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      moveUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      removeUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      editUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      getContentUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      createFolderUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      downloadFileUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      downloadMultipleUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      compressUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      extractUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      permissionsUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+	    coclustModUrl: 'http://127.0.0.1:3000/coclust/mod',
+	    coclustSpecModUrl: 'http://127.0.0.1:3000/coclust/spec',
+	    coclustInfoUrl: 'http://127.0.0.1:3000/coclust/info'
+    });
+    var newDefaults = config.$get();
+    console.log("new basePath : " + newDefaults.basePath);
+  }])
 
-.controller('View1Ctrl', [function() {
-}]);
+  .controller('View1Ctrl', [function ($location) {
+    if (sessionStorage.getItem('token') == null) {
+      $location.path("/view2");
+    }
+  }]);

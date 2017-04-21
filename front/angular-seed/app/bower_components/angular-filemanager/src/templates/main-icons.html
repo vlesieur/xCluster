@@ -1,7 +1,7 @@
 <div class="iconset noselect">
     <div class="item-list clearfix" ng-click="selectOrUnselect(null, $event)" ng-right-click="selectOrUnselect(null, $event)"
         prevent="true">
-        <div class="col-120" ng-show="fileNavigator.currentPath[0]">
+        <div class="col-120" ng-show="fileNavigator.currentPath != fileNavigator.currentPath[0]">
             <a href="" class="thumbnail text-center" ng-dblclick="upDir()" title="..">
                 <div class="item-icon">
                     <i class="glyphicon glyphicon-level-up"></i>

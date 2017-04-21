@@ -65,10 +65,7 @@ gulp.task('lint', function () {
           'angular': true,
           'jQuery': true
       },
-      'extends': 'eslint:recommended'
     }))
-    .pipe(eslint.format())
-    .pipe(eslint.failOnError());
 });
 
 gulp.task('default', ['concat-uglify-js', 'minify-css']);

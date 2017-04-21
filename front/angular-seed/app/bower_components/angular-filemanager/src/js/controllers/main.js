@@ -3,7 +3,6 @@
     angular.module('FileManagerApp').controller('FileManagerCtrl', [
         '$http', '$scope', '$rootScope', '$window', '$translate', 'fileManagerConfig', 'item', 'fileNavigator', 'apiMiddleware',
         function($http, $scope, $rootScope, $window, $translate, fileManagerConfig, Item, FileNavigator, ApiMiddleware) {
-
         var $storage = $window.localStorage;
         $scope.config = fileManagerConfig;
         $scope.reverse = false;
@@ -278,13 +277,18 @@
 		$scope.coclustMod = function() {	
 			var item = $scope.singleSelection();		
             if (item.isCoclustCompatible()) {
-				$scope.apiMiddleware.coclustMod($scope.temp).then(function(result) {
+				$scope.apiMiddleware.coclustMod($scope.temp)
+                .then(function(result) {
 					$scope.fileNavigator.refresh();
 					$scope.row = result.row;
 					$scope.column = result.column;
 					$scope.img = '../storage/user/' + result.img + '.png';
 					$scope.modal('coclustMod', false);
-				});
+				}
+                ,function(reason){
+                    $scope.modal('coclustMod', false);
+                    $window.location.reload();
+                });
             }
 		};	
 
@@ -404,7 +408,7 @@
             });
             return found[0] && found[0].split('=')[1] || undefined;
         };
-
+        
         $scope.changeLanguage(getQueryParam('lang'));
         $scope.isWindows = getQueryParam('server') === 'Windows';
         $scope.fileNavigator.refresh();

@@ -1,9 +1,10 @@
 (function(angular, $) {
     'use strict';
-    angular.module('FileManagerApp').service('apiHandler', ['$http', '$q', '$window', '$translate', 'Upload',
-        function ($http, $q, $window, $translate, Upload) {
+    angular.module('FileManagerApp').service('apiHandler', ['$http', '$q', '$window', '$translate', 'Upload', '$location',
+        function ($http, $q, $window, $translate, Upload, $location) {
 
         $http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+        $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
 
         var ApiHandler = function() {
             this.inprocess = false;
@@ -97,6 +98,7 @@
             
             self.inprocess = true;
             self.error = '';
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 self.deferredHandler(data, deferred, code);
             }).error(function(data, code) {

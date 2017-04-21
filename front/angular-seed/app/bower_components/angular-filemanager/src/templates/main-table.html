@@ -46,8 +46,8 @@
 
         <tr class="item-list" ng-dblclick="upDir()">
             <td>
-                <a href="" title=".." ng-show="fileNavigator.currentPath[0]">
-                    <i class="glyphicon glyphicon-level-up"></i> ..  |  
+                <a href="" title=".." ng-show="fileNavigator.currentPath != fileNavigator.currentPath[0]">
+                    <i class="glyphicon glyphicon-level-up"></i> ..  <br/>  
                 </a>
                 <span ng-show="config.allowedActions.createFolder">
                 <a href="" tabindex="-1" ng-click="modal('newfolder') && prepareNewFolder()">

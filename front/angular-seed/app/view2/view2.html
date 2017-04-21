@@ -1,5 +1,6 @@
 <div ng-app="myApp.view2" ng-controller='View2Ctrl' class="login-page"> 
   <div class="formulaire">
+    <p ng-if="msg" class="message-login-signup"><span class="erreur-login-signup">{{ msg }} </span></p>
     <form ng-submit="createAccount()" class="register-form">
       <input type="text" ng-model="login" placeholder="Identifiant"/>
       <input type="password" ng-model="password" placeholder="Mot de passe"/>

@@ -28,42 +28,6 @@
   <link rel="stylesheet" href="bower_components/angular-filemanager/dist/angular-filemanager.min.css">
   
 
-  <!-- Configuration perso du filemanager -->
-
-<script type="text/javascript">
-angular.module('FileManagerApp').config(['fileManagerConfigProvider', function (config) {
-  var defaults = config.$get();
-  config.set({
-    appName: 'angular-filemanager',
-    pickCallback: function(item) {
-		return;
-    },
-    listUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    uploadUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    renameUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    copyUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    moveUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    removeUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    editUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    getContentUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    createFolderUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    downloadFileUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    downloadMultipleUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    compressUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    extractUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-    permissionsUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-	coclustModUrl: 'http://127.0.0.1:3000/',
-	coclustSpecModUrl: 'http://127.0.0.1:3000/spec/',
-	coclustInfoUrl: 'http://127.0.0.1:3000/info/',
-	
-    allowedActions: angular.extend(defaults.allowedActions, {
-      pickFiles: true,
-      pickFolders: false,
-    }),
-  });
-}]);
-</script>
-
 
 
 </head>

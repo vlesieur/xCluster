@@ -8,9 +8,17 @@ angular.module('myApp', [
   'myApp.version',
   'FileManagerApp'
 ])
-.config(['$locationProvider', '$routeProvider', 'fileManagerConfigProvider', function($locationProvider, $routeProvider, config) {
-  $locationProvider.hashPrefix('!');
-  $routeProvider.otherwise({redirectTo: '/view2'});
-}])
-.controller('View1Ctrl', [function() {}])
-.run([function(){document.getElementById('start').style.visibility='hidden';}]);
+  .config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
+    $locationProvider.hashPrefix('!');
+    $routeProvider.otherwise({ redirectTo: '/view2' });
+  }])
+  .controller('View1Ctrl', [function () { }])
+  .run(function ($rootScope, $location) {
+    document.getElementById('start').style.visibility='hidden';
+    $rootScope.$on("$routeChangeStart", function (event, next, current) {
+      console.log("route change detected !");
+      if (sessionStorage.getItem('token') == null) {
+        $location.path("/view2");
+      }
+    })
+  });

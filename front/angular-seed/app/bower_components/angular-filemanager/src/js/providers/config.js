@@ -20,6 +20,9 @@
             compressUrl: 'bridges/php/handler.php',
             extractUrl: 'bridges/php/handler.php',
             permissionsUrl: 'bridges/php/handler.php',
+            coclustModUrl: 'http://127.0.0.1:3000/coclust/mod',
+	        coclustSpecModUrl: 'http://127.0.0.1:3000/coclust/spec',
+	        coclustInfoUrl: 'http://127.0.0.1:3000/coclust/info',
             basePath: '/',
 
             searchForm: true,

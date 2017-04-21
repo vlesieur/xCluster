@@ -6,7 +6,11 @@ var express = require('express'),
     bodyParser = require('body-parser');
 
 
-var routes = require('./routes/index');
+//var routes = require('./routes/index');
+var routes = express.Router();
+
+const zerorpc = require('zerorpc');
+const uri = "tcp://127.0.0.1:4242";
 
 var app = express();
 
@@ -47,7 +51,83 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+var callbackFunction = function (err, result, start) {
+  const end = new Date() - start;
+  if (err) {
+    console.log('ERREUR: ', err)
+    return result;
+  }
+  if (typeof result == 'string') {
+    console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result + "\n\n")
+    return result;
+  } else {
+    console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result[0] + "\n\n" + result[1] + "\n\n" + result[2]);
+    return result;
+  }
+};
+
+var createClient = function () {
+  var client = new zerorpc.Client({
+    timeout: 360,
+    heartbeatInterval: 360000
+  });
+  return client;
+};
+
+var connectClient = function (client) {
+  console.log("Connexion au RPC avec ", uri);
+  client.connect(uri);
+  return client;
+};
+
+var callCoclust = function (client, req, res, fn) {
+  const start = new Date();
+  var response = "";
+  client.invoke(fn, "user", req.body.path, req.body.name, req.body.n_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.random_state, req.body.tol,
+    function (error, result, more) {
+      response = callbackFunction(error, result, start);
+      res.json({ row: response[0], column: response[1], img: response[2] });
+    });
+};
+
+var callCoclustInfo = function (client, req, res, fn) {
+  const start = new Date();
+  var response = "";
+  client.invoke(fn, "user", req.body.path, req.body.name, req.body.n_row_clusters, req.body.n_col_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.tol, req.body.random_state,
+    function (error, result, more) {
+      response = callbackFunction(error, result, start);
+      res.json({ row: response[0], column: response[1], img: response[2] });
+    });
+};
+
+routes.post('/mod', function (req, res) {
+  var isAuthorized = checkAuthorize(req, res);
+  console.log("isAuthorized value : "+isAuthorized);
+  if (isAuthorized) {
+    console.log("request : "+ req);
+    var client = createClient();
+    client = connectClient(client);
+    callCoclust(client, req, res, "coclustMod");
+  } else { 
+      res.status(403).send({ success: false, msg: 'Non autorisé !' });
+  }
+});
+
+routes.post('/spec', function (req, res) {
+  console.log(req);
+  var client = createClient();
+  client = connectClient(client);
+  callCoclust(client, req, res, "coclustSpecMod");
+});
+
+routes.post('/info', function (req, res) {
+  console.log(req);
+  var client = createClient();
+  client = connectClient(client);
+  callCoclustInfo(client, req, res, "coclustInfo");
+});
+
+app.use('/coclust', routes);
 
 /* app.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -163,6 +243,33 @@ apiRoutes.get('/authorize', passport.authenticate('jwt', { session: false }), fu
         return res.status(403).send({ success: false, msg: 'Token non fourni.' });
     }
 });
+
+checkAuthorize = function (req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+        var decoded = jwt.decode(token, config.secret);
+        return User.findOne({
+            login: decoded.login
+        }, function (err, user) {
+
+            if (err) {
+                console.log(err);
+                return false;
+            }
+            
+            if (!user) {
+               console.log("Echec d\'authentification. Utilisateur non trouvé.");
+               return false;
+            } else {
+                console.log("Utilisateur " + user.login + " autorisé !");
+                return true;
+            }
+        });
+    } else {
+        console.log("Token non fourni.");
+        return false;
+    }    
+}
 
 getToken = function (headers) {
     if (headers && headers.authorization) {

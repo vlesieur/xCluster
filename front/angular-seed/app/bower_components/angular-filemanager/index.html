@@ -40,23 +40,6 @@
     <link href="dist/angular-filemanager.min.css" rel="stylesheet">
     <script src="dist/angular-filemanager.min.js"></script>
 -->
-  
-  <script type="text/javascript">
-    //example to override angular-filemanager default config
-    angular.module('FileManagerApp').config(['fileManagerConfigProvider', function (config) {
-      var defaults = config.$get();
-      config.set({
-        appName: 'angular-filemanager',
-        pickCallback: function(item) {
-			return;
-        },
-        allowedActions: angular.extend(defaults.allowedActions, {
-          pickFiles: false,
-          pickFolders: false,
-        }),
-      });
-    }]);
-  </script>
 </head>
 
 <body class="ng-cloak">
