@@ -181,14 +181,38 @@ app.use(function (err, req, res, next) {
 
 /* MONGO */
 
+
 // connect to database
-mongoose.connect(config.database, function (error, db) {
-    if (error) {
-        console.log("Erreur de connexion à la base xclusterdb");
-    } else {
-        console.log("Connecté à la base de données 'xclusterdb'");
-    }
+var options = {db: { native_parser: true }, server:{autoReconnect: false, socketOptions:{keepAlive: 120}}, replset: {socketOptions: {keepAlive: 120}}};
+var mongoDB = mongoose.connect(config.database, options).connection;
+
+// CONNECTION EVENTS
+mongoDB.once('open', function() {
+  console.log("mongodb connection open");
 });
+
+// When successfully connected
+mongoDB.on('connected', function () {  
+  console.log('Mongoose default connection open to ' + config.database);
+}); 
+
+// If the connection throws an error
+mongoDB.on('error',function (err) {  
+  console.log('Mongoose default connection error: ' + err.message);
+}); 
+
+// When the connection is disconnected
+mongoDB.on('disconnected', function () {  
+  console.log('Mongoose default connection disconnected'); 
+});
+
+// If the Node process ends, close the Mongoose connection 
+process.on('SIGINT', function() {  
+  mongoose.connection.close(function () { 
+    console.log('Mongoose default connection disconnected through app termination'); 
+    process.exit(0); 
+  }); 
+}); 
 
 // pass passport for configuration
 require('./config/passport')(passport);
