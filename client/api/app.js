@@ -5,7 +5,6 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser');
 
-
 //var routes = require('./routes/index');
 var routes = express.Router();
 
@@ -180,7 +179,6 @@ app.use(function (err, req, res, next) {
 });
 
 /* MONGO */
-
 
 // connect to database
 var options = {db: { native_parser: true }, server:{autoReconnect: false, socketOptions:{keepAlive: 120}}, replset: {socketOptions: {keepAlive: 120}}};
