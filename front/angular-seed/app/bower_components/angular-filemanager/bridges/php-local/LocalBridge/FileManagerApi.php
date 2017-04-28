@@ -38,7 +38,7 @@ class FileManagerApi
 
             return $response;
         }
-
+        
         switch ($request['action']) {
             case 'list':
                 $list = $this->listAction($request['path']);
@@ -511,4 +511,5 @@ class FileManagerApi
 
         return $info;
     }
+
 }

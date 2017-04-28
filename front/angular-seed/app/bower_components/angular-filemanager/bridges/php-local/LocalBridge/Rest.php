@@ -19,7 +19,7 @@ class Rest
 	/**
 	 * @var boolean
 	 */
-	private $requireAuthentication = false;
+	private $requireAuthentication = true;
 
 	/**
 	 * Add callback for specific HTTP method (post, get, put, delete)
@@ -187,9 +187,25 @@ class Rest
 		$headers = getallheaders();
 
 		if (isset($headers['Authorization'])) {
-			$token = str_replace('Token ', '', $headers['Authorization']);
-			
-			$authenticated = token::verify($token);
+			$jwt = $headers['Authorization'];
+			//$authenticated = token::verify($token);
+
+    		$curl = curl_init();
+
+    		curl_setopt_array($curl, array(
+    			CURLOPT_RETURNTRANSFER => 1,
+    			CURLOPT_URL => 'http://localhost:3000/api/authorize',
+   				CURLOPT_HTTPHEADER => array('Authorization: '.$jwt)
+    		));
+
+    		$result = curl_exec($curl);
+    		curl_close($curl);
+			$json = json_decode($result, true);
+
+
+			if($json['success'] == 'true'){
+				$authenticated = true;
+			}
 		}
 
 		if ($authenticated === false) {

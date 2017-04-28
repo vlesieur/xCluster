@@ -46,7 +46,7 @@
 
             self.inprocess = true;
             self.error = '';
-
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 dfHandler(data, deferred, code);
             }).error(function(data, code) {
@@ -72,6 +72,7 @@
             
             self.inprocess = true;
             self.error = '';
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 self.deferredHandler(data, deferred, code);
             }).error(function(data, code) {
@@ -176,6 +177,7 @@
             };
             self.inprocess = true;
             self.error = '';
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 self.deferredHandler(data, deferred, code);
             }).error(function(data, code) {
@@ -196,6 +198,7 @@
 
             self.inprocess = true;
             self.error = '';
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 self.deferredHandler(data, deferred, code);
             }).error(function(data, code) {
@@ -250,6 +253,7 @@
 
             self.inprocess = true;
             self.error = '';
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 self.deferredHandler(data, deferred, code);
             }).error(function(data, code) {
@@ -271,7 +275,7 @@
 
             self.inprocess = true;
             self.error = '';
-
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 self.deferredHandler(data, deferred, code);
             }).error(function(data, code) {
@@ -292,6 +296,7 @@
             };
             self.inprocess = true;
             self.error = '';
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 self.deferredHandler(data, deferred, code);
             }).error(function(data, code) {
@@ -321,6 +326,7 @@
             
             var deferred = $q.defer();
             self.inprocess = true;
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.get(url).success(function(data) {
                 var bin = new $window.Blob([data]);
                 deferred.resolve(data);
@@ -349,6 +355,7 @@
             }
             
             self.inprocess = true;
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.get(apiUrl).success(function(data) {
                 var bin = new $window.Blob([data]);
                 deferred.resolve(data);
@@ -373,6 +380,7 @@
 
             self.inprocess = true;
             self.error = '';
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 self.deferredHandler(data, deferred, code);
             }).error(function(data, code) {
@@ -395,6 +403,7 @@
 
             self.inprocess = true;
             self.error = '';
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 self.deferredHandler(data, deferred, code);
             }).error(function(data, code) {
@@ -418,6 +427,7 @@
             
             self.inprocess = true;
             self.error = '';
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 self.deferredHandler(data, deferred, code);
             }).error(function(data, code) {
@@ -438,6 +448,7 @@
 
             self.inprocess = true;
             self.error = '';
+            $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.post(apiUrl, data).success(function(data, code) {
                 self.deferredHandler(data, deferred, code);
             }).error(function(data, code) {

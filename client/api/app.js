@@ -286,12 +286,15 @@ apiRoutes.get('/authorize', passport.authenticate('jwt', { session: false }), fu
             if (err) throw err;
 
             if (!user) {
+                console.log('Echec d\'authentification. Utilisateur non trouvé.');
                 return res.status(403).send({ success: false, msg: 'Echec d\'authentification. Utilisateur non trouvé.' });
             } else {
+                console.log('Utilisateur ' + user.login + ' autorisé !');
                 res.json({ success: true, msg: 'Utilisateur ' + user.login + ' autorisé !' });
             }
         });
     } else {
+        console.log('Token non fourni.');
         return res.status(403).send({ success: false, msg: 'Token non fourni.' });
     }
 });
