@@ -310,7 +310,8 @@
         ApiHandler.prototype.getUrl = function(apiUrl, path) {
             var data = {
                 action: 'download',
-                path: path
+                path: path,
+                token: $window.sessionStorage.getItem("token")
             };
             return path && [apiUrl, $.param(data)].join('?');
         };
@@ -326,6 +327,7 @@
             
             var deferred = $q.defer();
             self.inprocess = true;
+            //$http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
             $http.get(url).success(function(data) {
                 var bin = new $window.Blob([data]);

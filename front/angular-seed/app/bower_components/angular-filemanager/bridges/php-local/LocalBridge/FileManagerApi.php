@@ -228,7 +228,7 @@ class FileManagerApi
         if (! file_exists($path)) {
             return false;
         }
-
+        
         header("Content-Disposition: attachment; filename=\"$file_name\"");
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');

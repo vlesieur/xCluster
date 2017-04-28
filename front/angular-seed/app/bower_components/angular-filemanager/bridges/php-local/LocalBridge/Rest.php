@@ -78,14 +78,6 @@ class Rest
 	 */
 	public function handle ()
 	{
-		if ($this->requireAuthentication) {
-			$authenticateResponse = $this->verifyAuthentication();
-			if ($authenticateResponse instanceof Response) {
-				$this->respond($response);
-				return;
-			}
-		}
-
 		$request_method = $_SERVER['REQUEST_METHOD'];
 
 		$body = [
@@ -106,6 +98,14 @@ class Rest
 		
 		if (isset($this->callbacks['before'])) {
 			$this->callbacks['before']($queries, $body['data'], $body['files']);
+		}
+
+		if ($this->requireAuthentication) {
+			$authenticateResponse = $this->verifyAuthentication($queries);
+			if ($authenticateResponse instanceof Response) {
+				$this->respond($authenticateResponse);
+				return;
+			}
 		}
 
 		switch ($request_method) {
@@ -181,13 +181,18 @@ class Rest
 	 * Check wheter client is authorized and returns Response object with autorization request if not
 	 * @return mixed Response object if client is not authorized, otherwise nothing
 	 */
-	private function verifyAuthentication ()
+	private function verifyAuthentication ($queries)
 	{
 		$authenticated = false;
 		$headers = getallheaders();
+		$jwt = "dummy token";
 
-		if (isset($headers['Authorization'])) {
+		if (isset($headers['Authorization']) || $queries['action'] != 'download') {
 			$jwt = $headers['Authorization'];
+		} else {
+			$jwt = $queries['token'];
+		}
+
 			//$authenticated = token::verify($token);
 
     		$curl = curl_init();
@@ -206,15 +211,14 @@ class Rest
 			if($json['success'] == 'true'){
 				$authenticated = true;
 			}
-		}
 
-		if ($authenticated === false) {
-			$response = new Response();
-			$response	->setStatus(401, 'Unauthorized')
-						->addHeaders('WWW-Authenticate: Token');
+			if ($authenticated === false) {
+				$response = new Response();
+				$response	->setStatus(401, 'Unauthorized')
+							->addHeaders('WWW-Authenticate: Token');
 
-			return $response;
-		}
+				return $response;
+			}
 	}
 
 	/**
