@@ -46,11 +46,11 @@ class Api(object):
 # tol (float, default: 1e-9) – Relative tolerance with regards to modularity to declare convergence
 #############################################################################
 
-    def coclustMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9):
+    def coclustMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='fea'):
         print('coclustMod appel le : %s/%s' % (path, original_file_name))
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
-        X = matlab_dict['fea']
+        X = matlab_dict[dictionnaire]
         model = CoclustMod(
             n_clusters=n_clusters,
             init=init,
@@ -67,19 +67,22 @@ class Api(object):
         X_reorg = X[row_indices, :]
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
-        file_name = int(time.time())
+        file_name ='%s-%s' % (original_file_name.split(".",1)[0], int(time.time()))
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()
+        modMatrix = np.asarray(X_reorg);
+        csv_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+        np.savetxt(csv_path, modMatrix, delimiter=";")
         new_file_path = '%s/%s' % (path, file_name)
         return [predicted_row_labels, predicted_column_labels, new_file_path]
 
-    def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9):
+    def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='fea'):
         print('coclustSpecMod appel le : %s/%s' % (path, original_file_name))
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
-        X = matlab_dict['fea']
+        X = matlab_dict[dictionnaire]
         model = CoclustSpecMod(
             n_clusters=n_clusters,
             max_iter=max_iter,
@@ -95,19 +98,22 @@ class Api(object):
         X_reorg = X[row_indices, :]
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
-        file_name = int(time.time())
+        file_name ='%s-%s' % (original_file_name.split(".",1)[0], int(time.time()))
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()
+        specMatrix = np.asarray(X_reorg);
+        csv_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+        np.savetxt(csv_path, specMatrix, delimiter=";")
         new_file_path = '%s/%s' % (path, file_name)
         return [predicted_row_labels, predicted_column_labels, new_file_path]
 		
-    def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None):
+    def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None, dictionnaire='fea'):
         print('coclustInfo appel le : %s/%s' % (path, original_file_name))
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
-        X = matlab_dict['fea']
+        X = matlab_dict[dictionnaire]
         model = CoclustInfo(
             n_row_clusters=n_row_clusters,
             n_col_clusters=n_col_clusters,
@@ -124,11 +130,14 @@ class Api(object):
         X_reorg = X[row_indices, :]
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
-        file_name = int(time.time())
+        file_name ='%s-%s' % (original_file_name.split(".",1)[0], int(time.time()))
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()
+        infoMatrix = np.asarray(X_reorg);
+        csv_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+        np.savetxt(csv_path, infoMatrix, delimiter=";")
         new_file_path = '%s/%s' % (path, file_name)
         return [predicted_row_labels, predicted_column_labels, new_file_path]
 

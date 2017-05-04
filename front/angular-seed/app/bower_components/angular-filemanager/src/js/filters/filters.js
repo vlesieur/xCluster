@@ -43,4 +43,16 @@
         return Math.max(fileSizeInBytes, 0.1).toFixed(1) + ' ' + result;
       };
     }]);
+
+    app.filter('userpath', ['$filter', 'fileManagerConfig', function($filter, fileManagerConfig) {
+        return function(input) {
+            return input.replace("../storage/users/", '');
+        }
+    }]);
+
+    app.filter('csvuserpath', ['$filter', 'fileManagerConfig', function($filter, fileManagerConfig) {
+        return function(input) {
+            return input.replace("../storage/users/", '').replace("png","csv");
+        }
+    }]);
 })(angular);

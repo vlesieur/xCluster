@@ -100,7 +100,10 @@
             these_elements: 'these {{total}} elements',
             new_folder: 'New folder',
             download_as_zip: 'Download as ZIP',
-            signout: 'Sign out'
+            signout: 'Sign out',
+            row: 'Row',
+            column: 'Column',
+            file_saved_at: 'File saved at:'
         });
 
         $translateProvider.translations('he', {
@@ -496,7 +499,10 @@
             these_elements: 'ces {{total}} éléments',
             new_folder: 'Nouveau dossier',
             download_as_zip: 'Télécharger comme ZIP',
-            signout: 'Se déconnecter'
+            signout: 'Se déconnecter',
+            row: 'Ligne',
+            column: 'Colonne',
+            file_saved_at: 'Fichier enregistré dans:'
         });
 
         $translateProvider.translations('de', {

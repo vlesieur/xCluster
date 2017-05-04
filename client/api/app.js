@@ -51,105 +51,114 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var callbackFunction = function (err, result, start) {
-  const end = new Date() - start;
-  if (err) {
-    console.log('ERREUR: ', err)
-    return result;
-  }
-  if (typeof result == 'string') {
-    console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result + "\n\n")
-    return result;
-  } else {
-    console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result[0] + "\n\n" + result[1] + "\n\n" + result[2]);
-    return result;
-  }
+    const end = new Date() - start;
+    if (err) {
+        console.log('ERREUR: ', err)
+        return result;
+    }
+    if (typeof result == 'string') {
+        console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result + "\n\n")
+        return result;
+    } else {
+        console.log('Execution en: ' + end + " ms" + "\r\nresultat: " + result[0] + "\n\n" + result[1] + "\n\n" + result[2]);
+        return result;
+    }
 };
 
 var createClient = function () {
-  var client = new zerorpc.Client({
-    timeout: 360,
-    heartbeatInterval: 360000
-  });
-  return client;
+    var client = new zerorpc.Client({
+        timeout: 360,
+        heartbeatInterval: 360000
+    });
+    return client;
 };
 
 var connectClient = function (client) {
-  console.log("Connexion au RPC avec ", uri);
-  client.connect(uri);
-  return client;
+    console.log("Connexion au RPC avec ", uri);
+    client.connect(uri);
+    return client;
 };
 
 var callCoclust = function (client, req, res, fn) {
-  const start = new Date();
-  var response = "";
-  client.invoke(fn, req.body.path, req.body.name, req.body.n_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.random_state, req.body.tol,
-    function (error, result, more) {
-      response = callbackFunction(error, result, start);
-      res.json({ row: response[0], column: response[1], img: response[2] });
-    });
+    const start = new Date();
+    var response = "";
+    client.invoke(fn, req.body.path, req.body.name, req.body.n_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.random_state, req.body.tol, req.body.dict,
+        function (error, result, more) {
+            response = callbackFunction(error, result, start);
+            if(response) {
+                res.json({ row: response[0], column: response[1], img: response[2] });
+            } else {
+                res.json({ row: 'Erreur dans le traitement de la demande...', column: error, img: 'Visualisation indisponible' });
+            }
+        });
 };
 
 var callCoclustInfo = function (client, req, res) {
-  const start = new Date();
-  var response = "";
-  client.invoke("coclustInfo", req.body.path, req.body.name, req.body.n_row_clusters, req.body.n_col_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.tol, req.body.random_state,
-    function (error, result, more) {
-      response = callbackFunction(error, result, start);
-      res.json({ row: response[0], column: response[1], img: response[2] });
-    });
+    const start = new Date();
+    var response = "";
+    client.invoke("coclustInfo", req.body.path, req.body.name, req.body.n_row_clusters, req.body.n_col_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.tol, req.body.random_state, req.body.dict,
+        function (error, result, more) {
+            response = callbackFunction(error, result, start);
+            if (response) {
+                res.json({ row: response[0], column: response[1], img: response[2] });
+            }
+            else {
+                res.json({ row: 'Erreur dans le traitement de la demande...', column: error, img: 'Visualisation indisponible' });
+            }
+        });
 };
 
 var callCreateFolder = function (client, login, res) {
-  const start = new Date();
-  var response = "";
-  client.invoke("createUserDirectory", login,
-    function (error, result, more) {
-      response = callbackFunction(error, result, start);
-	  if (response) {
-		res.json({ success: true, msg: 'Compte enregistré !' });  
-	  } else {
-		res.json({ success: false, msg: 'Impossible de créer le repertoire !' })
-	  }
-    });
+    const start = new Date();
+    var response = "";
+    client.invoke("createUserDirectory", login,
+        function (error, result, more) {
+            response = callbackFunction(error, result, start);
+            if (response) {
+                res.json({ success: true, msg: 'Compte enregistré !' });
+            } else {
+                res.json({ success: false, msg: 'Impossible de créer le repertoire !' })
+            }
+        });
 };
 
 routes.post('/mod', function (req, res) {
-  var isAuthorized = checkAuthorize(req, res);
-  console.log("isAuthorized value : "+isAuthorized);
-  if (isAuthorized) {
-    console.log("request : "+ req);
-    var client = createClient();
-    client = connectClient(client);
-    callCoclust(client, req, res, "coclustMod");
-  } else { 
-      res.status(403).send({ success: false, msg: 'Non autorisé !' });
-  }
+    var isAuthorized = checkAuthorize(req, res);
+    console.log("isAuthorized value : " + isAuthorized);
+    if (isAuthorized) {
+        console.log("request : " + req);
+        var client = createClient();
+        client = connectClient(client);
+        callCoclust(client, req, res, "coclustMod");
+    } else {
+        res.status(403).send({ success: false, msg: 'Non autorisé !' });
+    }
 });
 
 routes.post('/spec', function (req, res) {
-  var isAuthorized = checkAuthorize(req, res);
-  console.log("isAuthorized value : "+isAuthorized);
-  if (isAuthorized) {
-    console.log(req);
-    var client = createClient();
-	client = connectClient(client);
-	callCoclust(client, req, res, "coclustSpecMod");
-  } else { 
-      res.status(403).send({ success: false, msg: 'Non autorisé !' });
-  }
+    var isAuthorized = checkAuthorize(req, res);
+    console.log("isAuthorized value : " + isAuthorized);
+    if (isAuthorized) {
+        console.log(req);
+        var client = createClient();
+        client = connectClient(client);
+        callCoclust(client, req, res, "coclustSpecMod");
+    } else {
+        res.status(403).send({ success: false, msg: 'Non autorisé !' });
+    }
 });
 
 routes.post('/info', function (req, res) {
-  var isAuthorized = checkAuthorize(req, res);
-  console.log("isAuthorized value : "+isAuthorized);
-  if (isAuthorized) {
-    console.log(req);
-    var client = createClient();
-	client = connectClient(client);
-	callCoclust(client, req, res, "coclustInfo");
-  } else { 
-      res.status(403).send({ success: false, msg: 'Non autorisé !' });
-  }
+    var isAuthorized = checkAuthorize(req, res);
+    console.log("isAuthorized value : " + isAuthorized);
+    if (isAuthorized) {
+        console.log(req);
+        var client = createClient();
+        client = connectClient(client);
+        callCoclust(client, req, res, "coclustInfo");
+    } else {
+        res.status(403).send({ success: false, msg: 'Non autorisé !' });
+    }
 });
 
 app.use('/coclust', routes);
@@ -181,36 +190,36 @@ app.use(function (err, req, res, next) {
 /* MONGO */
 
 // connect to database
-var options = {db: { native_parser: true }, server:{autoReconnect: false, socketOptions:{keepAlive: 120}}, replset: {socketOptions: {keepAlive: 120}}};
+var options = { db: { native_parser: true }, server: { autoReconnect: false, socketOptions: { keepAlive: 120 } }, replset: { socketOptions: { keepAlive: 120 } } };
 var mongoDB = mongoose.connect(config.database, options).connection;
 
 // CONNECTION EVENTS
-mongoDB.once('open', function() {
-  console.log("mongodb connection open");
+mongoDB.once('open', function () {
+    console.log("mongodb connection open");
 });
 
 // When successfully connected
-mongoDB.on('connected', function () {  
-  console.log('Mongoose default connection open to ' + config.database);
-}); 
+mongoDB.on('connected', function () {
+    console.log('Mongoose default connection open to ' + config.database);
+});
 
 // If the connection throws an error
-mongoDB.on('error',function (err) {  
-  console.log('Mongoose default connection error: ' + err.message);
-}); 
+mongoDB.on('error', function (err) {
+    console.log('Mongoose default connection error: ' + err.message);
+});
 
 // When the connection is disconnected
-mongoDB.on('disconnected', function () {  
-  console.log('Mongoose default connection disconnected'); 
+mongoDB.on('disconnected', function () {
+    console.log('Mongoose default connection disconnected');
 });
 
 // If the Node process ends, close the Mongoose connection 
-process.on('SIGINT', function() {  
-  mongoose.connection.close(function () { 
-    console.log('Mongoose default connection disconnected through app termination'); 
-    process.exit(0); 
-  }); 
-}); 
+process.on('SIGINT', function () {
+    mongoose.connection.close(function () {
+        console.log('Mongoose default connection disconnected through app termination');
+        process.exit(0);
+    });
+});
 
 // pass passport for configuration
 require('./config/passport')(passport);
@@ -235,9 +244,9 @@ apiRoutes.post('/signup', function (req, res) {
                 console.log(err);
                 return res.json({ success: false, msg: 'Utilisateur déjà existant.' });
             }
-			var client = createClient();
-			client = connectClient(client);
-			callCreateFolder(client, req.body.login, res);
+            var client = createClient();
+            client = connectClient(client);
+            callCreateFolder(client, req.body.login, res);
         });
     }
 });
@@ -309,10 +318,10 @@ checkAuthorize = function (req, res) {
                 console.log(err);
                 return false;
             }
-            
+
             if (!user) {
-               console.log("Echec d\'authentification. Utilisateur non trouvé.");
-               return false;
+                console.log("Echec d\'authentification. Utilisateur non trouvé.");
+                return false;
             } else {
                 console.log("Utilisateur " + user.login + " autorisé !");
                 return true;
@@ -321,7 +330,7 @@ checkAuthorize = function (req, res) {
     } else {
         console.log("Token non fourni.");
         return false;
-    }    
+    }
 }
 
 getToken = function (headers) {

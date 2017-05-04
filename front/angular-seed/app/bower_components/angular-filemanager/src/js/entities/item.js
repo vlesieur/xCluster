@@ -23,7 +23,8 @@
 				max_iter: model && model.max_iter || 20, 
 				n_init: model && model.n_init || 1, 
 				random_state: model && model.random_state || null, 
-				tol: model && model.tol || 0.000000001
+				tol: model && model.tol || 0.000000001,
+                dict: model && model.dict || 'fea'
 				
             };
 

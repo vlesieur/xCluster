@@ -94,7 +94,8 @@
 				max_iter: dataItem.tempModel.max_iter,
 				n_init: dataItem.tempModel.n_init,
 				random_state: dataItem.tempModel.random_state,
-				tol: dataItem.tempModel.tol
+				tol: dataItem.tempModel.tol,
+                dict: dataItem.tempModel.dict
 			};
             
             self.inprocess = true;
@@ -121,7 +122,8 @@
 				max_iter: dataItem.tempModel.max_iter,
 				n_init: dataItem.tempModel.n_init,
 				random_state: dataItem.tempModel.random_state,
-				tol: dataItem.tempModel.tol
+				tol: dataItem.tempModel.tol,
+                dict: dataItem.tempModel.dict
 			};
             
             self.inprocess = true;
@@ -150,7 +152,8 @@
 				max_iter: dataItem.tempModel.max_iter,
 				n_init: dataItem.tempModel.n_init,
 				random_state: dataItem.tempModel.random_state,
-				tol: dataItem.tempModel.tol
+				tol: dataItem.tempModel.tol,
+                dict: dataItem.tempModel.dict
 			};
             
             self.inprocess = true;
