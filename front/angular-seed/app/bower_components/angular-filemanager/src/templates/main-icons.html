@@ -1,34 +1,49 @@
 <div class="iconset noselect">
     <div class="item-list clearfix" ng-click="selectOrUnselect(null, $event)" ng-right-click="selectOrUnselect(null, $event)"
         prevent="true">
-        <div class="col-120" ng-show="fileNavigator.currentPath != fileNavigator.currentPath[0]">
-            <a href="" class="thumbnail text-center" ng-dblclick="upDir()" title="..">
-                <div class="item-icon">
-                    <i class="glyphicon glyphicon-level-up"></i>
-                </div>
-                ..
-            </a>
-        </div>
-        <div class="col-120">
-            <span ng-show="config.allowedActions.createFolder">
+        <div class="row-120">
+            <div class="col-120" ng-show="fileNavigator.currentPath != fileNavigator.currentPath[0]">
+                <a href="" class="thumbnail text-center" ng-dblclick="upDir()" title="..">
+                    <div class="item-icon">
+                        <i class="glyphicon glyphicon-level-up"></i>
+                    </div>
+                    ..
+                </a>
+            </div>
+            <div class="col-120">
+                <span ng-show="config.allowedActions.createFolder">
                 <a class="thumbnail text-center" href="" tabindex="-1" ng-click="modal('newfolder') && prepareNewFolder()">
                 <div class="item-icon">
                     <i class="glyphicon glyphicon-plus"></i>
                 </div>
-                     {{'new_folder' | translate | strLimit : 11}}
+                     {{'new_folder' | translate}}
                 </a>
             </span>
-        </div>
-        <div class="col-120" ng-repeat="item in $parent.fileList = (fileNavigator.fileList | filter: {model:{name: query}})" ng-show="!fileNavigator.requesting && !fileNavigator.error">
-            <a href="" class="thumbnail text-center" ng-click="selectOrUnselect(item, $event)" ng-dblclick="smartClick(item)" ng-right-click="selectOrUnselect(item, $event)"
-                title="{{item.model.name}} ({{item.model.size | humanReadableFileSize}})" ng-class="{selected: isSelected(item)}">
+            </div>
+            <div class="col-120">
+                <span ng-show="config.allowedActions.upload">
+                <a class="thumbnail text-center" href="" tabindex="-1" ng-click="modal('uploadfile')">
                 <div class="item-icon">
-                    <i class="glyphicon glyphicon-folder-open" ng-show="item.model.type === 'dir'"></i>
-                    <i class="glyphicon glyphicon-file" data-ext="{{ item.model.name | fileExtension }}" ng-show="item.model.type === 'file'"
-                        ng-class="{'item-extension': config.showExtensionIcons}"></i>
+                    <i class="glyphicon glyphicon-plus"></i>
                 </div>
-                {{item.model.name | strLimit : 11 }}
-            </a>
+                     {{'upload_files' | translate}}
+                </a>
+            </span>
+            </div>
+        </div>
+        <hr class="ligne-separateur"/>
+        <div class="row-120">
+            <div class="col-120" ng-repeat="item in $parent.fileList = (fileNavigator.fileList | filter: {model:{name: query}})" ng-show="!fileNavigator.requesting && !fileNavigator.error">
+                <a href="" class="thumbnail text-center" ng-click="selectOrUnselect(item, $event)" ng-dblclick="smartClick(item)" ng-right-click="selectOrUnselect(item, $event)"
+                    title="{{item.model.name}} ({{item.model.size | humanReadableFileSize}})" ng-class="{selected: isSelected(item)}">
+                    <div class="item-icon">
+                        <i class="glyphicon glyphicon-folder-open" ng-show="item.model.type === 'dir'"></i>
+                        <i class="glyphicon glyphicon-file" data-ext="{{ item.model.name | fileExtension }}" ng-show="item.model.type === 'file'"
+                            ng-class="{'item-extension': config.showExtensionIcons}"></i>
+                    </div>
+                    {{item.model.name | strLimit : 11 }}
+                </a>
+            </div>
         </div>
     </div>
 

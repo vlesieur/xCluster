@@ -143,6 +143,19 @@ textarea.code {
   margin-right: 0;
 }
 
+.row-120 {
+  display:block;
+  margin-bottom: 9em;
+  padding-bottom : 1em;
+}
+
+.ligne-separateur {
+  margin-top: 33px;
+  margin-bottom: 10px;
+  border: 0;
+  border-top: 1px solid rgb(33,150,243);
+}
+
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */

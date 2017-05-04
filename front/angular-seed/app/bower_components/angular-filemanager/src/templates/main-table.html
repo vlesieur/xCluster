@@ -54,6 +54,11 @@
                     <i class="glyphicon glyphicon-plus"></i>
                      {{'new_folder' | translate}}
                 </a>
+                <span ng-show="config.allowedActions.upload">
+                <a href="" tabindex="-1" ng-click="modal('uploadfile')">
+                    <i class="glyphicon glyphicon-plus"></i>
+                     {{'upload_files' | translate}}
+                </a>
             </span>
             </td>
             <td class="hidden-xs">

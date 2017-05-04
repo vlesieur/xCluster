@@ -420,7 +420,7 @@
             confirm: 'Confirmer',
             cancel: 'Annuler',
             close: 'Fermer',
-            upload_files: 'Télécharger des fichiers',
+            upload_files: 'Téléverser des fichiers',
             files_will_uploaded_to: 'Les fichiers seront uploadé dans',
             select_files: 'Sélectionnez les fichiers',
             uploading: 'Upload en cours',
