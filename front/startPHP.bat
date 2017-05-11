@@ -1,8 +1,6 @@
 TITLE XCLUSTER_PHP
 SET mypath=%~dp0
 cd %mypath%angular-seed/app
-
-:start
 %SystemRoot%\System32\where.exe /q php
 IF ERRORLEVEL 1 (
 	echo "Veuillez renseigner l'emplacement du dossier contenant PHP dans la variable d'environnement du systeme PATH."
