@@ -1,2 +1,0 @@
-"Nom de l'image","PID","Nom de la session","Num‚ro de session","Utilisation m‚moire","tat","Nom d'utilisateur","Temps processeur","Titre de la fenˆtre"
-"cmd.exe","10052","Console","2","3ÿ660 Ko","Running","LAPTOP-TINTIN\Valentino","0:00:00","XCLUSTER_CLIENT"

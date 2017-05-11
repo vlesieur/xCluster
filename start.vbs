@@ -22,12 +22,11 @@ Set oWSHell = Nothing
 Set oWShell = CreateObject("Wscript.Shell")
 oWShell.Run myPath & "\front\startPHP.bat" & arg
 cpt = 1
-'Attend jusqu'à une minute pour lancer le site web
+'Attend jusqu à une minute pour lancer le site web
 Do While ( GetProcessId("cmd.exe","XCLUSTER_FRONT*") < 1 OR GetProcessId("cmd.exe","XCLUSTER_CLIENT*") < 1 ) AND cpt < 60
 Wscript.Sleep 1000
 cpt = cpt + 1
 Loop
-WScript.Echo cpt
 Set oWSHell = Nothing
 Set oWShell = CreateObject("Wscript.Shell")
 oWshell.Run "http://localhost:8000/"
@@ -68,7 +67,7 @@ Function Shell(cmd)
 	Set openTextFile = fso.OpenTextFile(fileOutput)
 	If Not openTextFile.AtEndOfStream Then strOutput = openTextFile.ReadAll Else strOutput = "" End If
 	openTextFile.Close
-	'fso.DeleteFile fileOutput
+	fso.DeleteFile fileOutput
 
 	Shell = strOutput
     ' Shell = WScript.CreateObject("WScript.Shell").Exec(cmd).StdOut.ReadAll()
