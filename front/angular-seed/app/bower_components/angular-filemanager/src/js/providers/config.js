@@ -23,6 +23,7 @@
             coclustModUrl: 'http://127.0.0.1:3000/coclust/mod',
 	        coclustSpecModUrl: 'http://127.0.0.1:3000/coclust/spec',
 	        coclustInfoUrl: 'http://127.0.0.1:3000/coclust/info',
+	        coclustFormatUrl: 'http://127.0.0.1:3000/coclust/format',            
             basePath: '/',
 
             searchForm: true,
@@ -47,7 +48,8 @@
                 pickFolders: false,
 				coclustMod:true,
 				coclustSpecMod:true,
-				coclustInfo:true
+				coclustInfo:true,
+                coclustFormat: true
             },
 
             multipleDownloadFileName: 'xCluster_datas.zip',
@@ -66,6 +68,7 @@
             isImageFilePattern: /\.(jpe?g|gif|bmp|png|svg|tiff?)$/i,
             isCoclustFilePattern: /\.(mat|xls|csv|tsv|txt)$/i,
             isExtractableFilePattern: /\.(gz|tar|rar|g?zip)$/i,
+            isCoclustFormatPattern : /.*_coclustFormat\.(mat|xls|csv|tsv|txt)$/i,
             tplPath: 'src/templates'
         };
 

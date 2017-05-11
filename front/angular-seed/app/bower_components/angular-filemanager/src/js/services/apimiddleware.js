@@ -43,6 +43,10 @@
             return this.apiHandler.coclustInfo(fileManagerConfig.coclustInfoUrl, dataItem);
         };
 
+		ApiMiddleware.prototype.coclustFormat = function(dataItem) {
+            return this.apiHandler.coclustFormat(fileManagerConfig.coclustFormatUrl, dataItem);
+        };
+
         ApiMiddleware.prototype.move = function(files, path) {
             var items = this.getFileList(files);
             return this.apiHandler.move(fileManagerConfig.moveUrl, items, this.getPath(path));

@@ -298,6 +298,7 @@
 			$scope.modal('coclustMod', true);
 			$scope.modal('coclustSpecMod', true);
 			$scope.modal('coclustInfo', true);
+            $scope.modal('coclustFormat', true);
 		};
 		
 		$scope.coclustSpecMod = function() {
@@ -326,7 +327,21 @@
 					$scope.img = '../storage/users/' + result.img + '.png';
 					$scope.modal('coclustInfo', false);
 				}, function(reason){
-                    $scope.modal('coclustSpecMod', false);
+                    $scope.modal('coclustInfo', false);
+                    $window.location.reload();
+                });
+            }
+        };
+
+        $scope.coclustFormat = function() {
+			var item = $scope.singleSelection();		
+            if (item.isCoclustFormatCompatible()) {
+				$scope.apiMiddleware.coclustFormat($scope.temp).then(function(result) {
+					$scope.fileNavigator.refresh();
+					$scope.img = '../storage/users/' + result.img + '.png';
+					$scope.modal('coclustFormat', false);
+				}, function(reason){
+                    $scope.modal('coclustFormat', false);
                     $window.location.reload();
                 });
             }

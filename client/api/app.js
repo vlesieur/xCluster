@@ -108,6 +108,21 @@ var callCoclustInfo = function (client, req, res) {
         });
 };
 
+var callCoclustFormat = function (client, req, res) {
+    const start = new Date();
+    var response = "";
+    client.invoke("coclustFormat", req.body.path, req.body.name, req.body.n_terms,
+        function (error, result, more) {
+            response = callbackFunction(error, result, start);
+            if (response) {
+                res.json({ img: response });
+            }
+            else {
+                res.json({ row: 'Erreur dans le traitement de la demande...', column: error, img: 'Visualisation indisponible' });
+            }
+        });
+};
+
 var callCreateFolder = function (client, login, res) {
     const start = new Date();
     var response = "";
@@ -155,7 +170,20 @@ routes.post('/info', function (req, res) {
         console.log(req);
         var client = createClient();
         client = connectClient(client);
-        callCoclust(client, req, res, "coclustInfo");
+        callCoclustInfo(client, req, res);
+    } else {
+        res.status(403).send({ success: false, msg: 'Non autorisé !' });
+    }
+});
+
+routes.post('/format', function (req, res) {
+    var isAuthorized = checkAuthorize(req, res);
+    console.log("isAuthorized value : " + isAuthorized);
+    if (isAuthorized) {
+        console.log(req);
+        var client = createClient();
+        client = connectClient(client);
+        callCoclustFormat(client, req, res);
     } else {
         res.status(403).send({ success: false, msg: 'Non autorisé !' });
     }

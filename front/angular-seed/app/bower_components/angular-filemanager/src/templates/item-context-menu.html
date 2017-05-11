@@ -94,6 +94,12 @@
             </a>
         </li>
 
+        <li ng-show="config.allowedActions.coclustFormat && singleSelection().isCoclustFormatCompatible()">
+            <a href="" tabindex="-1" ng-click="modal('coclustFormat')">
+                <i class="glyphicon glyphicon-star"></i> {{'coclustFormat' | translate}}
+            </a>
+        </li>
+
         <li class="divider" ng-show="config.allowedActions.remove"></li>
         
         <li ng-show="config.allowedActions.remove">

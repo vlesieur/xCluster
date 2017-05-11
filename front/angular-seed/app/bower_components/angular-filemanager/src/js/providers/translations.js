@@ -103,7 +103,20 @@
             signout: 'Sign out',
             row: 'Row',
             column: 'Column',
-            file_saved_at: 'File saved at:'
+            file_saved_at: 'File saved at:',
+            n_clusters: 'Numbers of clusters (n_clusters): ',
+            init: 'Initial colum labels (init): ',
+            max_iter: 'Maximum iterations (max_iter): ',
+            n_init: 'Number of initializations (n_init): ',
+            random_state: 'Random state (random_state): ',
+            tol: 'Relative tolerance (tol): ',
+            dict: 'Matrix name (mat): ',
+            coclustInfo: 'coclustInfo',
+            coclustMod: 'coclustMod',
+            coclustSpecMod: 'coclustSpecMod',
+            coclustFormat: 'Top terms',
+            showResponse : 'Show',
+            n_terms: 'Number of terms (n_terms)'
         });
 
         $translateProvider.translations('he', {
@@ -502,7 +515,20 @@
             signout: 'Se déconnecter',
             row: 'Ligne',
             column: 'Colonne',
-            file_saved_at: 'Fichier enregistré dans:'
+            file_saved_at: 'Fichier enregistré dans:',
+            n_clusters: 'Nombre de clusters (n_clusters): ',
+            init: 'Label de colonne initiale (init): ',
+            max_iter: 'Maximum d\'iterations (max_iter): ',
+            n_init: 'Nombre d\'initialisations (n_init): ',
+            random_state: 'Etat aléatoire (random_state): ',
+            tol: 'Tolérance relative (tol): ',
+            dict: 'Nom de la matrice (mat): ',
+            coclustInfo: 'coclustInfo',
+            coclustMod: 'coclustMod',
+            coclustSpecMod: 'coclustSpecMod',
+            coclustFormat: 'Top termes',
+            showResponse : 'Afficher',
+            n_terms: 'Nombre de termes (n_terms)'
         });
 
         $translateProvider.translations('de', {

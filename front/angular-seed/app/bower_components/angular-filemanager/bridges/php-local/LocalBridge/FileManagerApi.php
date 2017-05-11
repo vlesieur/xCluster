@@ -188,6 +188,17 @@ class FileManagerApi
                     $response = $this->simpleErrorResponse($t->extraction_failed);
                 }
                 break;
+
+            case 'coclustFormat':
+                $callCoclust = $this->coclustInfoAction($request['destination'], $request['item'], $request['folderName']);
+                if ($callCoclust === true) {
+                    $response = $this->simpleSuccessResponse();
+                } elseif ($callCoclust === 'unsupported') {
+                    $response = $this->simpleErrorResponse($t->archive_opening_failed);
+                } else {
+                    $response = $this->simpleErrorResponse($t->extraction_failed);
+                }
+            break;
             
             default:
                 $response = $this->simpleErrorResponse($t->function_not_implemented);

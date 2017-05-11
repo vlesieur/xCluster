@@ -30,7 +30,8 @@ angular.module('myApp.view1', ['ngRoute', 'FileManagerApp'])
       permissionsUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
 	    coclustModUrl: 'http://127.0.0.1:3000/coclust/mod',
 	    coclustSpecModUrl: 'http://127.0.0.1:3000/coclust/spec',
-	    coclustInfoUrl: 'http://127.0.0.1:3000/coclust/info'
+	    coclustInfoUrl: 'http://127.0.0.1:3000/coclust/info',
+      coclustFormatUrl: 'http://127.0.0.1:3000/coclust/format'
     });
     var newDefaults = config.$get();
     console.log("new basePath : " + newDefaults.basePath);
