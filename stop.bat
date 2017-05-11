@@ -9,6 +9,7 @@ taskkill.exe /IM cmd.exe /FI "WINDOWTITLE eq XCLUSTER_DB "
 GOTO Next
 :Admin
 taskkill.exe /IM cmd.exe /FI "WINDOWTITLE eq Admin*"
+taskkill.exe /IM cmd.exe /FI "WINDOWTITLE eq npm"
 GOTO Next
 :Next
 taskkill.exe /IM cmd.exe /FI "WINDOWTITLE eq bower "
