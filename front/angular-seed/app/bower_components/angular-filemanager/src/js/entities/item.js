@@ -24,7 +24,8 @@
 				n_init: model && model.n_init || 1, 
 				random_state: model && model.random_state || null, 
 				tol: model && model.tol || 0.000000001,
-                dict: model && model.dict || 'fea'
+                dict: model && model.dict || 'fea',
+                n_terms : model && model.n_terms || 10
 				
             };
 
@@ -75,6 +76,10 @@
 		
 		Item.prototype.isCoclustCompatible = function() {
 			return fileManagerConfig.isCoclustFilePattern.test(this.model.name);
+		};
+
+        Item.prototype.isCoclustFormatCompatible = function() {
+			return fileManagerConfig.isCoclustFormatPattern.test(this.model.name);
 		};
 
         return Item;

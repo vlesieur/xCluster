@@ -170,6 +170,29 @@
             return deferred.promise;
         };
 
+		ApiHandler.prototype.coclustFormat = function(apiUrl, dataItem) {
+            var self = this;
+            var deferred = $q.defer();
+			var data = {
+				path: dataItem.tempModel.path.join('/'),
+				name: dataItem.tempModel.name,
+				n_terms: dataItem.tempModel.n_terms,
+			};
+            
+            self.inprocess = true;
+            self.error = '';
+			$http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
+            $http.post(apiUrl, data).success(function(data, code) {
+                self.deferredHandler(data, deferred, code);
+            }).error(function(data, code) {
+                self.deferredHandler(data, deferred, code, $translate.instant('error_coclustering'));
+            })['finally'](function() {
+                self.inprocess = false;
+            });
+			
+            return deferred.promise;
+        };
+
         ApiHandler.prototype.move = function(apiUrl, items, path) {
             var self = this;
             var deferred = $q.defer();
