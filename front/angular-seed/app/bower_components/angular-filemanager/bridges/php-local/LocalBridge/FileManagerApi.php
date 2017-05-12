@@ -272,6 +272,7 @@ class FileManagerApi
 
         $files = array_map(function($file){
             $date = new \DateTime('@' . filemtime($file));
+            $date->setTimezone(new \DateTimeZone('Europe/Paris'));
             return [
                 'name' => utf8_encode(basename($file)),
                 'rights' => $this->parsePerms(fileperms($file)),

@@ -78,14 +78,17 @@ class Api(object):
         X_reorg = X[row_indices, :]
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
-        file_name ='%s-%s' % (original_file_name.split(".",1)[0], int(time.time()))
+        file_name ='%s-mod-%s' % (original_file_name.split(".",1)[0], int(time.time()))
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()
-        modMatrix = np.asarray(X_reorg);
-        csv_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
-        # np.savetxt(csv_path, modMatrix, delimiter=";")
+        rowArray = np.asarray(predicted_row_labels);
+        columnArray = np.asarray(predicted_column_labels);
+        csv_path_row = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-rowLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+        csv_path_col = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-columnLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+        np.savetxt(csv_path_row, rowArray, delimiter=";")
+        np.savetxt(csv_path_col, columnArray, delimiter=";")
         new_file_path = '%s/%s' % (path, file_name)
         
         if n_terms > 0:
@@ -114,14 +117,17 @@ class Api(object):
         X_reorg = X[row_indices, :]
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
-        file_name ='%s-%s' % (original_file_name.split(".",1)[0], int(time.time()))
+        file_name ='%s-spec-%s' % (original_file_name.split(".",1)[0], int(time.time()))
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()
-        specMatrix = np.asarray(X_reorg);
-        csv_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
-        # np.savetxt(csv_path, specMatrix, delimiter=";")
+        rowArray = np.asarray(predicted_row_labels);
+        columnArray = np.asarray(predicted_column_labels);
+        csv_path_row = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-rowLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+        csv_path_col = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-columnLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+        np.savetxt(csv_path_row, rowArray, delimiter=";")
+        np.savetxt(csv_path_col, columnArray, delimiter=";")
         new_file_path = '%s/%s' % (path, file_name)
         
         if n_terms > 0:
@@ -151,14 +157,17 @@ class Api(object):
         X_reorg = X[row_indices, :]
         X_reorg = X_reorg[:, col_indices]
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
-        file_name ='%s-%s' % (original_file_name.split(".",1)[0], int(time.time()))
+        file_name ='%s-info-%s' % (original_file_name.split(".",1)[0], int(time.time()))
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
         plt.close()
-        infoMatrix = np.asarray(X_reorg);
-        csv_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
-        # np.savetxt(csv_path, infoMatrix, delimiter=";")
+        rowArray = np.asarray(predicted_row_labels);
+        columnArray = np.asarray(predicted_column_labels);
+        csv_path_row = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-rowLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+        csv_path_col = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-columnLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+        np.savetxt(csv_path_row, rowArray, delimiter=";")
+        np.savetxt(csv_path_col, columnArray, delimiter=";")
         new_file_path = '%s/%s' % (path, file_name)
 
         n_terms = n_terms

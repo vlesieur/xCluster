@@ -55,4 +55,16 @@
             return input.replace("../storage/users/", '').replace("png","csv");
         }
     }]);
+
+    app.filter('csvrowuserpath', ['$filter', 'fileManagerConfig', function($filter, fileManagerConfig) {
+        return function(input) {
+            return input.replace("../storage/users/", '').replace(".png","-rowLabels.csv");
+        }
+    }]);
+
+    app.filter('csvcolumnuserpath', ['$filter', 'fileManagerConfig', function($filter, fileManagerConfig) {
+        return function(input) {
+            return input.replace("../storage/users/", '').replace(".png","-columnLabels.csv");
+        }
+    }]);
 })(angular);

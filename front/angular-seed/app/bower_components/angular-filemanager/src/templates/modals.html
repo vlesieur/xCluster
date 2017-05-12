@@ -403,8 +403,9 @@
         </div>
         <div ng-if="row" class="modal-body">
           <p>{{"row" | translate}}:{{row}}</p>
+          <p>{{"file_saved_at" | translate}} "{{img | csvrowuserpath}}</p>
           <p>{{"column" | translate}}:{{column}}</p>
-          <p>{{"file_saved_at" | translate}} "{{img | csvuserpath}}</p>
+          <p>{{"file_saved_at" | translate}} "{{img | csvcolumnuserpath}}</p>          
           <figure>
             <img class='preview' src='{{img}}' alt='' />
             <figcaption>{{"file_saved_at" | translate}} "{{img | userpath}}"</figcaption>
@@ -506,10 +507,10 @@
           </div>
         </div>
         <div ng-if="row" class="modal-body">
-          <p>{{"row" | translate}}: {{row}}</p>
-          <p>{{"column" | translate}}: {{column}}</p>
-          <p>{{"file_saved_at" | translate}} "{{img | csvuserpath}}</p>
-
+          <p>{{"row" | translate}}:{{row}}</p>
+          <p>{{"file_saved_at" | translate}} "{{img | csvrowuserpath}}</p>
+          <p>{{"column" | translate}}:{{column}}</p>
+          <p>{{"file_saved_at" | translate}} "{{img | csvcolumnuserpath}}</p>
           <figure>
             <img class='preview' src='{{img}}' alt='' />
             <figcaption>{{"file_saved_at" | translate}} "{{img | userpath}}"</figcaption>
@@ -618,9 +619,10 @@
           </div>
         </div>
         <div ng-if="row" class="modal-body">
-          <p>{{"row" | translate}}: {{row}}</p>
-          <p>{{"column" | translate}}: {{column}}</p>
-          <p>{{"file_saved_at" | translate}} "{{img | csvuserpath}}</p>
+          <p>{{"row" | translate}}:{{row}}</p>
+          <p>{{"file_saved_at" | translate}} "{{img | csvrowuserpath}}</p>
+          <p>{{"column" | translate}}:{{column}}</p>
+          <p>{{"file_saved_at" | translate}} "{{img | csvcolumnuserpath}}</p>
           <figure>
             <img class='preview' src='{{img}}' alt='' />
             <figcaption>{{"file_saved_at" | translate}} "{{img | userpath}}"</figcaption>
