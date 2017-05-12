@@ -283,6 +283,11 @@
 					$scope.row = result.row;
 					$scope.column = result.column;
 					$scope.img = '../storage/users/' + result.img + '.png';
+					if (result.topTermImg) {
+						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.png';
+					} else {
+						$scope.topTermImg = result.topTermImg;
+					}
 					$scope.modal('coclustMod', false);
 				}, function(reason){
                     $scope.modal('coclustMod', false);
@@ -308,6 +313,11 @@
 					$scope.row = result.row;
 					$scope.column = result.column;
 					$scope.img = '../storage/users/' + result.img + '.png';
+					if (result.topTermImg) {
+						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.png';
+					} else {
+						$scope.topTermImg = result.topTermImg;
+					}
 					$scope.modal('coclustSpecMod', false);
 				}, function(reason){
                     $scope.modal('coclustSpecMod', false);
@@ -324,6 +334,11 @@
 					$scope.row = result.row;
 					$scope.column = result.column;
 					$scope.img = '../storage/users/' + result.img + '.png';
+					if (result.topTermImg) {
+						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.png';
+					} else {
+						$scope.topTermImg = result.topTermImg;
+					}
 					$scope.modal('coclustInfo', false);
 				}, function(reason){
                     $scope.modal('coclustInfo', false);

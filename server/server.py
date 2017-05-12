@@ -121,7 +121,7 @@ class Api(object):
         plt.close()
         specMatrix = np.asarray(X_reorg);
         csv_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
-        np.savetxt(csv_path, specMatrix, delimiter=";")
+        # np.savetxt(csv_path, specMatrix, delimiter=";")
         new_file_path = '%s/%s' % (path, file_name)
         
         if n_terms > 0:
@@ -158,7 +158,7 @@ class Api(object):
         plt.close()
         infoMatrix = np.asarray(X_reorg);
         csv_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
-        np.savetxt(csv_path, infoMatrix, delimiter=";")
+        # np.savetxt(csv_path, infoMatrix, delimiter=";")
         new_file_path = '%s/%s' % (path, file_name)
 
         n_terms = n_terms
@@ -205,7 +205,7 @@ class Api(object):
         x_label = "number of occurences"
         plt.subplots(figsize = (8, 8))
         plt.subplots_adjust(hspace = 0.200)
-        plt.suptitle("      Top %d terms" % n_terms, size = 15)
+        plt.suptitle("Top %d terms" % n_terms, size = 15)
         number_of_subplots = model.n_clusters
 
         for i, v in enumerate(range(number_of_subplots)): #Get the row / col indices corresponding to the given cluster

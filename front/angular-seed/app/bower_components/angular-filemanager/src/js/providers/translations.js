@@ -116,7 +116,10 @@
             coclustSpecMod: 'coclustSpecMod',
             coclustFormat: 'Top terms',
             showResponse : 'Show',
-            n_terms: 'Number of terms (n_terms)'
+            n_terms: 'Number of terms (n_terms)',
+			isTerms: 'Get top terms',
+			label_matrix: 'Label’s matrix name (label_matrix)',
+			launch_coclust: 'Confirm'
         });
 
         $translateProvider.translations('he', {
@@ -528,7 +531,10 @@
             coclustSpecMod: 'coclustSpecMod',
             coclustFormat: 'Top termes',
             showResponse : 'Afficher',
-            n_terms: 'Nombre de termes (n_terms)'
+            n_terms: 'Nombre de termes (n_terms)',
+			isTerms: 'Récupérer les top termes',
+			label_matrix: 'Nom de la matice de labels (label_matrix)',
+			launch_coclust: 'Confirmer'
         });
 
         $translateProvider.translations('de', {

@@ -9,3 +9,4 @@ front/angular-seed/app/bower_components/angular-filemanager/dist/**
 database/MongoDB/Server/3.4/bin/*.pdb
 database/MongoDB/Server/3.4/data/db/**
 out.txt
+front/startPHP.bat

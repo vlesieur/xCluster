@@ -86,7 +86,7 @@ var callCoclust = function (client, req, res, fn) {
         function (error, result, more) {
             response = callbackFunction(error, result, start);
             if(response) {
-                res.json({ row: response[0], column: response[1], img: response[2] });
+                res.json({ row: response[0], column: response[1], img: response[2], topTermImg: response[3] });
             } else {
                 res.json({ row: 'Erreur dans le traitement de la demande...', column: error, img: 'Visualisation indisponible' });
             }
@@ -100,7 +100,7 @@ var callCoclustInfo = function (client, req, res) {
         function (error, result, more) {
             response = callbackFunction(error, result, start);
             if (response) {
-                res.json({ row: response[0], column: response[1], img: response[2] });
+                res.json({ row: response[0], column: response[1], img: response[2], topTermImg: response[3] });
             }
             else {
                 res.json({ row: 'Erreur dans le traitement de la demande...', column: error, img: 'Visualisation indisponible' });

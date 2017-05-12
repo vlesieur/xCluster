@@ -25,7 +25,7 @@
 				random_state: model && model.random_state || null, 
 				tol: model && model.tol || 0.000000001,
                 dict: model && model.dict || 'doc_term_matrix',
-                n_terms : model && model.n_terms || 10,
+                n_terms : model && model.n_terms || 0,
                 label_matrix: model && model.label_matrix || 'term_labels'
 
 				

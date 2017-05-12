@@ -372,10 +372,31 @@
             </div>
             <div class="col-sm-3"></div>
           </div>
-          <div class="form-group">
-            <label for="tol" class="col-sm-3 control-label">{{'dict' | translate}}</label>
+		  <div class="form-group">
+            <label for="dict" class="col-sm-3 control-label">{{'dict' | translate}}</label>
             <div class="col-sm-6">
               <input type="text" id="dict" class="form-control" ng-model="temp.tempModel.dict" />
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+		  <div class="form-group">
+            <label for="isTerms" class="col-sm-3 control-label">{{'isTerms' | translate}}</label>
+            <div class="col-sm-6">
+              <input type="checkbox" id="isTerms" class="form-control" ng-model="isTerms" ng-change="isTerms ? '' : temp.tempModel.n_terms=0"/>
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+          <div ng-if="isTerms" class="form-group">
+            <label for="n_terms" class="col-sm-3 control-label">{{'n_terms' | translate}}</label>
+            <div class="col-sm-6">
+              <input type="number" id="n_terms" class="form-control" ng-model="temp.tempModel.n_terms" />
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+		  <div ng-if="isTerms" class="form-group">
+            <label for="label_matrix" class="col-sm-3 control-label">{{'label_matrix' | translate}}</label>
+            <div class="col-sm-6">
+              <input type="text" id="label_matrix" class="form-control" ng-model="temp.tempModel.label_matrix" />
             </div>
             <div class="col-sm-3"></div>
           </div>
@@ -388,15 +409,15 @@
             <img class='preview' src='{{img}}' alt='' />
             <figcaption>{{"file_saved_at" | translate}} "{{img | userpath}}"</figcaption>
           </figure>
-          <figure>
-            <img class='preview' src='{{img | toptermsfilepath }}' alt='' />
-            <figcaption>{{"file_saved_at" | translate}} "{{img | toptermsuserpath}}"</figcaption>
+          <figure ng-if="topTermImg">
+            <img class='preview' src='{{topTermImg}}' alt='' />
+            <figcaption>{{"file_saved_at" | translate}} "{{topTermImg | userpath}}"</figcaption>
           </figure>
         </div>
         <div class="modal-footer">
           <button ng-if="!row" type="button" class="btn btn-default" data-dismiss="modal">{{"cancel" | translate}}</button>
           <button ng-if="row" ng-click="resetCoclustModal()" type="button" class="btn btn-default" data-dismiss="modal">{{"close" | translate}}</button>
-          <button ng-if="!row" type="submit" class="btn btn-primary" ng-disabled="apiMiddleware.apiHandler.inprocess">{{'Get a coclust matrix' | translate}}</button>
+          <button ng-if="!row" type="submit" class="btn btn-primary" ng-disabled="apiMiddleware.apiHandler.inprocess">{{'launch_coclust' | translate}}</button>
           <div class="loading" ng-if="apiMiddleware.apiHandler.inprocess"></div>
         </div>
       </form>
@@ -462,6 +483,27 @@
             </div>
             <div class="col-sm-3"></div>
           </div>
+		  <div class="form-group">
+            <label for="isTerms" class="col-sm-3 control-label">{{'isTerms' | translate}}</label>
+            <div class="col-sm-6">
+              <input type="checkbox" id="isTerms" class="form-control" ng-model="isTerms" ng-change="isTerms ? '' : temp.tempModel.n_terms=0"/>
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+          <div ng-if="isTerms" class="form-group">
+            <label for="n_terms" class="col-sm-3 control-label">{{'n_terms' | translate}}</label>
+            <div class="col-sm-6">
+              <input type="number" id="n_terms" class="form-control" ng-model="temp.tempModel.n_terms" />
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+		  <div ng-if="isTerms" class="form-group">
+            <label for="label_matrix" class="col-sm-3 control-label">{{'label_matrix' | translate}}</label>
+            <div class="col-sm-6">
+              <input type="text" id="label_matrix" class="form-control" ng-model="temp.tempModel.label_matrix" />
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
         </div>
         <div ng-if="row" class="modal-body">
           <p>{{"row" | translate}}: {{row}}</p>
@@ -472,11 +514,15 @@
             <img class='preview' src='{{img}}' alt='' />
             <figcaption>{{"file_saved_at" | translate}} "{{img | userpath}}"</figcaption>
           </figure>
+		  <figure ng-if="topTermImg">
+            <img class='preview' src='{{topTermImg}}' alt='' />
+            <figcaption>{{"file_saved_at" | translate}} "{{topTermImg | userpath}}"</figcaption>
+          </figure>
         </div>
         <div class="modal-footer">
           <button ng-if="!row" type="button" class="btn btn-default" data-dismiss="modal">{{"cancel" | translate}}</button>
           <button ng-if="row" ng-click="resetCoclustModal()" type="button" class="btn btn-default" data-dismiss="modal">{{"close" | translate}}</button>
-          <button ng-if="!row" type="submit" class="btn btn-primary" ng-disabled="apiMiddleware.apiHandler.inprocess">{{'Get a coclust matrix' | translate}}</button>
+          <button ng-if="!row" type="submit" class="btn btn-primary" ng-disabled="apiMiddleware.apiHandler.inprocess">{{'launch_coclust' | translate}}</button>
           <div class="loading" ng-if="apiMiddleware.apiHandler.inprocess"></div>
         </div>
       </form>
@@ -549,6 +595,27 @@
             </div>
             <div class="col-sm-3"></div>
           </div>
+		  <div class="form-group">
+            <label for="isTerms" class="col-sm-3 control-label">{{'isTerms' | translate}}</label>
+            <div class="col-sm-6">
+              <input type="checkbox" id="isTerms" class="form-control" ng-model="isTerms" ng-change="isTerms ? '' : temp.tempModel.n_terms=0"/>
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+          <div ng-if="isTerms" class="form-group">
+            <label for="n_terms" class="col-sm-3 control-label">{{'n_terms' | translate}}</label>
+            <div class="col-sm-6">
+              <input type="number" id="n_terms" class="form-control" ng-model="temp.tempModel.n_terms" />
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+		  <div ng-if="isTerms" class="form-group">
+            <label for="label_matrix" class="col-sm-3 control-label">{{'label_matrix' | translate}}</label>
+            <div class="col-sm-6">
+              <input type="text" id="label_matrix" class="form-control" ng-model="temp.tempModel.label_matrix" />
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
         </div>
         <div ng-if="row" class="modal-body">
           <p>{{"row" | translate}}: {{row}}</p>
@@ -558,11 +625,15 @@
             <img class='preview' src='{{img}}' alt='' />
             <figcaption>{{"file_saved_at" | translate}} "{{img | userpath}}"</figcaption>
           </figure>
+		  <figure ng-if="topTermImg">
+            <img class='preview' src='{{topTermImg}}' alt='' />
+            <figcaption>{{"file_saved_at" | translate}} "{{topTermImg | userpath}}"</figcaption>
+          </figure>
         </div>
         <div class="modal-footer">
           <button ng-if="!row" type="button" class="btn btn-default" data-dismiss="modal">{{"cancel" | translate}}</button>
           <button ng-if="row" ng-click="resetCoclustModal()" type="button" class="btn btn-default" data-dismiss="modal">{{"close" | translate}}</button>
-          <button ng-if="!row" type="submit" class="btn btn-primary" ng-disabled="apiMiddleware.apiHandler.inprocess">{{'Get a coclust matrix' | translate}}</button>
+          <button ng-if="!row" type="submit" class="btn btn-primary" ng-disabled="apiMiddleware.apiHandler.inprocess">{{'launch_coclust' | translate}}</button>
           <div class="loading" ng-if="apiMiddleware.apiHandler.inprocess"></div>
         </div>
       </form>
