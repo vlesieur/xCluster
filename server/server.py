@@ -58,7 +58,7 @@ class Api(object):
 #############################################################################
 
     def coclustMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0):
-        print('coclustMod appel le : %s/%s' % (path, original_file_name))
+        print('coclustMod appel le : %s' % getDateTimeNowString())
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
         X = matlab_dict[dictionnaire]
@@ -92,13 +92,13 @@ class Api(object):
         new_file_path = '%s/%s' % (path, file_name)
         
         if n_terms > 0:
-            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix);
+            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod');
             return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]
 
         return [predicted_row_labels, predicted_column_labels, new_file_path, None]
 
     def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0 ):
-        print('coclustSpecMod appel le : %s/%s' % (path, original_file_name))
+        print('coclustSpecMod appel le : %s' % getDateTimeNowString())
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
         X = matlab_dict[dictionnaire]
@@ -131,13 +131,13 @@ class Api(object):
         new_file_path = '%s/%s' % (path, file_name)
         
         if n_terms > 0:
-            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix);
+            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'spec');
             return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]        
 
         return [predicted_row_labels, predicted_column_labels, new_file_path, None]
 		
     def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None, dictionnaire='doc_term_matrix', label_matrix="term_labels", n_terms=0):
-        print('coclustInfo appel le : %s/%s' % (path, original_file_name))
+        print('coclustInfo appel le : %s' % getDateTimeNowString())
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
         X = matlab_dict[dictionnaire]
@@ -173,7 +173,7 @@ class Api(object):
         n_terms = n_terms
 
         if n_terms > 0:
-            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix);
+            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'info');
             return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]
 
         return [predicted_row_labels, predicted_column_labels, new_file_path, None]
@@ -185,7 +185,7 @@ class Api(object):
         success = os.path.exists(directory) and os.path.isdir(directory)
         return success
 
-    def coclustFormat(self, path, original_file_name,  model, n_terms, matrix, label_matrix):
+    def coclustFormat(self, path, original_file_name,  model, n_terms, matrix, label_matrix, method):
         print('generation des tops terms appel le : %s/%s' % (path, original_file_name))
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         
@@ -244,7 +244,7 @@ class Api(object):
         plt.tight_layout()
         plt.subplots_adjust(top = 0.88)
 
-        file_name ='%s-%s-%s' % (original_file_name.split(".",1)[0],'topTerms', int(time.time()))
+        file_name ='%s-%s-%s-%s' % (original_file_name.split(".",1)[0], method, 'topTerms', int(time.time()))
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)

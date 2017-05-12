@@ -271,7 +271,7 @@ class FileManagerApi
         $files = glob($this->basePath . rtrim($path, '/') . '/*');
 
         $files = array_map(function($file){
-            $date = new \DateTime('@' . filemtime($file));
+            $date = new \DateTime('@' . (filemtime($file) + 7200));
             $date->setTimezone(new \DateTimeZone('Europe/Paris'));
             return [
                 'name' => utf8_encode(basename($file)),
