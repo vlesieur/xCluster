@@ -212,7 +212,8 @@ class Api(object):
             "'load_doc_term_data' if term labels are available.")
 
         x_label = "number of occurences"
-        plt.subplots(figsize = (8, 8))
+        size = (model.n_clusters + n_terms) * 0.7
+        plt.subplots(figsize = (size, size))
         plt.subplots_adjust(hspace = 0.200)
         plt.suptitle("Top %d terms" % n_terms, size = 15)
         number_of_subplots = model.n_clusters
@@ -245,9 +246,9 @@ class Api(object):
         plt.subplots_adjust(top = 0.88)
 
         file_name ='%s-%s-%s-%s' % (original_file_name.split(".",1)[0], method, 'topTerms', int(time.time()))
-        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
+        file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.svg' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
-        plt.savefig(file_path)
+        plt.savefig(file_path, format = 'svg')
         plt.close()
 
         new_file_path = '%s/%s' % (path, file_name)

@@ -284,7 +284,7 @@
 					$scope.column = result.column;
 					$scope.img = '../storage/users/' + result.img + '.png';
 					if (result.topTermImg) {
-						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.png';
+						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';
 					} else {
 						$scope.topTermImg = result.topTermImg;
 					}
@@ -314,7 +314,7 @@
 					$scope.column = result.column;
 					$scope.img = '../storage/users/' + result.img + '.png';
 					if (result.topTermImg) {
-						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.png';
+						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';
 					} else {
 						$scope.topTermImg = result.topTermImg;
 					}
@@ -335,7 +335,7 @@
 					$scope.column = result.column;
 					$scope.img = '../storage/users/' + result.img + '.png';
 					if (result.topTermImg) {
-						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.png';
+						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';
 					} else {
 						$scope.topTermImg = result.topTermImg;
 					}

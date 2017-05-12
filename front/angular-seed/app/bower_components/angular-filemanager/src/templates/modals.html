@@ -402,9 +402,11 @@
           </div>
         </div>
         <div ng-if="row" class="modal-body">
-          <p>{{"row" | translate}}:{{row}}</p>
+          <p>{{"row" | translate}}: <button class="btn btn-primary btn-sm" type="button" ng-click="toggleRow ? toggleRow = false : toggleRow = true"><i ng-class="toggleRow ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i></button></p>
+		  <p ng-if="toggleRow">{{row}}</p>
           <p>{{"file_saved_at" | translate}} "{{img | csvrowuserpath}}</p>
-          <p>{{"column" | translate}}:{{column}}</p>
+          <p>{{"column" | translate}}: <button class="btn btn-primary btn-sm" type="button" ng-click="toggleColumn ? toggleColumn = false : toggleColumn = true"><i ng-class="toggleColumn ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i></button></p>
+		  <p ng-if="toggleColumn">{{column}}</p>
           <p>{{"file_saved_at" | translate}} "{{img | csvcolumnuserpath}}</p>          
           <figure>
             <img class='preview' src='{{img}}' alt='' />
@@ -507,10 +509,12 @@
           </div>
         </div>
         <div ng-if="row" class="modal-body">
-          <p>{{"row" | translate}}:{{row}}</p>
+          <p>{{"row" | translate}}: <button class="btn btn-primary btn-sm" type="button" ng-click="toggleRow ? toggleRow = false : toggleRow = true"><i ng-class="toggleRow ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i></button></p>
+		  <p ng-if="toggleRow">{{row}}</p>
           <p>{{"file_saved_at" | translate}} "{{img | csvrowuserpath}}</p>
-          <p>{{"column" | translate}}:{{column}}</p>
-          <p>{{"file_saved_at" | translate}} "{{img | csvcolumnuserpath}}</p>
+          <p>{{"column" | translate}}: <button class="btn btn-primary btn-sm" type="button" ng-click="toggleColumn ? toggleColumn = false : toggleColumn = true"><i ng-class="toggleColumn ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i></button></p>
+		  <p ng-if="toggleColumn">{{column}}</p>
+          <p>{{"file_saved_at" | translate}} "{{img | csvcolumnuserpath}}</p>  
           <figure>
             <img class='preview' src='{{img}}' alt='' />
             <figcaption>{{"file_saved_at" | translate}} "{{img | userpath}}"</figcaption>
@@ -619,10 +623,12 @@
           </div>
         </div>
         <div ng-if="row" class="modal-body">
-          <p>{{"row" | translate}}:{{row}}</p>
+          <p>{{"row" | translate}}: <button class="btn btn-primary btn-sm" type="button" ng-click="toggleRow ? toggleRow = false : toggleRow = true"><i ng-class="toggleRow ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i></button></p>
+		  <p ng-if="toggleRow">{{row}}</p>
           <p>{{"file_saved_at" | translate}} "{{img | csvrowuserpath}}</p>
-          <p>{{"column" | translate}}:{{column}}</p>
-          <p>{{"file_saved_at" | translate}} "{{img | csvcolumnuserpath}}</p>
+          <p>{{"column" | translate}}: <button class="btn btn-primary btn-sm" type="button" ng-click="toggleColumn ? toggleColumn = false : toggleColumn = true"><i ng-class="toggleColumn ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i></button></p>
+		  <p ng-if="toggleColumn">{{column}}</p>
+          <p>{{"file_saved_at" | translate}} "{{img | csvcolumnuserpath}}</p>  
           <figure>
             <img class='preview' src='{{img}}' alt='' />
             <figcaption>{{"file_saved_at" | translate}} "{{img | userpath}}"</figcaption>
