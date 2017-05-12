@@ -57,7 +57,7 @@ class Api(object):
 # tol (float, default: 1e-9) – Relative tolerance with regards to modularity to declare convergence
 #############################################################################
 
-    def coclustMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix', n_terms=0):
+    def coclustMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0):
         print('coclustMod appel le : %s/%s' % (path, original_file_name))
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
@@ -88,15 +88,13 @@ class Api(object):
         # np.savetxt(csv_path, modMatrix, delimiter=";")
         new_file_path = '%s/%s' % (path, file_name)
         
-        n_terms = n_terms
-
         if n_terms > 0:
-            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms);
+            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix);
             return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]
 
         return [predicted_row_labels, predicted_column_labels, new_file_path, None]
 
-    def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix', n_terms=0 ):
+    def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0 ):
         print('coclustSpecMod appel le : %s/%s' % (path, original_file_name))
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
@@ -125,16 +123,14 @@ class Api(object):
         csv_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
         np.savetxt(csv_path, specMatrix, delimiter=";")
         new_file_path = '%s/%s' % (path, file_name)
-
-        n_terms = n_terms
         
         if n_terms > 0:
-            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms);
+            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix);
             return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]        
 
         return [predicted_row_labels, predicted_column_labels, new_file_path, None]
 		
-    def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None, dictionnaire='doc_term_matrix'):
+    def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None, dictionnaire='doc_term_matrix', label_matrix="term_labels", n_terms=0):
         print('coclustInfo appel le : %s/%s' % (path, original_file_name))
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
@@ -168,7 +164,7 @@ class Api(object):
         n_terms = n_terms
 
         if n_terms > 0:
-            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms);
+            top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix);
             return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]
 
         return [predicted_row_labels, predicted_column_labels, new_file_path, None]
@@ -180,7 +176,7 @@ class Api(object):
         success = os.path.exists(directory) and os.path.isdir(directory)
         return success
 
-    def coclustFormat(self, path, original_file_name,  model, n_terms):
+    def coclustFormat(self, path, original_file_name,  model, n_terms, matrix, label_matrix):
         print('generation des tops terms appel le : %s/%s' % (path, original_file_name))
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         
@@ -188,8 +184,8 @@ class Api(object):
 
         # read data
         doc_term_data = load_doc_term_data(original_file_path)
-        X = doc_term_data['doc_term_matrix']
-        labels = doc_term_data['term_labels']
+        X = doc_term_data[matrix]
+        labels = doc_term_data[label_matrix]
         logger.info(labels)
 
         # get the best co-clustering over a range of cluster numbers

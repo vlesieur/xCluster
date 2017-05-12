@@ -82,7 +82,7 @@ var connectClient = function (client) {
 var callCoclust = function (client, req, res, fn) {
     const start = new Date();
     var response = "";
-    client.invoke(fn, req.body.path, req.body.name, req.body.n_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.random_state, req.body.tol, req.body.dict,
+    client.invoke(fn, req.body.path, req.body.name, req.body.n_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.random_state, req.body.tol, req.body.dict, req.body.label_matrix, req.body.n_terms,
         function (error, result, more) {
             response = callbackFunction(error, result, start);
             if(response) {
@@ -96,26 +96,11 @@ var callCoclust = function (client, req, res, fn) {
 var callCoclustInfo = function (client, req, res) {
     const start = new Date();
     var response = "";
-    client.invoke("coclustInfo", req.body.path, req.body.name, req.body.n_row_clusters, req.body.n_col_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.tol, req.body.random_state, req.body.dict,
+    client.invoke("coclustInfo", req.body.path, req.body.name, req.body.n_row_clusters, req.body.n_col_clusters, req.body.init, req.body.max_iter, req.body.n_init, req.body.tol, req.body.random_state, req.body.dict, req.body.label_matrix, req.body.n_terms,
         function (error, result, more) {
             response = callbackFunction(error, result, start);
             if (response) {
                 res.json({ row: response[0], column: response[1], img: response[2] });
-            }
-            else {
-                res.json({ row: 'Erreur dans le traitement de la demande...', column: error, img: 'Visualisation indisponible' });
-            }
-        });
-};
-
-var callCoclustFormat = function (client, req, res) {
-    const start = new Date();
-    var response = "";
-    client.invoke("coclustFormat", req.body.path, req.body.name, req.body.n_terms,
-        function (error, result, more) {
-            response = callbackFunction(error, result, start);
-            if (response) {
-                res.json({ img: response });
             }
             else {
                 res.json({ row: 'Erreur dans le traitement de la demande...', column: error, img: 'Visualisation indisponible' });
@@ -171,19 +156,6 @@ routes.post('/info', function (req, res) {
         var client = createClient();
         client = connectClient(client);
         callCoclustInfo(client, req, res);
-    } else {
-        res.status(403).send({ success: false, msg: 'Non autorisé !' });
-    }
-});
-
-routes.post('/format', function (req, res) {
-    var isAuthorized = checkAuthorize(req, res);
-    console.log("isAuthorized value : " + isAuthorized);
-    if (isAuthorized) {
-        console.log(req);
-        var client = createClient();
-        client = connectClient(client);
-        callCoclustFormat(client, req, res);
     } else {
         res.status(403).send({ success: false, msg: 'Non autorisé !' });
     }

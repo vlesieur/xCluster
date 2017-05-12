@@ -24,8 +24,10 @@
 				n_init: model && model.n_init || 1, 
 				random_state: model && model.random_state || null, 
 				tol: model && model.tol || 0.000000001,
-                dict: model && model.dict || 'fea',
-                n_terms : model && model.n_terms || 10
+                dict: model && model.dict || 'doc_term_matrix',
+                n_terms : model && model.n_terms || 10,
+                label_matrix: model && model.label_matrix || 'term_labels'
+
 				
             };
 

@@ -95,7 +95,9 @@
 				n_init: dataItem.tempModel.n_init,
 				random_state: dataItem.tempModel.random_state,
 				tol: dataItem.tempModel.tol,
-                dict: dataItem.tempModel.dict
+                dict: dataItem.tempModel.dict,
+                n_terms: dataItem.tempModel.n_terms,
+                label_matrix: dataItem.tempModel.label_matrix
 			};
             
             self.inprocess = true;
@@ -123,7 +125,9 @@
 				n_init: dataItem.tempModel.n_init,
 				random_state: dataItem.tempModel.random_state,
 				tol: dataItem.tempModel.tol,
-                dict: dataItem.tempModel.dict
+                dict: dataItem.tempModel.dict,
+                n_terms: dataItem.tempModel.n_terms,
+                label_matrix: dataItem.tempModel.label_matrix
 			};
             
             self.inprocess = true;
@@ -153,30 +157,9 @@
 				n_init: dataItem.tempModel.n_init,
 				random_state: dataItem.tempModel.random_state,
 				tol: dataItem.tempModel.tol,
-                dict: dataItem.tempModel.dict
-			};
-            
-            self.inprocess = true;
-            self.error = '';
-			$http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
-            $http.post(apiUrl, data).success(function(data, code) {
-                self.deferredHandler(data, deferred, code);
-            }).error(function(data, code) {
-                self.deferredHandler(data, deferred, code, $translate.instant('error_coclustering'));
-            })['finally'](function() {
-                self.inprocess = false;
-            });
-			
-            return deferred.promise;
-        };
-
-		ApiHandler.prototype.coclustFormat = function(apiUrl, dataItem) {
-            var self = this;
-            var deferred = $q.defer();
-			var data = {
-				path: dataItem.tempModel.path.join('/'),
-				name: dataItem.tempModel.name,
-				n_terms: dataItem.tempModel.n_terms,
+                dict: dataItem.tempModel.dict,
+                n_terms: dataItem.tempModel.n_terms,
+                label_matrix: dataItem.tempModel.label_matrix
 			};
             
             self.inprocess = true;

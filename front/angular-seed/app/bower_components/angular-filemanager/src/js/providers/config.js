@@ -23,7 +23,6 @@
             coclustModUrl: 'http://127.0.0.1:3000/coclust/mod',
 	        coclustSpecModUrl: 'http://127.0.0.1:3000/coclust/spec',
 	        coclustInfoUrl: 'http://127.0.0.1:3000/coclust/info',
-	        coclustFormatUrl: 'http://127.0.0.1:3000/coclust/format',            
             basePath: '/',
 
             searchForm: true,
@@ -49,7 +48,6 @@
 				coclustMod:true,
 				coclustSpecMod:true,
 				coclustInfo:true,
-                coclustFormat: true
             },
 
             multipleDownloadFileName: 'xCluster_datas.zip',

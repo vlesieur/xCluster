@@ -570,47 +570,6 @@
   </div>
 </div>
 
-<div class="modal animated fadeIn" id="coclustFormat" data-backdrop="static">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form ng-submit="coclustFormat()">
-        <div class="modal-header">
-          <button ng-if="!img" type="button" class="close" data-dismiss="modal">
-					<span aria-hidden="true">&times;</span>
-					<span class="sr-only">{{"close" | translate}}</span>
-				</button>
-          <button ng-if="img" ng-click="resetCoclustModal()" type="button" class="close" data-dismiss="modal">
-					<span aria-hidden="true">&times;</span>
-					<span class="sr-only">{{"close" | translate}}</span>
-				</button>
-          <h4 class="modal-title">Co-Clustering</h4>
-        </div>
-        <div ng-if="!img" class="modal-body form-horizontal">
-          <div class="form-group">
-            <label for="n_terms" class="col-sm-3 control-label">{{'n_terms' | translate}}</label>
-            <div class="col-sm-6">
-              <input type="number" id="n_terms" class="form-control" ng-model="temp.tempModel.n_terms" />
-            </div>
-            <div class="col-sm-3"></div>
-          </div>
-        </div>
-        <div ng-if="img" class="modal-body">
-          <figure>
-            <img class='preview' src='{{img}}' alt='' />
-            <figcaption>{{"file_saved_at" | translate}} "{{img | userpath}}"</figcaption>
-          </figure>
-        </div>
-        <div class="modal-footer">
-          <button ng-if="!img" type="button" class="btn btn-default" data-dismiss="modal">{{"cancel" | translate}}</button>
-          <button ng-if="img" ng-click="resetCoclustModal()" type="button" class="btn btn-default" data-dismiss="modal">{{"close" | translate}}</button>
-          <button ng-if="!img" type="submit" class="btn btn-primary" ng-disabled="apiMiddleware.apiHandler.inprocess">{{'showResponse' | translate}}</button>
-          <div class="loading" ng-if="apiMiddleware.apiHandler.inprocess"></div>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
 <div class="modal animated fadeIn" id="changepermissions">
   <div class="modal-dialog">
     <div class="modal-content">
