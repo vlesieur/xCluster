@@ -79,6 +79,9 @@ class Api(object):
         col_indices = np.argsort(model.column_labels_)
         X_reorg = X[row_indices, :]
         X_reorg = X_reorg[:, col_indices]
+        size = model.n_clusters  * 2.7
+        plt.subplots(figsize = (size, size))
+        plt.subplots_adjust(hspace = 0.200)
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
         file_name ='%s-mod-%s' % (original_file_name.split(".",1)[0], int(time.time()))
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
@@ -121,6 +124,9 @@ class Api(object):
         col_indices = np.argsort(model.column_labels_)
         X_reorg = X[row_indices, :]
         X_reorg = X_reorg[:, col_indices]
+        size = model.n_clusters  * 2.7
+        plt.subplots(figsize = (size, size))
+        plt.subplots_adjust(hspace = 0.200)
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
         file_name ='%s-spec-%s' % (original_file_name.split(".",1)[0], int(time.time()))
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
@@ -164,6 +170,9 @@ class Api(object):
         col_indices = np.argsort(model.column_labels_)
         X_reorg = X[row_indices, :]
         X_reorg = X_reorg[:, col_indices]
+        size = model.n_clusters  * 2.7
+        plt.subplots(figsize = (size, size))
+        plt.subplots_adjust(hspace = 0.200)
         plt.spy(X_reorg, precision=0.8, markersize=0.9)
         file_name ='%s-info-%s' % (original_file_name.split(".",1)[0], int(time.time()))
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
