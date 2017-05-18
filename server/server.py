@@ -58,6 +58,8 @@ class Api(object):
 #############################################################################
 
     def coclustMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0):
+        plt.cla()
+        plt.clf()
         print('coclustMod appel le : %s' % getDateTimeNowString())
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
@@ -82,7 +84,8 @@ class Api(object):
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
-        plt.close()
+        plt.cla()
+        plt.clf()
         rowArray = np.asarray(predicted_row_labels);
         columnArray = np.asarray(predicted_column_labels);
         csv_path_row = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-rowLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
@@ -98,6 +101,8 @@ class Api(object):
         return [predicted_row_labels, predicted_column_labels, new_file_path, None]
 
     def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0 ):
+        plt.cla()
+        plt.clf()
         print('coclustSpecMod appel le : %s' % getDateTimeNowString())
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
@@ -121,7 +126,8 @@ class Api(object):
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
-        plt.close()
+        plt.cla()
+        plt.clf()
         rowArray = np.asarray(predicted_row_labels);
         columnArray = np.asarray(predicted_column_labels);
         csv_path_row = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-rowLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
@@ -137,6 +143,8 @@ class Api(object):
         return [predicted_row_labels, predicted_column_labels, new_file_path, None]
 		
     def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None, dictionnaire='doc_term_matrix', label_matrix="term_labels", n_terms=0):
+        plt.cla()
+        plt.clf()
         print('coclustInfo appel le : %s' % getDateTimeNowString())
         original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
         matlab_dict = loadmat(original_file_path)
@@ -161,7 +169,8 @@ class Api(object):
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path)
-        plt.close()
+        plt.cla()
+        plt.clf()
         rowArray = np.asarray(predicted_row_labels);
         columnArray = np.asarray(predicted_column_labels);
         csv_path_row = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-rowLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
@@ -249,7 +258,8 @@ class Api(object):
         file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.svg' % (os.getcwd(), path.replace("/", "\\"), file_name)
         plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
         plt.savefig(file_path, format = 'svg')
-        plt.close()
+        plt.cla()
+        plt.clf()
 
         new_file_path = '%s/%s' % (path, file_name)
 
