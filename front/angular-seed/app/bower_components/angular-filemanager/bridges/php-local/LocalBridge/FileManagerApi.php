@@ -239,9 +239,16 @@ class FileManagerApi
         if (! file_exists($path)) {
             return false;
         }
+
+        $file_parts = pathinfo($path);
+
+        if($file_parts['extension'] == "svg")
+        {
+            header('Content-type: image/svg+xml');
+        }
         
         header("Content-Disposition: attachment; filename=\"$file_name\"");
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');        
         header('Pragma: public');
         header('Content-Length: ' . filesize($path));
         readfile($path);
