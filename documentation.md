@@ -68,41 +68,74 @@ Nous allons maintenant installer les modules node.js requis au déploiement de l
 
 Installation de xCluster
 ===================
+> **Prérequis:**
+
+> - Installation de l'environnement serveur
+> - Récupération du projet sur Git (git pull)
+>
+
+Le lancement et l'arrêt de xCluster se fait par le biais de fichier automatisant ces processus :
+
+**start.vbs** : Permet de lancer tous les serveurs au bon fonctionnement de l'application, au premier démarrage, il sera demandé de fournir le chemin vers le binaire php.exe.
+A la fin du processus, l'application se lance sur le navigateur.
+
+
+**stop.bat** : Permet d'arrêter tous les serveurs.
 
 ----------
 
 
 Utilisation de xCluster
 ===================
-<i class="icon-file"></i> Téléversement d'un fichier
+
+<i class="icon-male"></i> Création d'un compte, connexion et deconnexion
 -------------
 
+Dans la page d'accueil de xCluster, une boîte de connexion au centre de la page permet de se connecter à l'application par la saisie de son identifiant (login) et de son mot de passe, le succès de la validation des informations saisies redirige l'utilisateur vers son workspace.
 
-The document panel is accessible using the <i class="icon-folder-open"></i> button in the navigation bar. You can create a new document by clicking <i class="icon-file"></i> **New document** in the document panel.
+Dans la boite de connexion, un bouton en bas à droite, un lien "Créer un compte" permet d'afficher la boîte d'inscription. La validation des informations saisies connecte directement l'utilisateur vers son workspace.
+
+Sur le workspace, un bouton de deconnexion <i class="icon-off"></i>, en haut à droite de l'écran, permet de se déconnecter.
 
 <i class="icon-folder-open"></i> Création d'un dossier dans le workspace
 -------------
 
-All your local documents are listed in the document panel. You can switch from one to another by clicking a document in the list or you can toggle documents using <kbd>Ctrl+[</kbd> and <kbd>Ctrl+]</kbd>.
+Il existe plusieurs méthodes pour créer un dossier dans le workspace :
+
+ - A l'aide de la barre de navigation
+ - A l'aide de l'icône dans le dossier courant
+ - A l'aide du menu contextuel
+
+<i class="icon-file"></i> Téléversement d'un fichier
+-------------
+
+Il existe plusieurs méthodes pour créer un fichier dans un dossier :
+
+ - A l'aide de la barre de navigation
+ - A l'aide de l'icône dans le dossier courant
+ - A l'aide du menu contextuel
+ - Par le biais d'un drag & drop dans la zone d'affichage des fichiers
+
 
 <i class="icon-pencil"></i> Modification d'un fichier ou dossier
 -------------
 
-You can rename the current document by clicking the document title in the navigation bar.
+Pour chaque dossier / fichier, un clique droit permet d'ouvrir un menu contextuel et permet de renommer, modifier un fichier.
 
 <i class="icon-trash"></i> Suppression d'un fichier ou dossier
 -------------
 
-
-You can delete the current document by clicking <i class="icon-trash"></i> **Delete document** in the document panel.
+Pour chaque dossier / fichier, un clique droit permet d'ouvrir un menu contextuel et permet de supprimer un fichier.
 
 <i class="icon-hdd"></i> Export des résultats
 -------------
 
-You can save the current document to a file by clicking <i class="icon-hdd"></i> **Export to disk** from the <i class="icon-provider-stackedit"></i> menu panel.
+Lors du traitement des fichiers, les données générées (graphiques, excel) sont automatiquement exportées dans des fichiers dans le dossier courant.
+Ces fichiers respecte la politique de nommage suivante :
+	**nom_du_fichier**-info-nombre-typeDeDonnées.FormatFichier
 
-> **Tip:** Check out the [<i class="icon-upload"></i> Publish a document](#publish-a-document) section for a description of the different output formats.
-
+Chaque fichier peut ensuite être télécharger à l'aide de l'option dans le menu contextuel.
+	
 
 ----------
 
@@ -115,4 +148,3 @@ Télécharger la version community 3.4 à partir de ce lien :
 https://www.mongodb.com/download-center?jmp=docs&_ga=1.266151433.748348421.1492676042#community
 
 ----------
-
