@@ -11,6 +11,8 @@ IF ERRORLEVEL 1 (
 	echo Configuration de PHP
 	echo --------------------
 	echo Vous pouvez utiliser la commande php -i pour verifier votre configuration globale de PHP
+	php -r "echo 'server time : '.date('Y-m-d H:i:s T', time());"
+	echo .
 	php -r "echo 'upload_max_filesize : '.ini_get('upload_max_filesize');"
 	echo .
 	php -r "echo 'post_max_size : '.ini_get('post_max_size');"
