@@ -1,0 +1,3 @@
+Flask
+Flask MongoKit
+Flask JWT

@@ -2,7 +2,7 @@
 """
 Python Flask backend pour xCLuster
 """
-
+# Ressources génériques
 import datetime
 import json
 import os
@@ -10,10 +10,30 @@ import shutil
 import stat
 import zipfile
 
+# Ressources WebServices
 from flask import Flask, make_response, request, current_app, jsonify
+from flask_jwt import JWT, jwt_required, current_identity
 from mongokit import Connection, Document
 from datetime import timedelta
 from functools import update_wrapper
+
+# Ressources Coclust
+import matplotlib.pyplot as plt
+import matplotlib.patheffects as PathEffects
+import numpy as np
+import zerorpc
+import coclust
+from sklearn.datasets import fetch_20newsgroups
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.metrics.cluster import normalized_mutual_info_score
+from sklearn.preprocessing import normalize
+from coclust.visualization import plot_reorganized_matrix
+from scipy.io import loadmat
+from coclust.coclustering import CoclustMod, CoclustSpecMod, CoclustInfo
+from coclust.io.data_loading import load_doc_term_data
+from coclust.visualization import (plot_reorganized_matrix, plot_cluster_top_terms, plot_max_modularities)
+from coclust.evaluation.internal import best_modularity_partition
 
 # Configuration
 MONGODB_HOST = 'localhost'
@@ -26,10 +46,45 @@ SECRET = 'jf1G2tZvFc74yetoo1ElmrFUT3UN91ZS'
 # Application
 app = Flask(__name__)
 app.config.from_object(__name__)
+app.config['SECRET_KEY'] = SECRET
 
 # Connexion à la base de données MongoDB
 connection = Connection(app.config['MONGODB_HOST'],
                         app.config['MONGODB_PORT'])
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+Authentification JWT
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+api = Api(app, prefix="/api/")
+
+class User(object):
+    def __init__(self, id):
+        self.id = id
+
+    def __str__(self):
+        return "User(id='%s')" % self.id
+
+
+def verify(username, password):
+    if not (username and password):
+        return False
+    if USER_DATA.get(username) == password:
+        return User(id=123)
+
+
+def identity(payload):
+    user_id = payload['identity']
+    return {"user_id": user_id}
+
+jwt = JWT(app, verify, identity)
+
+class PrivateResource(Resource):
+    @jwt_required()
+    def get(self):
+        return dict(current_identity)
+
+api.add_resource(PrivateResource, '/secure')
 
 """
 Decorateur
@@ -333,6 +388,247 @@ def download():
         except Exception as e:
             pass
     return content
+
+"""
+Coclust fonctions
+"""
+
+def getDateTimeNowString():
+    string = datetime.now().strftime("%Y %m %d %H %M %S %f")
+    return string
+
+def exit_handler(signal, frame):
+    print("You are now leaving the Python sector.")
+    sys.exit(0)
+
+#############################################################################
+# COCLUST MOD
+# Parameters:	
+# n_clusters (int, optional, default: 2) – Number of co-clusters to form
+# init (numpy array or scipy sparse matrix, shape (n_features, n_clusters), optional, default: None) – Initial column labels
+# max_iter (int, optional, default: 20) – Maximum number of iterations
+# n_init (int, optional, default: 1) – Number of time the algorithm will be run with different initializations. The final results will be the best output of n_init consecutive runs in terms of modularity.
+# random_state (integer or numpy.RandomState, optional) – The generator used to initialize the centers. If an integer is given, it fixes the seed. Defaults to the global numpy random number generator.
+# tol (float, default: 1e-9) – Relative tolerance with regards to modularity to declare convergence
+#############################################################################
+
+def coclustMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0):
+    plt.cla()
+    plt.clf()
+    print('coclustMod appel le : %s' % getDateTimeNowString())
+    original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
+    matlab_dict = loadmat(original_file_path)
+    X = matlab_dict[dictionnaire]
+    model = CoclustMod(
+        n_clusters=n_clusters,
+        init=init,
+        max_iter=max_iter,
+        n_init=n_init,
+        random_state=random_state,
+        tol=tol
+        )
+    model.fit(X)
+    predicted_row_labels = model.row_labels_
+    predicted_column_labels = model.column_labels_
+    row_indices = np.argsort(model.row_labels_)
+    col_indices = np.argsort(model.column_labels_)
+    X_reorg = X[row_indices, :]
+    X_reorg = X_reorg[:, col_indices]
+    size = model.n_clusters  * 2.7
+    plt.subplots(figsize = (size, size))
+    plt.subplots_adjust(hspace = 0.200)
+    plt.spy(X_reorg, precision=0.8, markersize=0.9)
+    file_name ='%s-mod-%s' % (original_file_name.split(".",1)[0], int(time.time()))
+    file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
+    plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
+    plt.savefig(file_path)
+    plt.cla()
+    plt.clf()
+    rowArray = np.asarray(predicted_row_labels);
+    columnArray = np.asarray(predicted_column_labels);
+    csv_path_row = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-rowLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+    csv_path_col = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-columnLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+    np.savetxt(csv_path_row, rowArray, delimiter=";")
+    np.savetxt(csv_path_col, columnArray, delimiter=";")
+    new_file_path = '%s/%s' % (path, file_name)
+    
+    if n_terms > 0:
+        top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod');
+        return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]
+
+    return [predicted_row_labels, predicted_column_labels, new_file_path, None]
+
+def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0 ):
+    plt.cla()
+    plt.clf()
+    print('coclustSpecMod appel le : %s' % getDateTimeNowString())
+    original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
+    matlab_dict = loadmat(original_file_path)
+    X = matlab_dict[dictionnaire]
+    model = CoclustSpecMod(
+        n_clusters=n_clusters,
+        max_iter=max_iter,
+        n_init=n_init,
+        random_state=random_state,
+        tol=tol
+        )
+    model.fit(X)
+    predicted_row_labels = model.row_labels_
+    predicted_column_labels = model.column_labels_
+    row_indices = np.argsort(model.row_labels_)
+    col_indices = np.argsort(model.column_labels_)
+    X_reorg = X[row_indices, :]
+    X_reorg = X_reorg[:, col_indices]
+    size = model.n_clusters  * 2.7
+    plt.subplots(figsize = (size, size))
+    plt.subplots_adjust(hspace = 0.200)
+    plt.spy(X_reorg, precision=0.8, markersize=0.9)
+    file_name ='%s-spec-%s' % (original_file_name.split(".",1)[0], int(time.time()))
+    file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
+    plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
+    plt.savefig(file_path)
+    plt.cla()
+    plt.clf()
+    rowArray = np.asarray(predicted_row_labels);
+    columnArray = np.asarray(predicted_column_labels);
+    csv_path_row = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-rowLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+    csv_path_col = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-columnLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+    np.savetxt(csv_path_row, rowArray, delimiter=";")
+    np.savetxt(csv_path_col, columnArray, delimiter=";")
+    new_file_path = '%s/%s' % (path, file_name)
+    
+    if n_terms > 0:
+        top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'spec');
+        return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]        
+
+    return [predicted_row_labels, predicted_column_labels, new_file_path, None]
+    
+def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None, dictionnaire='doc_term_matrix', label_matrix="term_labels", n_terms=0):
+    plt.cla()
+    plt.clf()
+    print('coclustInfo appel le : %s' % getDateTimeNowString())
+    original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
+    matlab_dict = loadmat(original_file_path)
+    X = matlab_dict[dictionnaire]
+    model = CoclustInfo(
+        n_row_clusters=n_row_clusters,
+        n_col_clusters=n_col_clusters,
+        init=init,
+        n_init=n_init,
+        random_state=random_state,
+        tol=tol
+        )
+    model.fit(X)
+    predicted_row_labels = model.row_labels_
+    predicted_column_labels = model.column_labels_
+    row_indices = np.argsort(model.row_labels_)
+    col_indices = np.argsort(model.column_labels_)
+    X_reorg = X[row_indices, :]
+    X_reorg = X_reorg[:, col_indices]
+    size = model.n_clusters  * 2.7
+    plt.subplots(figsize = (size, size))
+    plt.subplots_adjust(hspace = 0.200)
+    plt.spy(X_reorg, precision=0.8, markersize=0.9)
+    file_name ='%s-info-%s' % (original_file_name.split(".",1)[0], int(time.time()))
+    file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.png' % (os.getcwd(), path.replace("/", "\\"), file_name)
+    plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
+    plt.savefig(file_path)
+    plt.cla()
+    plt.clf()
+    rowArray = np.asarray(predicted_row_labels);
+    columnArray = np.asarray(predicted_column_labels);
+    csv_path_row = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-rowLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+    csv_path_col = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s-columnLabels.csv' % (os.getcwd(), path.replace("/", "\\"), file_name)
+    np.savetxt(csv_path_row, rowArray, delimiter=";")
+    np.savetxt(csv_path_col, columnArray, delimiter=";")
+    new_file_path = '%s/%s' % (path, file_name)
+
+    n_terms = n_terms
+
+    if n_terms > 0:
+        top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'info');
+        return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]
+
+    return [predicted_row_labels, predicted_column_labels, new_file_path, None]
+
+def createUserDirectory(self, username, mode=0777):
+    directory = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s' % (os.getcwd(), username)
+    if not os.path.exists(directory) and not os.path.isdir(directory) :
+        os.mkdir(directory, mode)
+    success = os.path.exists(directory) and os.path.isdir(directory)
+    return success
+
+def coclustFormat(self, path, original_file_name,  model, n_terms, matrix, label_matrix, method):
+    print('generation des tops terms appel le : %s/%s' % (path, original_file_name))
+    original_file_path = '../front/angular-seed/app/storage/users/%s/%s' % (path, original_file_name)
+    
+    plt.style.use('ggplot')
+
+    # read data
+    doc_term_data = load_doc_term_data(original_file_path)
+    X = doc_term_data[matrix]
+    labels = doc_term_data[label_matrix]
+    logger.info(labels)
+
+    # get the best co-clustering over a range of cluster numbers
+    clusters_range = range(2, 6)
+
+    # plot the top terms
+    n_terms = n_terms
+
+    # REECRITURE DE LA FONCTION POUR SAUVEGARDER LE FICHIER
+    # plot_cluster_top_terms(X, labels, n_terms, model)
+
+    if labels is None:
+        logger.warning("Term labels cannot be found. Use input argument "
+        "'term_labels_filepath' in function "
+        "'load_doc_term_data' if term labels are available.")
+
+    x_label = "number of occurences"
+    size = (model.n_clusters + n_terms) * 0.7
+    plt.subplots(figsize = (size, size))
+    plt.subplots_adjust(hspace = 0.200)
+    plt.suptitle("Top %d terms" % n_terms, size = 15)
+    number_of_subplots = model.n_clusters
+
+    for i, v in enumerate(range(number_of_subplots)): #Get the row / col indices corresponding to the given cluster
+        row_indices, col_indices = model.get_indices(v)# Get the submatrix corresponding to the given cluster
+        cluster = model.get_submatrix(X, v)# Count the number of each term
+        p = cluster.sum(0)
+        t = p.getA().flatten()
+        # Obtain all term names for the given cluster
+        tmp_terms = np.array(labels)[col_indices]
+        # Get the first n terms
+        max_indices = t.argsort()[::-1][: n_terms]
+        
+        pos = np.arange(n_terms)
+        
+        v = v + 1
+        ax1 = plt.subplot(number_of_subplots, 1, v)
+        ax1.barh(pos, t[max_indices][::-1])
+        ax1.set_title("Cluster %d (%d terms)" % (v, len(col_indices)), size = 11)
+
+        plt.yticks(.4 + pos, tmp_terms[max_indices][::-1], size = 9.5)
+        plt.xlabel(x_label, size = 9)
+        plt.margins(y = 0.05)# _remove_ticks()
+        plt.tick_params(axis = 'both', which = 'both', bottom = 'on', top = 'off',
+            right = 'off', left = 'off')
+
+    # Tight layout often produces nice results# but requires the title to be spaced accordingly
+    plt.tight_layout()
+    plt.subplots_adjust(top = 0.88)
+
+    file_name ='%s-%s-%s-%s' % (original_file_name.split(".",1)[0], method, 'topTerms', int(time.time()))
+    file_path = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s\\%s.svg' % (os.getcwd(), path.replace("/", "\\"), file_name)
+    plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
+    plt.savefig(file_path, format = 'svg')
+    plt.cla()
+    plt.clf()
+
+    new_file_path = '%s/%s' % (path, file_name)
+
+    return new_file_path
+
 
 """
 Lancement du serveur Flask
