@@ -14,9 +14,9 @@ angular.module('myApp.view1', ['ngRoute', 'FileManagerApp'])
     config.set({
       appName: 'xcluster-filemanager',
       basePath: sessionLogin != null ? sessionLogin : '/',
-      listUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      listUrl: 'http://127.0.0.1:8090/lists',
       uploadUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-      renameUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      renameUrl: 'http://127.0.0.1:8090/rename',
       copyUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
       moveUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
       removeUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',

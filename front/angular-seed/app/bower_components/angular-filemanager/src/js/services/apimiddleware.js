@@ -76,7 +76,6 @@
         ApiMiddleware.prototype.rename = function(item) {
             var itemPath = this.getFilePath(item);
             var newPath = item.tempModel.fullPath();
-
             return this.apiHandler.rename(fileManagerConfig.renameUrl, itemPath, newPath);
         };
 
