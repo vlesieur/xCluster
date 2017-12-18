@@ -18,8 +18,10 @@ from functools import update_wrapper
 # Configuration
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
+MONGODB_DATABASE = 'xclusterdb'
 ROOT=os.path.abspath(os.getcwd()+'../../../front/angular-seed/app/storage/users')
 SHOW_DOTFILES=True
+SECRET = 'jf1G2tZvFc74yetoo1ElmrFUT3UN91ZS'
 
 # Application
 app = Flask(__name__)
