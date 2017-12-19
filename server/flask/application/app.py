@@ -241,17 +241,19 @@ def getContent():
 
     return {'result': content}
 
+@app.route('/create', methods = ['POST', 'OPTIONS'])
+@crossdomain(origin="*")
 def createFolder():
     try:
         path = os.path.abspath(ROOT + request['newPath'])
         if not path.startswith(ROOT):
-            return {'result': {'success': 'false', 'error': 'Invalid path'}}
+            return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
         os.makedirs(path)
     except Exception as e:
-        return {'result': {'success': 'false', 'error': e.message}}
+        return jsonify({'result': {'success': 'false', 'error': e.message}})
 
-    return {'result': {'success': 'true', 'error': ''}}
+    return jsonify({'result': {'success': 'true', 'error': ''}})
 
 def changePermissions():
     try:
@@ -599,27 +601,28 @@ def get_user():
     return jsonify(result=g.current_user)
 
 
-@app.route("/api/create_user", methods=["POST"])
+@app.route("/api/signup", methods=["POST", "OPTIONS"])
+@crossdomain(origin="*")
 def create_user():
     try:
         incoming = request.get_json()
-        email = incoming['email']
+        login = incoming['login']
+        mail = incoming['mail']
         password = incoming['password']
     except:
         return jsonify()
-    if not email or not password:
-        return jsonify(message="Users with that email already exists"), 409
-    u = Users(email=email, password=password)
+    if not mail or not password or not login:
+        return jsonify({'success':False,'msg':'Veuiller saisir votre nom d\'utilisateur, votre mot de passe et une adresse email.'}), 200
+    u = Users(login=login, mail=mail, password=password)
     try:
         u.save()
     except db.NotUniqueError:
-        return jsonify(message="Email already exists"), 409
+        return jsonify({'success':False,'msg':'Utilisateur déjà enregistré.'}), 200
     except db.ValidationError:
-        return jsonify(message="Email format incorrect "), 409
-    new_user = Users.objects.get(email=email)
-    return jsonify(
-        token=generate_token(new_user)
-    )
+        return jsonify({'success':False,'msg':'Format du mail incorrect.'}), 200
+    new_user = Users.objects.get(login=login)
+    return jsonify({"success":True,"msg":"Compte enregistré !"}), 200
+
 
 
 @app.route("/api/authenticate", methods=["POST", "OPTIONS"])
@@ -629,7 +632,7 @@ def get_token():
     user = Users.get_user_with_login_and_password(incoming["login"], incoming["password"])
     if user:
         token=generate_token(user)
-        return jsonify({'success':True, 'token': token})
+        return jsonify({ 'success': True, 'token': 'JWT ' + token })
 
     return jsonify({ 'success': False, 'msg': 'Echec de l\'authentification. Login ou mot de passe invalide.' }), 200
 

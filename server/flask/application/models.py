@@ -22,4 +22,4 @@ class Users(db.Document):
         if not self.id and self.password:
             self.password = bcrypt.generate_password_hash(self.password).decode('utf-8')
             print (self.password)
-        super(User, self).save(*args, **kwargs)
+        super(Users, self).save(*args, **kwargs)

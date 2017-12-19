@@ -41,7 +41,7 @@ angular.module('myApp.view2', ['ngRoute'])
 		}
 
 		$scope.createAccount = function () {
-			$http.post('http://localhost:3000/api/signup', { login: $scope.login, password: $scope.password, mail: $scope.email }).then(function (response) {
+			$http.post('http://localhost:8090/api/signup', { login: $scope.login, password: $scope.password, mail: $scope.email }).then(function (response) {
 				console.log("response data create account : "+response.data);
 				if (response.data.success == true) {
 					sessionStorage.setItem("newUser", "true");

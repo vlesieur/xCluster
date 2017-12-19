@@ -22,7 +22,7 @@ angular.module('myApp.view1', ['ngRoute', 'FileManagerApp'])
       removeUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
       editUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
       getContentUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
-      createFolderUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
+      createFolderUrl: 'http://127.0.0.1:8090/create',
       downloadFileUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
       downloadMultipleUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
       compressUrl: 'bower_components/angular-filemanager/bridges/php-local/index.php',
