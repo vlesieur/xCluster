@@ -174,6 +174,8 @@ def rename():
 
     return jsonify({'result': {'success': 'true', 'error': ''}})
 
+@app.route('/copy', methods = ['POST', 'OPTIONS'])
+@crossdomain(origin="*")	
 def copy():
     try:
         items = request['items']
@@ -181,7 +183,7 @@ def copy():
             src = os.path.abspath(ROOT + items[0])
             dst = os.path.abspath(ROOT + request['singleFilename'])
             if not (os.path.exists(src) and src.startswith(ROOT) and dst.startswith(ROOT)):
-                return {'result': {'success': 'false', 'error': 'File not found'}}
+                return {'result': jsonify({'success': 'false', 'error': 'File not found'}})
 
             shutil.move(src, dst)
         else:
@@ -189,50 +191,56 @@ def copy():
             for item in items:
                 src = os.path.abspath(ROOT + item)
                 if not (os.path.exists(src) and src.startswith(ROOT) and path.startswith(ROOT)):
-                    return {'result': {'success': 'false', 'error': 'Invalid path'}}
+                    return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
                 shutil.move(src, path)
     except Exception as e:
-        return {'result': {'success': 'false', 'error': e.message}}
+        return jsonify({'result': {'success': 'false', 'error': e.message}})
 
-    return {'result': {'success': 'true', 'error': ''}}
+    return jsonify({'result': {'success': 'true', 'error': ''}})
 
+@app.route('/remove', methods = ['POST', 'OPTIONS'])
+@crossdomain(origin="*")
 def remove():
     try:
         items = request['items']
         for item in items:
             path = os.path.abspath(ROOT + item)
             if not (os.path.exists(path) and path.startswith(ROOT)):
-                return {'result': {'success': 'false', 'error': 'Invalid path'}}
+                return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
             if os.path.isdir(path):
                 shutil.rmtree(path)
             else:
                 os.remove(path)
     except Exception as e:
-        return {'result': {'success': 'false', 'error': e.message}}
+        return jsonify({'result': {'success': 'false', 'error': e.message}})
 
-    return {'result': {'success': 'true', 'error': ''}}
+    return jsonify({'result': {'success': 'true', 'error': ''}})
 
+@app.route('/edit', methods = ['POST', 'PUT', 'OPTIONS'])
+@crossdomain(origin="*")
 def edit():
     try:
         path = os.path.abspath(ROOT + request['item'])
         if not path.startswith(ROOT):
-            return {'result': {'success': 'false', 'error': 'Invalid path'}}
+            return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
         content = request['content']
         with open(path, 'w') as f:
             f.write(content)
     except Exception as e:
-        return {'result': {'success': 'false', 'error': e.message}}
+        return jsonify({'result': {'success': 'false', 'error': e.message}})
 
-    return {'result': {'success': 'true', 'error': ''}}
+    return jsonify({'result': {'success': 'true', 'error': ''}})
 
+@app.route('/read', methods = ['GET', 'OPTIONS'])
+@crossdomain(origin="*")
 def getContent():
     try:
         path = os.path.abspath(ROOT + request['item'])
         if not path.startswith(ROOT):
-            return {'result': {'success': 'false', 'error': 'Invalid path'}}
+            return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
         with open(path, 'r') as f:
             content = f.read()
@@ -240,8 +248,8 @@ def getContent():
         content = e.message
 
     return {'result': content}
-
-@app.route('/create', methods = ['POST', 'OPTIONS'])
+	
+@app.route('/folder', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
 def createFolder():
     try:
@@ -255,6 +263,8 @@ def createFolder():
 
     return jsonify({'result': {'success': 'true', 'error': ''}})
 
+@app.route('/permissions', methods = ['POST', 'OPTIONS'])
+@crossdomain(origin="*")
 def changePermissions():
     try:
         items = request['items']
@@ -264,23 +274,25 @@ def changePermissions():
         for item in items:
             path = os.path.abspath(ROOT + item)
             if not (os.path.exists(path) and path.startswith(ROOT)):
-                return {'result': {'success': 'false', 'error': 'Invalid path'}}
+                return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
             if recursive == 'true':
                 change_permissions_recursive(path, permissions)
             else:
                 os.chmod(path, permissions)
     except Exception as e:
-        return {'result': {'success': 'false', 'error': e.message}}
+        return jsonify({'result': {'success': 'false', 'error': e.message}})
 
-    return {'result': {'success': 'true', 'error': ''}}
+    return jsonify({'result': {'success': 'true', 'error': ''}})
 
+@app.route('/compress', methods = ['POST', 'OPTIONS'])
+@crossdomain(origin="*")
 def compress():
     try:
         items = request['items']
         path = os.path.abspath(os.path.join(ROOT + request['destination'], request['compressedFilename']))
         if not path.startswith(ROOT):
-            return {'result': {'success': 'false', 'error': 'Invalid path'}}
+            return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
         zip_file = zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED)
         for item in items:
@@ -300,25 +312,29 @@ def compress():
 
         zip_file.close()
     except Exception as e:
-        return {'result': {'success': 'false', 'error': e.message}}
+        return jsonify({'result': {'success': 'false', 'error': e.message}})
 
-    return {'result': {'success': 'true', 'error': ''}}
+    return jsonify({'result': {'success': 'true', 'error': ''}})
 
+@app.route('/extract', methods = ['POST', 'OPTIONS'])
+@crossdomain(origin="*")
 def extract():
     try:
         src = os.path.abspath(ROOT + request['item'])
         dst = os.path.abspath(ROOT + request['destination'])
         if not (os.path.isfile(src) and src.startswith(ROOT) and dst.startswith(ROOT)):
-            return {'result': {'success': 'false', 'error': 'Invalid path'}}
+            return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
         zip_file = zipfile.ZipFile(src, 'r')
         zip_file.extractall(dst)
         zip_file.close()
     except Exception as e:
-        return {'result': {'success': 'false', 'error': e.message}}
+        return jsonify({'result': {'success': 'false', 'error': e.message}})
 
-    return {'result': {'success': 'true', 'error': ''}}
+    return jsonify({'result': {'success': 'true', 'error': ''}})
 
+@app.route('/upload', methods = ['POST', 'OPTIONS'])
+@crossdomain(origin="*")
 def upload():
     try:
         destination = handler.get_body_argument('destination', default='/')
@@ -327,14 +343,16 @@ def upload():
             filename = fileinfo['filename']
             path = os.path.abspath(os.path.join(ROOT, destination, filename))
             if not path.startswith(ROOT):
-                return {'result': {'success': 'false', 'error': 'Invalid path'}}
+                return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
             with open(path, 'wb') as f:
                 f.write(fileinfo['body'])
     except Exception as e:
-        return {'result': {'success': 'false', 'error': e.message}}
+        return jsonify({'result': {'success': 'false', 'error': e.message}})
 
-    return {'result': {'success': 'true', 'error': ''}}
+    return jsonify({'result': {'success': 'true', 'error': ''}})
 
+@app.route('/download', methods = ['POST', 'OPTIONS'])
+@crossdomain(origin="*")
 def download():
     path = os.path.abspath(ROOT + path)
     print(path)
