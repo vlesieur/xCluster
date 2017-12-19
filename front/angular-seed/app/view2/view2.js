@@ -25,8 +25,8 @@ angular.module('myApp.view2', ['ngRoute'])
 		};
 
 		$scope.authenticate = function () {
-			$http.post('http://localhost:3000/api/authenticate', { login: $scope.login, password: $scope.password }).then(function (response) {
-				console.log("response data authenticate : "+response.data);
+			$http.post('http://localhost:8090/api/authenticate', { login: $scope.login, password: $scope.password }).then(function (response) {
+				console.log("response data authenticate : "+response.data.token);
 				if (response.data.success == true) {
 					sessionStorage.setItem("token", response.data.token);
 					sessionStorage.setItem("login", $scope.login);

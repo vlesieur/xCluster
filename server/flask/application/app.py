@@ -17,6 +17,10 @@ from mongokit import Connection, Document
 from datetime import timedelta
 from functools import update_wrapper
 
+from .models import Users
+from index import app, db
+from .utils.auth import generate_token, requires_auth, verify_token
+
 # Ressources Coclust
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as PathEffects
@@ -36,55 +40,8 @@ from coclust.visualization import (plot_reorganized_matrix, plot_cluster_top_ter
 from coclust.evaluation.internal import best_modularity_partition
 
 # Configuration
-MONGODB_HOST = 'localhost'
-MONGODB_PORT = 27017
-MONGODB_DATABASE = 'xclusterdb'
 ROOT=os.path.abspath(os.getcwd()+'../../../front/angular-seed/app/storage/users')
 SHOW_DOTFILES=True
-SECRET = 'jf1G2tZvFc74yetoo1ElmrFUT3UN91ZS'
-
-# Application
-app = Flask(__name__)
-app.config.from_object(__name__)
-app.config['SECRET_KEY'] = SECRET
-
-# Connexion à la base de données MongoDB
-connection = Connection(app.config['MONGODB_HOST'],
-                        app.config['MONGODB_PORT'])
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-Authentification JWT
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-api = Api(app, prefix="/api/")
-
-class User(object):
-    def __init__(self, id):
-        self.id = id
-
-    def __str__(self):
-        return "User(id='%s')" % self.id
-
-
-def verify(username, password):
-    if not (username and password):
-        return False
-    if USER_DATA.get(username) == password:
-        return User(id=123)
-
-
-def identity(payload):
-    user_id = payload['identity']
-    return {"user_id": user_id}
-
-jwt = JWT(app, verify, identity)
-
-class PrivateResource(Resource):
-    @jwt_required()
-    def get(self):
-        return dict(current_identity)
-
-api.add_resource(PrivateResource, '/secure')
 
 """
 Decorateur
@@ -633,4 +590,57 @@ def coclustFormat(self, path, original_file_name,  model, n_terms, matrix, label
 """
 Lancement du serveur Flask
 """
-app.run(host='0.0.0.0', port= 8090)
+
+# app.run(host='0.0.0.0', port= 8090)
+
+@app.route("/api/user", methods=["GET"])
+@requires_auth
+def get_user():
+    return jsonify(result=g.current_user)
+
+
+@app.route("/api/create_user", methods=["POST"])
+def create_user():
+    try:
+        incoming = request.get_json()
+        email = incoming['email']
+        password = incoming['password']
+    except:
+        return jsonify()
+    if not email or not password:
+        return jsonify(message="Users with that email already exists"), 409
+    u = Users(email=email, password=password)
+    try:
+        u.save()
+    except db.NotUniqueError:
+        return jsonify(message="Email already exists"), 409
+    except db.ValidationError:
+        return jsonify(message="Email format incorrect "), 409
+    new_user = Users.objects.get(email=email)
+    return jsonify(
+        token=generate_token(new_user)
+    )
+
+
+@app.route("/api/authenticate", methods=["POST", "OPTIONS"])
+@crossdomain(origin="*")
+def get_token():
+    incoming = request.get_json();
+    user = Users.get_user_with_login_and_password(incoming["login"], incoming["password"])
+    if user:
+        token=generate_token(user)
+        return jsonify({'success':True, 'token': token})
+
+    return jsonify({ 'success': False, 'msg': 'Echec de l\'authentification. Login ou mot de passe invalide.' }), 200
+
+
+@app.route("/api/is_token_valid", methods=["POST"])
+@crossdomain(origin="*")
+def is_token_valid():
+    incoming = request.get_json()
+    is_valid = verify_token(incoming["token"])
+
+    if is_valid:
+        return jsonify(token_is_valid=True)
+    else:
+        return jsonify(token_is_valid=False), 403
