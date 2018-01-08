@@ -183,7 +183,7 @@ def copy():
             src = os.path.abspath(ROOT + items[0])
             dst = os.path.abspath(ROOT + request['singleFilename'])
             if not (os.path.exists(src) and src.startswith(ROOT) and dst.startswith(ROOT)):
-                return {'result': jsonify({'success': 'false', 'error': 'File not found'}})
+                return jsonify({'result': {'success': 'false', 'error': 'File not found'}})
 
             shutil.move(src, dst)
         else:
