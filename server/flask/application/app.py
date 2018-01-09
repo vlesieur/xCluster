@@ -11,7 +11,7 @@ import stat
 import zipfile
 
 # Ressources WebServices
-from flask import Flask, make_response, request, current_app, jsonify
+from flask import Flask, make_response, request, current_app, jsonify, send_from_directory
 from flask_jwt import JWT, jwt_required, current_identity
 from mongokit import Connection, Document
 from datetime import timedelta
@@ -178,33 +178,32 @@ def rename():
 @app.route('/copy', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")	
 def copy():
-    try:
-        items = request['items']
-        if len(items) == 1 and 'singleFilename' in request:
-            src = os.path.abspath(ROOT + items[0])
-            dst = os.path.abspath(ROOT + request['singleFilename'])
-            if not (os.path.exists(src) and src.startswith(ROOT) and dst.startswith(ROOT)):
-                return jsonify({'result': {'success': 'false', 'error': 'File not found'}})
-
-            shutil.move(src, dst)
-        else:
-            path = os.path.abspath(ROOT + request['newPath'])
-            for item in items:
-                src = os.path.abspath(ROOT + item)
-                if not (os.path.exists(src) and src.startswith(ROOT) and path.startswith(ROOT)):
-                    return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
-
-                shutil.move(src, path)
-    except Exception as e:
-        return jsonify({'result': {'success': 'false', 'error': e.message}})
-
-    return jsonify({'result': {'success': 'true', 'error': ''}})
+        try:
+            json = request.get_json(silent=True)
+            items = json['items']
+            if len(items) == 1 and 'singleFilename' in json:
+                src = os.path.abspath(ROOT + items[0])
+                dst = os.path.abspath(ROOT + json['newPath'] + '/' + json['singleFilename'])
+                if not (os.path.exists(src) and src.startswith(ROOT) and dst.startswith(ROOT)):
+                    return jsonify({'result': {'success': 'false', 'error': 'File not found'}})
+                shutil.copyfile(src, dst)
+            else:
+                path = os.path.abspath(ROOT + json['newPath'])
+                for item in items:
+                    src = os.path.abspath(ROOT + item)
+                    if not (os.path.exists(src) and src.startswith(ROOT) and path.startswith(ROOT)):
+                        return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
+                    shutil.copyfile(src, path)
+        except Exception as e:
+            return jsonify({'result': {'success': 'false', 'error': e.message}})
+        return jsonify({'result': {'success': 'true', 'error': ''}})
 
 @app.route('/remove', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
 def remove():
     try:
-        items = request['items']
+        json = request.get_json(silent=True)
+        items = json['items']
         for item in items:
             path = os.path.abspath(ROOT + item)
             if not (os.path.exists(path) and path.startswith(ROOT)):
@@ -223,11 +222,12 @@ def remove():
 @crossdomain(origin="*")
 def edit():
     try:
-        path = os.path.abspath(ROOT + request['item'])
+        json = request.get_json(silent=True)
+        path = os.path.abspath(ROOT + json['item'])
         if not path.startswith(ROOT):
             return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
-        content = request['content']
+        content = json['content']
         with open(path, 'w') as f:
             f.write(content)
     except Exception as e:
@@ -235,26 +235,31 @@ def edit():
 
     return jsonify({'result': {'success': 'true', 'error': ''}})
 
-@app.route('/read', methods = ['GET', 'OPTIONS'])
+@app.route('/read', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
 def getContent():
     try:
-        path = os.path.abspath(ROOT + request['item'])
+        json = request.get_json(silent=True)
+        path = os.path.abspath(ROOT + json['item'])
+        print(path)
         if not path.startswith(ROOT):
             return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
         with open(path, 'r') as f:
+            print(path)
             content = f.read()
+            print(content)
     except Exception as e:
         content = e.message
 
-    return {'result': content}
+    return jsonify({'result': content})
 	
 @app.route('/folder', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
 def createFolder():
     try:
-        path = os.path.abspath(ROOT + request['newPath'])
+        json = request.get_json(silent=True)
+        path = os.path.abspath(ROOT + json['newPath'])
         if not path.startswith(ROOT):
             return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
@@ -268,9 +273,10 @@ def createFolder():
 @crossdomain(origin="*")
 def changePermissions():
     try:
-        items = request['items']
-        permissions = int(request['perms'], 8)
-        recursive = request['recursive']
+        json = request.get_json(silent=True)
+        items = json['items']
+        permissions = int(json['perms'], 8)
+        recursive = json['recursive']
         print('recursive: {}, type: {}'.format(recursive, type(recursive)))
         for item in items:
             path = os.path.abspath(ROOT + item)
@@ -290,8 +296,9 @@ def changePermissions():
 @crossdomain(origin="*")
 def compress():
     try:
-        items = request['items']
-        path = os.path.abspath(os.path.join(ROOT + request['destination'], request['compressedFilename']))
+        json = request.get_json(silent=True)
+        items = json['items']
+        path = os.path.abspath(os.path.join(ROOT + json['destination'], json['compressedFilename']))
         if not path.startswith(ROOT):
             return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
@@ -321,8 +328,9 @@ def compress():
 @crossdomain(origin="*")
 def extract():
     try:
-        src = os.path.abspath(ROOT + request['item'])
-        dst = os.path.abspath(ROOT + request['destination'])
+        json = request.get_json(silent=True)
+        src = os.path.abspath(ROOT + json['item'])
+        dst = os.path.abspath(ROOT + json['destination'])
         if not (os.path.isfile(src) and src.startswith(ROOT) and dst.startswith(ROOT)):
             return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
 
@@ -334,7 +342,7 @@ def extract():
 
     return jsonify({'result': {'success': 'true', 'error': ''}})
 
-@app.route('/upload', methods = ['POST', 'OPTIONS'])
+@app.route('/upload', methods = ['GET', 'POST', 'OPTIONS'])
 @crossdomain(origin="*")
 def upload():
     try:
@@ -352,10 +360,10 @@ def upload():
 
     return jsonify({'result': {'success': 'true', 'error': ''}})
 
-@app.route('/download', methods = ['POST', 'OPTIONS'])
+@app.route('/download', methods = ['GET', 'POST', 'OPTIONS'])
 @crossdomain(origin="*")
 def download():
-    path = os.path.abspath(ROOT + path)
+    path = os.path.abspath(ROOT + request.args.get('path'))
     print(path)
     content = ''
     if path.startswith(ROOT) and os.path.isfile(path):
@@ -365,7 +373,25 @@ def download():
                 content = f.read()
         except Exception as e:
             pass
-    return content
+    chemin = os.path.split(path)
+    return send_from_directory(directory=chemin[0], filename=chemin[1], as_attachment=True)
+
+@app.route('/move', methods = ['POST', 'OPTIONS'])
+@crossdomain(origin="*")
+def move():
+    try:
+        json = request.get_json(silent=True)
+        dst = os.path.abspath(ROOT + json['newPath'])
+        if not dst.startswith(ROOT):
+            return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
+        for item in json['items']:
+            src = os.path.abspath(ROOT + item)
+            if not (os.path.exists(src) and src.startswith(ROOT) and dst.startswith(ROOT)):
+                return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
+            shutil.move(src, dst)
+    except Exception as e:
+        return jsonify({'result': {'success': 'false', 'error': e.message}})
+    return jsonify({'result': {'success': 'true', 'error': ''}})
 
 """
 Coclust fonctions

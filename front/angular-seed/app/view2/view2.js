@@ -24,7 +24,7 @@ angular.module('myApp.view2', ['ngRoute'])
 			$location.path(path);
 		};
 
-		$scope.authenticate = function () {
+		$scope.authenticate = function ($event) {
 			$http.post('http://localhost:8090/api/authenticate', { login: $scope.login, password: $scope.password }).then(function (response) {
 				console.log("response data authenticate : "+response.data.token);
 				if (response.data.success == true) {
@@ -40,7 +40,7 @@ angular.module('myApp.view2', ['ngRoute'])
 			});
 		}
 
-		$scope.createAccount = function () {
+		$scope.createAccount = function ($event) {
 			$http.post('http://localhost:8090/api/signup', { login: $scope.login, password: $scope.password, mail: $scope.email }).then(function (response) {
 				console.log("response data create account : "+response.data);
 				if (response.data.success == true) {
