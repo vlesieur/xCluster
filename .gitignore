@@ -11,3 +11,4 @@ database/MongoDB/Server/3.4/data/db/**
 out.txt
 front/startPHP.bat
 log/*.log
+**/*.pyc
