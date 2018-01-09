@@ -25,7 +25,6 @@ from .utils.auth import generate_token, requires_auth, verify_token
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as PathEffects
 import numpy as np
-import zerorpc
 import coclust
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.pipeline import Pipeline
@@ -40,7 +39,7 @@ from coclust.visualization import (plot_reorganized_matrix, plot_cluster_top_ter
 from coclust.evaluation.internal import best_modularity_partition
 
 # Configuration
-ROOT=os.path.abspath(os.getcwd()+'../../../front/angular-seed/app/storage/users')
+ROOT=os.path.abspath(os.getcwd()+'../../../../storage/users')
 SHOW_DOTFILES=True
 
 """
@@ -131,8 +130,10 @@ def list():
     print('/lists called !')
     json = request.get_json(silent=True)
     path = os.path.abspath(ROOT + json['path'])
+    path.replace('/', '\\')
+    print(path)
     if not os.path.exists(path) or not path.startswith(ROOT):
-        return {'result': ''}
+        return jsonify({'result': ''})
 
     files = []
     for fname in sorted(os.listdir(path)):
@@ -183,7 +184,7 @@ def copy():
             src = os.path.abspath(ROOT + items[0])
             dst = os.path.abspath(ROOT + request['singleFilename'])
             if not (os.path.exists(src) and src.startswith(ROOT) and dst.startswith(ROOT)):
-                return {'result': jsonify({'success': 'false', 'error': 'File not found'}})
+                return jsonify({'result': {'success': 'false', 'error': 'File not found'}})
 
             shutil.move(src, dst)
         else:
