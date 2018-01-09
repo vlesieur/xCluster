@@ -16,6 +16,7 @@ from flask_jwt import JWT, jwt_required, current_identity
 from mongokit import Connection, Document
 from datetime import timedelta
 from functools import update_wrapper
+from werkzeug.utils import secure_filename
 
 from .models import Users
 from index import app, db
@@ -37,6 +38,9 @@ from coclust.coclustering import CoclustMod, CoclustSpecMod, CoclustInfo
 from coclust.io.data_loading import load_doc_term_data
 from coclust.visualization import (plot_reorganized_matrix, plot_cluster_top_terms, plot_max_modularities)
 from coclust.evaluation.internal import best_modularity_partition
+
+from django.utils.datastructures import MultiValueDict
+
 
 # Configuration
 ROOT=os.path.abspath(os.getcwd()+'../../../../storage/users')
@@ -346,15 +350,20 @@ def extract():
 @crossdomain(origin="*")
 def upload():
     try:
-        destination = handler.get_body_argument('destination', default='/')
-        for name in handler.request.files:
-            fileinfo = handler.request.files[name][0]
-            filename = fileinfo['filename']
-            path = os.path.abspath(os.path.join(ROOT, destination, filename))
+        destination = request.form['destination']
+        print(request.files)
+        files = MultiValueDict()
+        for fileIndex in request.files:
+            files.appendlist('file', request.files[fileIndex])
+        files = files.getlist('file')
+        for f in files: 
+            print(f)         
+            filename = secure_filename(f.filename)
+            path = os.path.abspath(ROOT + destination + '/' + filename)
+            print(path)
             if not path.startswith(ROOT):
                 return jsonify({'result': {'success': 'false', 'error': 'Invalid path'}})
-            with open(path, 'wb') as f:
-                f.write(fileinfo['body'])
+            f.save(path)
     except Exception as e:
         return jsonify({'result': {'success': 'false', 'error': e.message}})
 
