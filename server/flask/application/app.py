@@ -650,7 +650,7 @@ def get_user():
 @crossdomain(origin="*")
 def create_user():
     try:
-        incoming = request.get_json()
+        incoming = request.get_json(silent=True)
         login = incoming['login']
         mail = incoming['mail']
         password = incoming['password']
@@ -670,16 +670,16 @@ def create_user():
 
 
 
-@app.route("/api/authenticate", methods=["POST", "OPTIONS"])
+@app.route("/api/authenticate", methods=["GET", "POST", "OPTIONS"])
 @crossdomain(origin="*")
 def get_token():
-    incoming = request.get_json();
-    user = Users.get_user_with_login_and_password(incoming["login"], incoming["password"])
-    if user:
-        token=generate_token(user)
-        return jsonify({ 'success': True, 'token': 'JWT ' + token })
-
-    return jsonify({ 'success': False, 'msg': 'Echec de l\'authentification. Login ou mot de passe invalide.' }), 200
+	try:
+		incoming = request.get_json(silent=True);
+		user = Users.get_user_with_login_and_password(incoming["login"], incoming["password"])
+	except Exception as e:
+		return jsonify({ 'success': False, 'msg': 'Echec de l\'authentification. Login ou mot de passe invalide.' }), 200
+	token=generate_token(user)
+	return jsonify({ 'success': True, 'token': 'JWT ' + token })
 
 
 @app.route("/api/is_token_valid", methods=["POST"])
