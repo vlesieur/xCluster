@@ -19,7 +19,7 @@ from functools import update_wrapper
 
 from .models import Users
 from index import app, db
-from .utils.auth import generate_token, requires_auth, verify_token
+from .utils.auth import generate_token, requires_auth
 
 # Ressources Coclust
 import matplotlib.pyplot as plt
@@ -126,6 +126,7 @@ Fonctions métiers
 """
 @app.route('/lists', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def list():
     print('/lists called !')
     json = request.get_json(silent=True)
@@ -159,6 +160,7 @@ def list():
 
 @app.route('/rename', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def rename():
     json = request.get_json(silent=True)
     print('/rename called !')
@@ -176,7 +178,8 @@ def rename():
     return jsonify({'result': {'success': 'true', 'error': ''}})
 
 @app.route('/copy', methods = ['POST', 'OPTIONS'])
-@crossdomain(origin="*")	
+@crossdomain(origin="*")
+@requires_auth
 def copy():
         try:
             json = request.get_json(silent=True)
@@ -200,6 +203,7 @@ def copy():
 
 @app.route('/remove', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def remove():
     try:
         json = request.get_json(silent=True)
@@ -220,6 +224,7 @@ def remove():
 
 @app.route('/edit', methods = ['POST', 'PUT', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def edit():
     try:
         json = request.get_json(silent=True)
@@ -237,6 +242,7 @@ def edit():
 
 @app.route('/read', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def getContent():
     try:
         json = request.get_json(silent=True)
@@ -256,6 +262,7 @@ def getContent():
 	
 @app.route('/folder', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def createFolder():
     try:
         json = request.get_json(silent=True)
@@ -271,6 +278,7 @@ def createFolder():
 
 @app.route('/permissions', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def changePermissions():
     try:
         json = request.get_json(silent=True)
@@ -294,6 +302,7 @@ def changePermissions():
 
 @app.route('/compress', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def compress():
     try:
         json = request.get_json(silent=True)
@@ -326,6 +335,7 @@ def compress():
 
 @app.route('/extract', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def extract():
     try:
         json = request.get_json(silent=True)
@@ -344,6 +354,7 @@ def extract():
 
 @app.route('/upload', methods = ['GET', 'POST', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def upload():
     try:
         destination = handler.get_body_argument('destination', default='/')
@@ -362,6 +373,7 @@ def upload():
 
 @app.route('/download', methods = ['GET', 'POST', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def download():
     path = os.path.abspath(ROOT + request.args.get('path'))
     print(path)
@@ -378,6 +390,7 @@ def download():
 
 @app.route('/move', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
+@requires_auth
 def move():
     try:
         json = request.get_json(silent=True)
@@ -679,16 +692,4 @@ def get_token():
 	except Exception as e:
 		return jsonify({ 'success': False, 'msg': 'Echec de l\'authentification. Login ou mot de passe invalide.' }), 200
 	token=generate_token(user)
-	return jsonify({ 'success': True, 'token': 'JWT ' + token })
-
-
-@app.route("/api/is_token_valid", methods=["POST"])
-@crossdomain(origin="*")
-def is_token_valid():
-    incoming = request.get_json()
-    is_valid = verify_token(incoming["token"])
-
-    if is_valid:
-        return jsonify(token_is_valid=True)
-    else:
-        return jsonify(token_is_valid=False), 403
+	return jsonify({ 'success': True, 'token': token })
