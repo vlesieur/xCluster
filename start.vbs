@@ -8,19 +8,12 @@ oWShell.Run myPath & "\database\start.bat" & arg
 Wscript.Sleep 1000
 Set oWSHell = Nothing
 Set oWShell = CreateObject("Wscript.Shell")
-oWShell.Run myPath & "\server\start.bat" & arg
+oWShell.Run myPath & "\server\startFlask.bat" & arg
 Wscript.Sleep 100
-Set oWSHell = Nothing
-Set oWShell = CreateObject("Wscript.Shell")
-oWShell.Run myPath & "\client\start.bat" & arg
-Wscript.Sleep 1000
 Set oWSHell = Nothing
 Set oWShell = CreateObject("Wscript.Shell")
 oWShell.Run myPath & "\front\start.bat" & arg
 Wscript.Sleep 100
-Set oWSHell = Nothing
-Set oWShell = CreateObject("Wscript.Shell")
-oWShell.Run myPath & "\front\startPHP.bat" & arg
 cpt = 1
 'Attend jusqu à une minute pour lancer le site web
 Do While ( GetProcessId("cmd.exe","XCLUSTER_FRONT*") < 1 OR GetProcessId("cmd.exe","XCLUSTER_CLIENT*") < 1 ) AND cpt < 60
