@@ -1,7 +1,7 @@
 (function(angular, $) {
     'use strict';
-    angular.module('FileManagerApp').service('apiHandler', ['$http', '$q', '$window', '$translate', 'Upload', '$location',
-        function ($http, $q, $window, $translate, Upload, $location) {
+    angular.module('FileManagerApp').service('apiHandler', ['$http', '$q', '$window', '$translate', 'Upload',
+        function ($http, $q, $window, $translate, Upload) {
 
         $http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         $http.defaults.headers.common['Authorization'] = $window.sessionStorage.getItem("token");
@@ -19,6 +19,9 @@
             if (code == 404) {
                 this.error = 'Error 404 - Backend bridge is not working, please check the ajax response.';
             }
+			if(code == 401) {
+				$window.location.reload();
+			}
             if (data.result && data.result.error) {
                 this.error = data.result.error;
             }
