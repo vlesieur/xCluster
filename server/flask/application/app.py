@@ -9,6 +9,7 @@ import os
 import shutil
 import stat
 import zipfile
+import time
 
 # Ressources WebServices
 from flask import Flask, make_response, request, current_app, jsonify, send_from_directory
@@ -420,7 +421,7 @@ Coclust fonctions
 """
 
 def getDateTimeNowString():
-    string = datetime.now().strftime("%Y %m %d %H %M %S %f")
+    string = datetime.datetime.now().strftime("%Y %m %d %H %M %S %f")
     return string
 
 def exit_handler(signal, frame):
@@ -443,23 +444,24 @@ def exit_handler(signal, frame):
 @requires_auth
 def coclustMod():
     json = request.get_json(silent=True)
-    path = json['path'];
-    original_file_name = json['original_file_name'];
-    n_clusters= json['n_clusters'] if json['n_clusters'] != None else 2;
-    init = json['init'] if json['init'] != None else None;
-    max_iter= json['max_iter'] if json['max_iter'] != None else 20;
-    n_init= json['n_init'] if json['n_init'] != None else 1;
-    random_state= json['random_state'] if json['random_state'] != None else np.random.RandomState;
-    tol= json['tol'] if json['tol'] != None else 1e-9;
-    dictionnaire= json['dictionnaire'] if json['dictionnaire'] != None else 'doc_term_matrix';
-    label_matrix= json['label_matrix'] if json['label_matrix'] != None else 'term_labels';
-    n_terms= json['n_terms'] if json['n_terms'] != None else 0;
+    path = json['path']
+    original_file_name = json['name']
+    n_clusters= json['n_clusters'] if json['n_clusters'] != None else 2
+    init = json['init'] if json['init'] != None else None
+    max_iter= json['max_iter'] if json['max_iter'] != None else 20
+    n_init= json['n_init'] if json['n_init'] != None else 1
+    random_state= json['random_state'] if json['random_state'] != None else np.random.RandomState()
+    tol= json['tol'] if json['tol'] != None else 1e-9
+    dictionnaire= json['dict'] if json['dict'] != None else "doc_term_matrix"
+    label_matrix= json['label_matrix'] if json['label_matrix'] != None else "term_labels"
+    n_terms= json['n_terms'] if json['n_terms'] != None else 0
 
     plt.cla()
     plt.clf()
     print('coclustMod appel le : %s' % getDateTimeNowString())
     original_file_path = '%s/%s/%s' % (ROOT, path, original_file_name)
     matlab_dict = loadmat(original_file_path)
+    print('dictionnaire %s' % dictionnaire)
     X = matlab_dict[dictionnaire]
     model = CoclustMod(
         n_clusters=n_clusters,
@@ -481,6 +483,46 @@ def coclustMod():
     plt.subplots_adjust(hspace = 0.200)
     plt.spy(X_reorg, precision=0.8, markersize=0.9)
     file_name ='%s-mod-%s' % (original_file_name.split(".",1)[0], int(time.time()))
+    file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
+    plt.savefig(file_path)
+    plt.cla()
+    plt.clf()
+    rowArray = np.asarray(predicted_row_labels);
+    columnArray = np.asarray(predicted_column_labels);
+    csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    csv_path_col = '%s\\%s\\%s-columnLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    np.savetxt(csv_path_row, rowArray, delimiter=";")
+    np.savetxt(csv_path_col, columnArray, delimiter=";")
+    new_file_path = '%s/%s' % (path, file_name)
+    if n_terms > 0:
+        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod');
+        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path })
+    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None })
+
+@app.route('/coclust/spec', methods = ['POST', 'OPTIONS'])
+@crossdomain(origin="*")
+@requires_auth
+def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0 ):
+    plt.cla()
+    plt.clf()
+    print('coclustSpecMod appel le : %s' % getDateTimeNowString())
+    original_file_path = '%s/%s/%s' % (ROOT, path, original_file_name)
+    matlab_dict = loadmat(original_file_path)
+    X = matlab_dict[dictionnaire]
+    model = CoclustSpecMod(n_clusters=n_clusters, max_iter=max_iter, n_init=n_init, random_state=random_state, tol=tol)
+    model.fit(X)
+    predicted_row_labels = model.row_labels_
+    predicted_column_labels = model.column_labels_
+    row_indices = np.argsort(model.row_labels_)
+    col_indices = np.argsort(model.column_labels_)
+    X_reorg = X[row_indices, :]
+    X_reorg = X_reorg[:, col_indices]
+    size = model.n_clusters  * 2.7
+    plt.subplots(figsize = (size, size))
+    plt.subplots_adjust(hspace = 0.200)
+    plt.spy(X_reorg, precision=0.8, markersize=0.9)
+    file_name ='%s-spec-%s' % (original_file_name.split(".",1)[0], int(time.time()))
     file_path = '%s\\%s\\%s\\%s.png' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
@@ -493,10 +535,11 @@ def coclustMod():
     np.savetxt(csv_path_row, rowArray, delimiter=";")
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
+
     if n_terms > 0:
-        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod');
-        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path })
-    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None })
+        top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'spec');
+        return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]
+    return [predicted_row_labels, predicted_column_labels, new_file_path, None]
 
 @app.route('/coclust/info', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
