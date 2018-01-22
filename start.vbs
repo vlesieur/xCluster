@@ -4,20 +4,20 @@ SystemRoot = oWShell.expandEnvironmentStrings("%SystemRoot%")
 myPath = replace( WScript.ScriptFullName, WScript.ScriptName, "" )
 If oWShell.CurrentDirectory & "\" = myPath Then arg="" Else arg=" ""1""" End If
 oWShell.CurrentDirectory = myPath
-oWShell.Run myPath & "\database\start.bat" & arg
-Wscript.Sleep 1000
-Set oWSHell = Nothing
-Set oWShell = CreateObject("Wscript.Shell")
+REM oWShell.Run myPath & "\database\start.bat" & arg
+REM Wscript.Sleep 1000
+REM Set oWSHell = Nothing
+REM Set oWShell = CreateObject("Wscript.Shell")
 oWShell.Run myPath & "\server\startFlask.bat" & arg
 Wscript.Sleep 100
 Set oWSHell = Nothing
 Set oWShell = CreateObject("Wscript.Shell")
 oWShell.Run myPath & "\front\start.bat" & arg
-Wscript.Sleep 100
+Wscript.Sleep 500
 cpt = 1
 'Attend jusqu à une minute pour lancer le site web
 Do While ( GetProcessId("cmd.exe","XCLUSTER_FRONT*") < 1 OR GetProcessId("cmd.exe","XCLUSTER_CLIENT*") < 1 ) AND cpt < 60
-Wscript.Sleep 1000
+Wscript.Sleep 500
 cpt = cpt + 1
 Loop
 Set oWSHell = Nothing

@@ -8,9 +8,15 @@ class BaseConfig(object):
     MONGODB_SETTINGS = {
         # 'USERNAME': None,
         # 'PASSWORD': None,
-        'HOST': '127.0.0.1',
-        'PORT': 27017,
-        'DB': 'xclusterdb'
+        # 'HOST': '127.0.0.1',
+        # 'PORT': 27017,
+        # 'DB': 'xclusterdb'
+		# Config mLab
+        'USERNAME': 'xcluster',
+        'PASSWORD': 'xcluster',
+        'HOST': 'ds050869.mlab.com',
+        'PORT': 50869,
+        'DB': 'bd_films'
     }
     SECRET_KEY = SECRET
     DEBUG = True
