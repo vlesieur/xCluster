@@ -550,7 +550,7 @@ def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters
     return [predicted_row_labels, predicted_column_labels, new_file_path, None]
 
 def createUserDirectory(username, mode=0777):
-    directory = '%s\\%s\\%s' % (os.getcwd(), ROOT.replace("/", "\\"), username)
+    directory = '%s\\%s' % (ROOT.replace("/", "\\"), username)
     if not os.path.exists(directory) and not os.path.isdir(directory) :
         os.mkdir(directory, mode)
     success = os.path.exists(directory) and os.path.isdir(directory)
