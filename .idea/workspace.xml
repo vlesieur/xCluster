@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f1b3bffc-4fec-4b4d-b2db-15ffd6f631b0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/js/providers/config.js" afterPath="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/js/providers/config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/front/angular-seed/app/view1/view1.js" afterPath="$PROJECT_DIR$/front/angular-seed/app/view1/view1.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/flask/application/app.py" afterPath="$PROJECT_DIR$/server/flask/application/app.py" />
-    </list>
+    <list default="true" id="f1b3bffc-4fec-4b4d-b2db-15ffd6f631b0" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -417,12 +413,12 @@
       <updated>1516609376589</updated>
       <workItem from="1516609384341" duration="773000" />
       <workItem from="1516610205395" duration="311000" />
-      <workItem from="1516610606279" duration="7130000" />
+      <workItem from="1516610606279" duration="7245000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8214000" />
+    <option name="totallyTimeSpent" value="8329000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1513" height="973" extended-state="6" />
