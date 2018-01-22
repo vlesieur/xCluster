@@ -3,11 +3,11 @@ Set oWShell = CreateObject("Wscript.Shell")
 SystemRoot = oWShell.expandEnvironmentStrings("%SystemRoot%")
 myPath = replace( WScript.ScriptFullName, WScript.ScriptName, "" )
 If oWShell.CurrentDirectory & "\" = myPath Then arg="" Else arg=" ""1""" End If
-oWShell.CurrentDirectory = myPath
-oWShell.Run myPath & "\database\startWithLog.bat" & arg, 0
-Wscript.Sleep 1000
-Set oWSHell = Nothing
-Set oWShell = CreateObject("Wscript.Shell")
+REM oWShell.CurrentDirectory = myPath
+REM oWShell.Run myPath & "\database\startWithLog.bat" & arg, 0
+REM Wscript.Sleep 1000
+REM Set oWSHell = Nothing
+REM Set oWShell = CreateObject("Wscript.Shell")
 oWShell.Run myPath & "\server\startFlaskWithLog.bat" & arg, 0
 Wscript.Sleep 100
 Set oWSHell = Nothing
