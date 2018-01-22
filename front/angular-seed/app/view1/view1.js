@@ -28,9 +28,9 @@ angular.module('myApp.view1', ['ngRoute', 'FileManagerApp'])
       compressUrl: 'http://127.0.0.1:8090/compress',
       extractUrl: 'http://127.0.0.1:8090/extract',
       permissionsUrl: 'http://127.0.0.1:8090/permissions',
-	    coclustModUrl: 'http://127.0.0.1:3000/coclust/mod',
-	    coclustSpecModUrl: 'http://127.0.0.1:3000/coclust/spec',
-	    coclustInfoUrl: 'http://127.0.0.1:3000/coclust/info'
+        coclustModUrl: 'http://127.0.0.1:8090/coclust/mod',
+	    coclustSpecModUrl: 'http://127.0.0.1:8090/coclust/spec',
+	    coclustInfoUrl: 'http://127.0.0.1:8090/coclust/info'
     });
     var newDefaults = config.$get();
     console.log("new basePath : " + newDefaults.basePath);
