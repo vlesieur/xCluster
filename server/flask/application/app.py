@@ -493,59 +493,10 @@ def coclustMod():
     np.savetxt(csv_path_row, rowArray, delimiter=";")
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
-
     if n_terms > 0:
         top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod');
         return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path })
     return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None })
-
-@app.route('/coclust/spec', methods = ['POST', 'OPTIONS'])
-@crossdomain(origin="*")
-@requires_auth
-def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0 ):
-    plt.cla()
-    plt.clf()
-    print('coclustSpecMod appel le : %s' % getDateTimeNowString())
-    original_file_path = '%s/%s/%s' % (ROOT, path, original_file_name)
-    matlab_dict = loadmat(original_file_path)
-    X = matlab_dict[dictionnaire]
-    model = CoclustSpecMod(
-        n_clusters=n_clusters,
-        max_iter=max_iter,
-        n_init=n_init,
-        random_state=random_state,
-        tol=tol
-        )
-    model.fit(X)
-    predicted_row_labels = model.row_labels_
-    predicted_column_labels = model.column_labels_
-    row_indices = np.argsort(model.row_labels_)
-    col_indices = np.argsort(model.column_labels_)
-    X_reorg = X[row_indices, :]
-    X_reorg = X_reorg[:, col_indices]
-    size = model.n_clusters  * 2.7
-    plt.subplots(figsize = (size, size))
-    plt.subplots_adjust(hspace = 0.200)
-    plt.spy(X_reorg, precision=0.8, markersize=0.9)
-    file_name ='%s-spec-%s' % (original_file_name.split(".",1)[0], int(time.time()))
-    file_path = '%s\\%s\\%s\\%s.png' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
-    plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
-    plt.savefig(file_path)
-    plt.cla()
-    plt.clf()
-    rowArray = np.asarray(predicted_row_labels);
-    columnArray = np.asarray(predicted_column_labels);
-    csv_path_row = '%s\\%s\\%s\\%s-rowLabels.csv' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
-    csv_path_col = '%s\\%s\\%s\\%s-columnLabels.csv' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
-    np.savetxt(csv_path_row, rowArray, delimiter=";")
-    np.savetxt(csv_path_col, columnArray, delimiter=";")
-    new_file_path = '%s/%s' % (path, file_name)
-
-    if n_terms > 0:
-        top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'spec');
-        return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]
-
-    return [predicted_row_labels, predicted_column_labels, new_file_path, None]
 
 @app.route('/coclust/info', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
@@ -608,7 +559,6 @@ def createUserDirectory(username, mode=0777):
 def coclustFormat(path, original_file_name,  model, n_terms, matrix, label_matrix, method):
     print('generation des tops terms appel le : %s/%s' % (path, original_file_name))
     original_file_path = '%s/%s/%s' % (path, ROOT.replace("/", "\\"), original_file_name)
-
     plt.style.use('ggplot')
 
     # read data
