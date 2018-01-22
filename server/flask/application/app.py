@@ -577,8 +577,8 @@ def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters
 
     return [predicted_row_labels, predicted_column_labels, new_file_path, None]
 
-def createUserDirectory(self, username, mode=0777):
-    directory = '%s\\..\\front\\angular-seed\\app\\storage\\users\\%s' % (os.getcwd(), username)
+def createUserDirectory(username, mode=0777):
+    directory = '%s\\..\\..\\..\\storage\\users\\%s' % (os.getcwd(), username)
     if not os.path.exists(directory) and not os.path.isdir(directory) :
         os.mkdir(directory, mode)
     success = os.path.exists(directory) and os.path.isdir(directory)
@@ -688,6 +688,7 @@ def create_user():
     except db.ValidationError:
         return jsonify({'success':False,'msg':'Format du mail incorrect.'}), 200
     new_user = Users.objects.get(login=login)
+    createUserDirectory(login)
     return jsonify({"success":True,"msg":"Compte enregistré !"}), 200
 
 
