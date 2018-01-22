@@ -27,7 +27,7 @@ def verify_token(token):
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.headers.get('Authorization', None)
+        token = request.headers.get('Authorization', None) if request.headers.get('Authorization', None) != None else request.args['token']
         if token:
             string_token = token.encode('ascii', 'ignore')
             user = verify_token(string_token)
