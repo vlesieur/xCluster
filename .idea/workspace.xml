@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1b3bffc-4fec-4b4d-b2db-15ffd6f631b0" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/js/controllers/main.js" afterPath="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/js/controllers/main.js" />
-      <change beforePath="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/templates/modals.html" afterPath="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/templates/modals.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,8 +26,8 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/js/controllers/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="281" column="51" lean-forward="true" selection-start-line="281" selection-start-column="51" selection-end-line="281" selection-end-column="51" />
+            <state relative-caret-position="949">
+              <caret line="309" column="31" lean-forward="true" selection-start-line="309" selection-start-column="31" selection-end-line="309" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -281,12 +279,12 @@
       <workItem from="1516624163427" duration="220000" />
       <workItem from="1516625309382" duration="750000" />
       <workItem from="1516698585599" duration="367000" />
-      <workItem from="1516699020623" duration="4077000" />
+      <workItem from="1516699020623" duration="4310000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17059000" />
+    <option name="totallyTimeSpent" value="17292000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-13" y="-13" width="3026" height="1946" extended-state="6" />
@@ -559,8 +557,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/js/controllers/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="281" column="51" lean-forward="true" selection-start-line="281" selection-start-column="51" selection-end-line="281" selection-end-column="51" />
+        <state relative-caret-position="949">
+          <caret line="309" column="31" lean-forward="true" selection-start-line="309" selection-start-column="31" selection-end-line="309" selection-end-column="31" />
           <folding />
         </state>
       </provider>

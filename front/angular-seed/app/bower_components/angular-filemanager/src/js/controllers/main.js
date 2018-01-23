@@ -306,6 +306,11 @@
 			$scope.row = '';
             $scope.column = '';
             $scope.img = '';
+            $scope.imgString = '';
+            $scope.imgUrl = '';
+            $scope.topTermImg = '';
+            $scope.topTermImgString = '';
+            $scope.topTermImgUrl = '';
 			$scope.modal('coclustMod', true);
 			$scope.modal('coclustSpecMod', true);
 			$scope.modal('coclustInfo', true);
