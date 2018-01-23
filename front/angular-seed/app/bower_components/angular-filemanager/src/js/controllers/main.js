@@ -283,11 +283,17 @@
 					$scope.row = result.row;
 					$scope.column = result.column;
 					$scope.img = '../storage/users/' + result.img + '.png';
+                    $scope.imgString = encodeURI('/' + result.img + '.png');
+                    $scope.imgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.imgString + '&token=' + $window.sessionStorage.getItem("token");
 					if (result.topTermImg) {
 						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';
-					} else {
+                        $scope.topTermImgString = encodeURI('/' + result.topTermImg + '.svg');
+                        $scope.topTermImgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.topTermImgString + '&token=' + $window.sessionStorage.getItem("token");
+                    } else {
 						$scope.topTermImg = result.topTermImg;
-					}
+                        $scope.topTermImgString = encodeURI('/' + result.topTermImg + '.svg');
+                        $scope.topTermImgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.topTermImgString + '&token=' + $window.sessionStorage.getItem("token");
+                    }
 					$scope.modal('coclustMod', false);
 				}, function(reason){
                     $scope.modal('coclustMod', false);
@@ -313,6 +319,7 @@
 					$scope.row = result.row;
 					$scope.column = result.column;
 					$scope.img = '../storage/users/' + result.img + '.png';
+					console.log($scope.img);
 					if (result.topTermImg) {
 						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';
 					} else {

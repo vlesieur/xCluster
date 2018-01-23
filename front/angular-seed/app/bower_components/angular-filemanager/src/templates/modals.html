@@ -409,11 +409,11 @@
 		  <p ng-if="toggleColumn">{{column}}</p>
           <p>{{"file_saved_at" | translate}} "{{img | csvcolumnuserpath}}</p>          
           <figure>
-            <img class='preview' src='{{img}}' alt='' />
+            <img class='preview' src='{{imgUrl}}' alt='' />
             <figcaption>{{"file_saved_at" | translate}} "{{img | userpath}}"</figcaption>
           </figure>
           <figure ng-if="topTermImg">
-            <img class='preview' src='{{topTermImg}}' alt='' />
+            <img class='preview' src='{{topTermImgUrl}}' alt='' />
             <figcaption>{{"file_saved_at" | translate}} "{{topTermImg | userpath}}"</figcaption>
           </figure>
         </div>
