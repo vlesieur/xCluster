@@ -504,6 +504,19 @@ def coclustMod():
 @crossdomain(origin="*")
 @requires_auth
 def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0 ):
+    json = request.get_json(silent=True)
+    path = json['path']
+    original_file_name = json['name']
+    n_clusters= json['n_clusters'] if json['n_clusters'] != None else 2
+    init = json['init'] if json['init'] != None else None
+    max_iter= json['max_iter'] if json['max_iter'] != None else 20
+    n_init= json['n_init'] if json['n_init'] != None else 1
+    random_state= json['random_state'] if json['random_state'] != None else np.random.RandomState()
+    tol= json['tol'] if json['tol'] != None else 1e-9
+    dictionnaire= json['dict'] if json['dict'] != None else "doc_term_matrix"
+    label_matrix= json['label_matrix'] if json['label_matrix'] != None else "term_labels"
+    n_terms= json['n_terms'] if json['n_terms'] != None else 0
+    
     plt.cla()
     plt.clf()
     print('coclustSpecMod appel le : %s' % getDateTimeNowString())
@@ -545,10 +558,23 @@ def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_
 @crossdomain(origin="*")
 @requires_auth
 def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None, dictionnaire='doc_term_matrix', label_matrix="term_labels", n_terms=0):
+    json = request.get_json(silent=True)
+    path = json['path']
+    original_file_name = json['name']
+    n_clusters= json['n_clusters'] if json['n_clusters'] != None else 2
+    init = json['init'] if json['init'] != None else None
+    max_iter= json['max_iter'] if json['max_iter'] != None else 20
+    n_init= json['n_init'] if json['n_init'] != None else 1
+    random_state= json['random_state'] if json['random_state'] != None else np.random.RandomState()
+    tol= json['tol'] if json['tol'] != None else 1e-9
+    dictionnaire= json['dict'] if json['dict'] != None else "doc_term_matrix"
+    label_matrix= json['label_matrix'] if json['label_matrix'] != None else "term_labels"
+    n_terms= json['n_terms'] if json['n_terms'] != None else 0
+
     plt.cla()
     plt.clf()
     print('coclustInfo appel le : %s' % getDateTimeNowString())
-    original_file_path = '%s/%s/%s' % (ROOT.replace("/", "\\"), path, original_file_name)
+    original_file_path = '%s/%s/%s' % (ROOT, path, original_file_name)
     matlab_dict = loadmat(original_file_path)
     X = matlab_dict[dictionnaire]
     model = CoclustInfo(
@@ -601,7 +627,7 @@ def createUserDirectory(username, mode=0777):
 
 def coclustFormat(path, original_file_name,  model, n_terms, matrix, label_matrix, method):
     print('generation des tops terms appel le : %s/%s' % (path, original_file_name))
-    original_file_path = '%s/%s/%s' % (path, ROOT.replace("/", "\\"), original_file_name)
+    original_file_path = '%s/%s/%s' % (ROOT, path, original_file_name)
     plt.style.use('ggplot')
 
     # read data
@@ -657,9 +683,8 @@ def coclustFormat(path, original_file_name,  model, n_terms, matrix, label_matri
     # Tight layout often produces nice results# but requires the title to be spaced accordingly
     plt.tight_layout()
     plt.subplots_adjust(top = 0.88)
-
     file_name ='%s-%s-%s-%s' % (original_file_name.split(".",1)[0], method, 'topTerms', int(time.time()))
-    file_path = '%s\\%s\\%s\\%s.svg' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    file_path = '%s\\%s\\%s.svg' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path, format = 'svg')
     plt.cla()
