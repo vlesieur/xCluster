@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.view2', ['ngRoute'])
+angular.module('myApp.view2', ['ngRoute', 'constants'])
 	.config(['$routeProvider', function ($routeProvider) {
 		$routeProvider.when('/view2', {
 			templateUrl: 'view2/view2.html',
@@ -8,8 +8,8 @@ angular.module('myApp.view2', ['ngRoute'])
 		});
 	}])
 
-	.controller('View2Ctrl', ["$scope", "$http", "$location", "$window", function ($scope, $http, $location, $window) {
-
+	.controller('View2Ctrl', ["$scope", "$http", "$location", "$window", "env", function ($scope, $http, $location, $window, env) {
+		
 		if (sessionStorage.getItem("token") != null && sessionStorage.getItem("login") != null) {
 			console.log("user " + sessionStorage.getItem("login") + " already logged ! redirecting...");
 			$location.path('/view1');
@@ -25,7 +25,7 @@ angular.module('myApp.view2', ['ngRoute'])
 		};
 
 		$scope.authenticate = function ($event) {
-			$http.post('http://localhost:8090/api/authenticate', { login: $scope.login, password: $scope.password }).then(function (response) {
+			$http.post(env.API_URL+'api/authenticate', { login: $scope.login, password: $scope.password }).then(function (response) {
 				console.log("response data authenticate : "+response.data.token);
 				if (response.data.success == true) {
 					sessionStorage.setItem("token", response.data.token);
@@ -41,7 +41,7 @@ angular.module('myApp.view2', ['ngRoute'])
 		}
 
 		$scope.createAccount = function ($event) {
-			$http.post('http://localhost:8090/api/signup', { login: $scope.login, password: $scope.password, mail: $scope.email }).then(function (response) {
+			$http.post(env.API_URL+'api/signup', { login: $scope.login, password: $scope.password, mail: $scope.email }).then(function (response) {
 				console.log("response data create account : "+response.data);
 				if (response.data.success == true) {
 					sessionStorage.setItem("newUser", "true");

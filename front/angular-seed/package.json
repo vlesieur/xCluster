@@ -17,7 +17,8 @@
     "protractor": "^4.0.9"
   },
   "scripts": {
-    "start": "title XCLUSTER_FRONT && http-server -a localhost -p 8000 -c-1 ./app",
+    "start": "set NODE_ENV=dev && title XCLUSTER_FRONT && http-server -a localhost -p 8000 -c-1 ./app",
+    "start-prod": "set NODE_ENV=prod && title XCLUSTER_FRONT && http-server -a localhost -p 8000 -c-1 ./app",
 
     "pretest": "npm install",
     "test": "karma start karma.conf.js",

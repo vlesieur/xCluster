@@ -1,7 +1,14 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
+angular.module('constants', []) 
+.constant('env', {
+  API_URL: "http://localhost:8090/"
+}
+)
+
 angular.module('myApp', [
+  'constants',
   'ngRoute',
   'myApp.view1',
   'myApp.view2',
