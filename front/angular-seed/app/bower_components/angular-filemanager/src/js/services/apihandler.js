@@ -124,6 +124,7 @@
 				path: dataItem.tempModel.path.join('/'),
 				name: dataItem.tempModel.name,
 				n_clusters: dataItem.tempModel.n_clusters,
+				init: dataItem.tempModel.init,
 				max_iter: dataItem.tempModel.max_iter,
 				n_init: dataItem.tempModel.n_init,
 				random_state: dataItem.tempModel.random_state,

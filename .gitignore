@@ -10,5 +10,5 @@ database/MongoDB/Server/3.4/bin/*.pdb
 database/MongoDB/Server/3.4/data/db/**
 out.txt
 front/startPHP.bat
-log/*.log
+*.log
 **/*.pyc

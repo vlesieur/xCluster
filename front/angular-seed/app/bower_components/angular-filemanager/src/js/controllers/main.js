@@ -279,21 +279,7 @@
             if (item.isCoclustCompatible()) {
 				$scope.apiMiddleware.coclustMod($scope.temp)
                 .then(function(result) {
-					$scope.fileNavigator.refresh();
-					$scope.row = result.row;
-					$scope.column = result.column;
-					$scope.img = '../storage/users/' + result.img + '.png';
-                    $scope.imgString = encodeURI('/' + result.img + '.png');
-                    $scope.imgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.imgString + '&token=' + $window.sessionStorage.getItem("token");
-					if (result.topTermImg) {
-						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';
-                        $scope.topTermImgString = encodeURI('/' + result.topTermImg + '.svg');
-                        $scope.topTermImgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.topTermImgString + '&token=' + $window.sessionStorage.getItem("token");
-                    } else {
-						$scope.topTermImg = result.topTermImg;
-                        $scope.topTermImgString = encodeURI('/' + result.topTermImg + '.svg');
-                        $scope.topTermImgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.topTermImgString + '&token=' + $window.sessionStorage.getItem("token");
-                    }
+					$scope.displayResult()
 					$scope.modal('coclustMod', false);
 				}, function(reason){
                     $scope.modal('coclustMod', false);
@@ -320,16 +306,7 @@
 			var item = $scope.singleSelection();		
             if (item.isCoclustCompatible()) {
 				$scope.apiMiddleware.coclustSpecMod($scope.temp).then(function(result) {
-					$scope.fileNavigator.refresh();
-					$scope.row = result.row;
-					$scope.column = result.column;
-					$scope.img = '../storage/users/' + result.img + '.png';
-					console.log($scope.img);
-					if (result.topTermImg) {
-						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';
-					} else {
-						$scope.topTermImg = result.topTermImg;
-					}
+					$scope.displayResult()
 					$scope.modal('coclustSpecMod', false);
 				}, function(reason){
                     $scope.modal('coclustSpecMod', false);
@@ -342,15 +319,7 @@
 			var item = $scope.singleSelection();		
             if (item.isCoclustCompatible()) {
 				$scope.apiMiddleware.coclustInfo($scope.temp).then(function(result) {
-					$scope.fileNavigator.refresh();
-					$scope.row = result.row;
-					$scope.column = result.column;
-					$scope.img = '../storage/users/' + result.img + '.png';
-					if (result.topTermImg) {
-						$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';
-					} else {
-						$scope.topTermImg = result.topTermImg;
-					}
+					$scope.displayResult()
 					$scope.modal('coclustInfo', false);
 				}, function(reason){
                     $scope.modal('coclustInfo', false);
@@ -358,6 +327,22 @@
                 });
             }
         };
+		
+		$scope.displayResult = function() {
+			$scope.fileNavigator.refresh();
+			$scope.row = result.row;
+			$scope.column = result.column;
+			$scope.img = '../storage/users/' + result.img + '.png';
+			$scope.imgString = encodeURI('/' + result.img + '.png');
+			$scope.imgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.imgString + '&token=' + $window.sessionStorage.getItem("token");
+			if (result.topTermImg) {
+				$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';
+				$scope.topTermImgString = encodeURI('/' + result.topTermImg + '.svg');
+				$scope.topTermImgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.topTermImgString + '&token=' + $window.sessionStorage.getItem("token");
+			} else {
+				$scope.topTermImg = result.topTermImg;
+			}
+		}
 
         $scope.remove = function() {
             $scope.apiMiddleware.remove($scope.temps).then(function() {
