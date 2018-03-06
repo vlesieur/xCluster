@@ -496,14 +496,14 @@ def coclustMod():
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
     if n_terms > 0:
-        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod');
+        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
         return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path })
     return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None })
 
 @app.route('/coclust/spec', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
 @requires_auth
-def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_iter=20, n_init=1, random_state=np.random.RandomState, tol=1e-9, dictionnaire='doc_term_matrix',  label_matrix="term_labels", n_terms=0 ):
+def coclustSpecMod():
     json = request.get_json(silent=True)
     path = json['path']
     original_file_name = json['name']
@@ -536,32 +536,33 @@ def coclustSpecMod(self, path, original_file_name, n_clusters=2, init=None, max_
     plt.subplots_adjust(hspace = 0.200)
     plt.spy(X_reorg, precision=0.8, markersize=0.9)
     file_name ='%s-spec-%s' % (original_file_name.split(".",1)[0], int(time.time()))
-    file_path = '%s\\%s\\%s\\%s.png' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
     plt.cla()
     plt.clf()
     rowArray = np.asarray(predicted_row_labels);
     columnArray = np.asarray(predicted_column_labels);
-    csv_path_row = '%s\\%s\\%s\\%s-rowLabels.csv' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
-    csv_path_col = '%s\\%s\\%s\\%s-columnLabels.csv' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    csv_path_col = '%s\\%s\\%s-columnLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     np.savetxt(csv_path_row, rowArray, delimiter=";")
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
 
     if n_terms > 0:
-        top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'spec');
-        return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]
-    return [predicted_row_labels, predicted_column_labels, new_file_path, None]
+        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
+        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path })
+    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None })
 
 @app.route('/coclust/info', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
 @requires_auth
-def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None, dictionnaire='doc_term_matrix', label_matrix="term_labels", n_terms=0):
+def coclustInfo():
     json = request.get_json(silent=True)
     path = json['path']
     original_file_name = json['name']
-    n_clusters= json['n_clusters'] if json['n_clusters'] != None else 2
+    n_row_clusters= json['n_row_clusters'] if json['n_row_clusters'] != None else 2
+    n_col_clusters= json['n_col_clusters'] if json['n_col_clusters'] != None else 2
     init = json['init'] if json['init'] != None else None
     max_iter= json['max_iter'] if json['max_iter'] != None else 20
     n_init= json['n_init'] if json['n_init'] != None else 1
@@ -592,31 +593,28 @@ def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters
     col_indices = np.argsort(model.column_labels_)
     X_reorg = X[row_indices, :]
     X_reorg = X_reorg[:, col_indices]
-    size = model.n_clusters  * 2.7
+    size = model.n_col_clusters  * 2.7
     plt.subplots(figsize = (size, size))
     plt.subplots_adjust(hspace = 0.200)
     plt.spy(X_reorg, precision=0.8, markersize=0.9)
     file_name ='%s-info-%s' % (original_file_name.split(".",1)[0], int(time.time()))
-    file_path = '%s\\%s\\%s\\%s.png' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
     plt.cla()
     plt.clf()
     rowArray = np.asarray(predicted_row_labels);
     columnArray = np.asarray(predicted_column_labels);
-    csv_path_row = '%s\\%s\\%s\\%s-rowLabels.csv' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
-    csv_path_col = '%s\\%s\\%s\\%s-columnLabels.csv' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    csv_path_col = '%s\\%s\\%s-columnLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     np.savetxt(csv_path_row, rowArray, delimiter=";")
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
 
-    n_terms = n_terms
-
     if n_terms > 0:
-        top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'info');
-        return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]
-
-    return [predicted_row_labels, predicted_column_labels, new_file_path, None]
+        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
+        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path })
+    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None })
 
 def createUserDirectory(username, mode=0777):
     directory = '%s\\%s' % (ROOT.replace("/", "\\"), username)
