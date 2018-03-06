@@ -279,7 +279,7 @@
             if (item.isCoclustCompatible()) {
 				$scope.apiMiddleware.coclustMod($scope.temp)
                 .then(function(result) {
-					$scope.displayResult()
+					$scope.displayResult(result);
 					$scope.modal('coclustMod', false);
 				}, function(reason){
                     $scope.modal('coclustMod', false);
@@ -306,7 +306,7 @@
 			var item = $scope.singleSelection();		
             if (item.isCoclustCompatible()) {
 				$scope.apiMiddleware.coclustSpecMod($scope.temp).then(function(result) {
-					$scope.displayResult()
+					$scope.displayResult(result);
 					$scope.modal('coclustSpecMod', false);
 				}, function(reason){
                     $scope.modal('coclustSpecMod', false);
@@ -319,7 +319,7 @@
 			var item = $scope.singleSelection();		
             if (item.isCoclustCompatible()) {
 				$scope.apiMiddleware.coclustInfo($scope.temp).then(function(result) {
-					$scope.displayResult()
+					$scope.displayResult(result);
 					$scope.modal('coclustInfo', false);
 				}, function(reason){
                     $scope.modal('coclustInfo', false);
@@ -328,7 +328,7 @@
             }
         };
 		
-		$scope.displayResult = function() {
+		$scope.displayResult = function(result) {
 			$scope.fileNavigator.refresh();
 			$scope.row = result.row;
 			$scope.column = result.column;
