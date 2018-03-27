@@ -12,3 +12,6 @@ out.txt
 front/startPHP.bat
 *.log
 **/*.pyc
+server/flask/venv
+server/flask/staticfiles
+Pipfile.lock
