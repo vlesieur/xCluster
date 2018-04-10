@@ -1,8 +1,8 @@
 (function(angular, $) {
     'use strict';
     angular.module('FileManagerApp').controller('FileManagerCtrl', [
-        '$http', '$scope', '$rootScope', '$window', '$translate', 'fileManagerConfig', 'item', 'fileNavigator', 'apiMiddleware',
-        function($http, $scope, $rootScope, $window, $translate, fileManagerConfig, Item, FileNavigator, ApiMiddleware) {
+        '$http', '$scope', '$rootScope', '$window', '$translate', 'fileManagerConfig', 'item', 'fileNavigator', 'apiMiddleware', '$interpolate', '$sce',
+        function($http, $scope, $rootScope, $window, $translate, fileManagerConfig, Item, FileNavigator, ApiMiddleware, $interpolate, $sce) {
         var $storage = $window.localStorage;
         $scope.config = fileManagerConfig;
         $scope.reverse = false;
@@ -297,16 +297,17 @@
             $scope.topTermImg = '';
             $scope.topTermImgString = '';
             $scope.topTermImgUrl = '';
+            $scope.plotly = '';
 			$scope.modal('coclustMod', true);
 			$scope.modal('coclustSpecMod', true);
 			$scope.modal('coclustInfo', true);
 		};
 		
 		$scope.coclustSpecMod = function() {
-			var item = $scope.singleSelection();		
-            if (item.isCoclustCompatible()) {
-				$scope.apiMiddleware.coclustSpecMod($scope.temp).then(function(result) {
-					$scope.displayResult(result);
+			var item = $scope.singleSelection();
+                    if (item.isCoclustCompatible()) {
+                        $scope.apiMiddleware.coclustSpecMod($scope.temp).then(function(result) {
+                            $scope.displayResult(result);
 					$scope.modal('coclustSpecMod', false);
 				}, function(reason){
                     $scope.modal('coclustSpecMod', false);
@@ -335,7 +336,10 @@
 			$scope.img = '../storage/users/' + result.img + '.png';
 			$scope.imgString = encodeURI('/' + result.img + '.png');
 			$scope.imgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.imgString + '&token=' + $window.sessionStorage.getItem("token");
-			if (result.topTermImg) {
+            $scope.html = result.plotly;
+            $scope.plotly = $sce.trustAsHtml($scope.html);
+
+            if (result.topTermImg) {
 				$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';
 				$scope.topTermImgString = encodeURI('/' + result.topTermImg + '.svg');
 				$scope.topTermImgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.topTermImgString + '&token=' + $window.sessionStorage.getItem("token");

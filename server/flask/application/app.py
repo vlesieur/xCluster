@@ -11,6 +11,18 @@ import stat
 import zipfile
 import time
 
+# PLOTLY
+import plotly
+import plotly.plotly as py
+import plotly.figure_factory as ff
+import pandas as pd
+from plotly.offline import plot
+from plotly.graph_objs import Scatter
+import plotly.graph_objs as go
+import plotly.tools as tls
+from plotly import tools
+
+
 # Ressources WebServices
 from flask import Flask, make_response, request, current_app, jsonify, send_from_directory
 from flask_jwt import JWT, jwt_required, current_identity
@@ -27,6 +39,7 @@ from .utils.auth import generate_token, requires_auth
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as PathEffects
 import numpy as np
+
 import coclust
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.pipeline import Pipeline
@@ -46,6 +59,8 @@ from django.utils.datastructures import MultiValueDict
 # Configuration
 ROOT=os.path.abspath(os.getcwd()+'../../../../storage/users')
 SHOW_DOTFILES=True
+plotly.tools.set_credentials_file(username='tedramoni', api_key='3P2xka8m9hULLT2qP293')
+
 
 """
 Decorateur
@@ -472,6 +487,7 @@ def coclustMod():
         tol=tol
         )
     model.fit(X)
+
     predicted_row_labels = model.row_labels_
     predicted_column_labels = model.column_labels_
     row_indices = np.argsort(model.row_labels_)
@@ -486,19 +502,35 @@ def coclustMod():
     file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
+
+    mpl_fig = plt.gcf()
+    plotly_fig = tls.mpl_to_plotly(mpl_fig)
+
     plt.cla()
     plt.clf()
-    rowArray = np.asarray(predicted_row_labels);
-    columnArray = np.asarray(predicted_column_labels);
+    rowArray = np.asarray(predicted_row_labels)
+    columnArray = np.asarray(predicted_column_labels)
     csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     csv_path_col = '%s\\%s\\%s-columnLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     np.savetxt(csv_path_row, rowArray, delimiter=";")
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
+
+    # Plot and embed in ipython notebook!
+    #my_plot_div = plotly.offline.plot(plotly_fig,include_plotlyjs='False', output_type='div', show_link='False', auto_open='False')
+    my_plot_div = plotly.offline.plot(plotly_fig, show_link=False, link_text='Voir sur plot.ly',
+                                      validate=False, output_type='div', include_plotlyjs=False,
+                                      filename='temp-plot.html', auto_open=False, image=None,
+                                      image_filename='xcluster_plot_image', image_width=800, image_height=600,
+                                      config=None)
+
+    #my_plot_div = py.iplot(plotly_fig, filename = 'basic-line')
+
+
     if n_terms > 0:
         top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
-        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path })
-    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None })
+        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path, 'plotly': my_plot_div })
+    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None, 'plotly': my_plot_div })
 
 @app.route('/coclust/spec', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
@@ -691,7 +723,6 @@ def coclustFormat(path, original_file_name,  model, n_terms, matrix, label_matri
     new_file_path = '%s/%s' % (path, file_name)
 
     return new_file_path
-
 
 """
 Lancement du serveur Flask
