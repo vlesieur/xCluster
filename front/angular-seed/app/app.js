@@ -3,10 +3,11 @@
 // Declare app level module which depends on views, and components
 angular.module('constants', []) 
 .constant('env', {
-  API_URL: "http://whispering-shore-32638.herokuapp.com/"
+  API_URL: "http://localhost:5000/"
 }
 )
 // For Heroku local, use "http://localhost:5000/"
+// Else "http://whispering-shore-32638.herokuapp.com/"
 
 angular.module('myApp', [
   'constants',
@@ -30,3 +31,4 @@ angular.module('myApp', [
       }
     })
   });
+	
