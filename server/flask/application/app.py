@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-Python Flask backend pour xCluster
+Python Flask backend pour xCLuster
 """
 # Ressources génériques
 import datetime
@@ -10,6 +10,18 @@ import shutil
 import stat
 import zipfile
 import time
+
+# PLOTLY
+import plotly
+import plotly.plotly as py
+import plotly.figure_factory as ff
+import pandas as pd
+from plotly.offline import plot
+from plotly.graph_objs import Scatter
+import plotly.graph_objs as go
+import plotly.tools as tls
+from plotly import tools
+
 
 # Ressources WebServices
 from flask import Flask, make_response, request, current_app, jsonify, send_from_directory
@@ -24,11 +36,10 @@ from index import app, db
 from .utils.auth import generate_token, requires_auth
 
 # Ressources Coclust
-import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as PathEffects
 import numpy as np
+
 import coclust
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.pipeline import Pipeline
@@ -48,6 +59,8 @@ from django.utils.datastructures import MultiValueDict
 # Configuration
 ROOT=os.path.abspath(os.getcwd()+'../../../../storage/users')
 SHOW_DOTFILES=True
+plotly.tools.set_credentials_file(username='tedramoni', api_key='3P2xka8m9hULLT2qP293')
+
 
 """
 Decorateur
@@ -57,9 +70,9 @@ def crossdomain(origin=None, methods=None, headers=None,
                 automatic_options=True):
     if methods is not None:
         methods = ', '.join(sorted(x.upper() for x in methods))
-    if headers is not None and not isinstance(headers, str):
+    if headers is not None and not isinstance(headers, basestring):
         headers = ', '.join(x.upper() for x in headers)
-    if not isinstance(origin, str):
+    if not isinstance(origin, basestring):
         origin = ', '.join(origin)
     if isinstance(max_age, timedelta):
         max_age = max_age.total_seconds()
@@ -446,6 +459,7 @@ def exit_handler(signal, frame):
 @requires_auth
 def coclustMod():
     json = request.get_json(silent=True)
+<<<<<<< HEAD
     path = json['path'];
     original_file_name = json['name'];
     n_clusters= json['n_clusters'] if json['n_clusters'] != None else 2;
@@ -457,12 +471,26 @@ def coclustMod():
     dictionnaire= json['dict'] if json['dict'] != None else 'doc_term_matrix';
     label_matrix= json['label_matrix'] if json['label_matrix'] != None else 'term_labels';
     n_terms= json['n_terms'] if json['n_terms'] != None else 0;
+=======
+    path = json['path']
+    original_file_name = json['name']
+    n_clusters= json['n_clusters'] if json['n_clusters'] != None else 2
+    init = json['init'] if json['init'] != None else None
+    max_iter= json['max_iter'] if json['max_iter'] != None else 20
+    n_init= json['n_init'] if json['n_init'] != None else 1
+    random_state= json['random_state'] if json['random_state'] != None else np.random.RandomState()
+    tol= json['tol'] if json['tol'] != None else 1e-9
+    dictionnaire= json['dict'] if json['dict'] != None else "doc_term_matrix"
+    label_matrix= json['label_matrix'] if json['label_matrix'] != None else "term_labels"
+    n_terms= json['n_terms'] if json['n_terms'] != None else 0
+>>>>>>> e2e2bbce60a0aca4ff3848aa4336e507a39fae86
 
     plt.cla()
     plt.clf()
     print('coclustMod appel le : %s' % getDateTimeNowString())
     original_file_path = '%s/%s/%s' % (ROOT, path, original_file_name)
     matlab_dict = loadmat(original_file_path)
+    print('dictionnaire %s' % dictionnaire)
     X = matlab_dict[dictionnaire]
     model = CoclustMod(
         n_clusters=n_clusters,
@@ -473,6 +501,7 @@ def coclustMod():
         tol=tol
         )
     model.fit(X)
+
     predicted_row_labels = model.row_labels_
     predicted_column_labels = model.column_labels_
     row_indices = np.argsort(model.row_labels_)
@@ -487,20 +516,47 @@ def coclustMod():
     file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
+
+    mpl_fig = plt.gcf()
+    plotly_fig = tls.mpl_to_plotly(mpl_fig)
+
     plt.cla()
     plt.clf()
+<<<<<<< HEAD
     rowArray = np.asarray(predicted_row_labels);
     columnArray = np.asarray(predicted_column_labels);
+=======
+    rowArray = np.asarray(predicted_row_labels)
+    columnArray = np.asarray(predicted_column_labels)
+>>>>>>> e2e2bbce60a0aca4ff3848aa4336e507a39fae86
     csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     csv_path_col = '%s\\%s\\%s-columnLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     np.savetxt(csv_path_row, rowArray, delimiter=";")
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
+<<<<<<< HEAD
     if n_terms > 0:
         top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
         return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path })
     return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None })
+=======
+>>>>>>> e2e2bbce60a0aca4ff3848aa4336e507a39fae86
 
+    # Plot and embed in ipython notebook!
+    #my_plot_div = plotly.offline.plot(plotly_fig,include_plotlyjs='False', output_type='div', show_link='False', auto_open='False')
+    my_plot_div = plotly.offline.plot(plotly_fig, show_link=False, link_text='Voir sur plot.ly',
+                                      validate=False, output_type='div', include_plotlyjs=False,
+                                      filename='temp-plot.html', auto_open=False, image=None,
+                                      image_filename='xcluster_plot_image', image_width=800, image_height=600,
+                                      config=None)
+
+    #my_plot_div = py.iplot(plotly_fig, filename = 'basic-line')
+
+
+    if n_terms > 0:
+        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
+        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path, 'plotly': my_plot_div })
+    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None, 'plotly': my_plot_div })
 
 @app.route('/coclust/spec', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
@@ -559,7 +615,7 @@ def coclustSpecMod():
 @app.route('/coclust/info', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
 @requires_auth
-def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters=2, init=None, max_iter=20, n_init=1, tol=1e-9, random_state=None, dictionnaire='doc_term_matrix', label_matrix="term_labels", n_terms=0):
+def coclustInfo():
     json = request.get_json(silent=True)
     path = json['path']
     original_file_name = json['name']
@@ -573,6 +629,7 @@ def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters
     dictionnaire= json['dict'] if json['dict'] != None else "doc_term_matrix"
     label_matrix= json['label_matrix'] if json['label_matrix'] != None else "term_labels"
     n_terms= json['n_terms'] if json['n_terms'] != None else 0
+
     plt.cla()
     plt.clf()
     print('coclustInfo appel le : %s' % getDateTimeNowString())
@@ -594,35 +651,30 @@ def coclustInfo(self, path, original_file_name, n_row_clusters=2, n_col_clusters
     col_indices = np.argsort(model.column_labels_)
     X_reorg = X[row_indices, :]
     X_reorg = X_reorg[:, col_indices]
-    size = model.n_clusters  * 2.7
+    size = model.n_col_clusters  * 2.7
     plt.subplots(figsize = (size, size))
     plt.subplots_adjust(hspace = 0.200)
     plt.spy(X_reorg, precision=0.8, markersize=0.9)
     file_name ='%s-info-%s' % (original_file_name.split(".",1)[0], int(time.time()))
-    file_path = '%s\\%s\\%s\\%s.png' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
     plt.cla()
     plt.clf()
     rowArray = np.asarray(predicted_row_labels);
     columnArray = np.asarray(predicted_column_labels);
-    csv_path_row = '%s\\%s\\%s\\%s-rowLabels.csv' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
-    csv_path_col = '%s\\%s\\%s\\%s-columnLabels.csv' % (os.getcwd(), ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    csv_path_col = '%s\\%s\\%s-columnLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     np.savetxt(csv_path_row, rowArray, delimiter=";")
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
 
-    n_terms = n_terms
-
     if n_terms > 0:
-        top_terms_file_path = self.coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'info');
-        return [predicted_row_labels, predicted_column_labels, new_file_path, top_terms_file_path]
+        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
+        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path })
+    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None })
 
-    return [predicted_row_labels, predicted_column_labels, new_file_path, None]
-
-#old python 0777
-#new python 0o777
-def createUserDirectory(username, mode=0o777):
+def createUserDirectory(username, mode=0777):
     directory = '%s\\%s' % (ROOT.replace("/", "\\"), username)
     if not os.path.exists(directory) and not os.path.isdir(directory) :
         os.mkdir(directory, mode)
@@ -687,7 +739,6 @@ def coclustFormat(path, original_file_name,  model, n_terms, matrix, label_matri
     # Tight layout often produces nice results# but requires the title to be spaced accordingly
     plt.tight_layout()
     plt.subplots_adjust(top = 0.88)
-
     file_name ='%s-%s-%s-%s' % (original_file_name.split(".",1)[0], method, 'topTerms', int(time.time()))
     file_path = '%s\\%s\\%s.svg' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
@@ -698,7 +749,6 @@ def coclustFormat(path, original_file_name,  model, n_terms, matrix, label_matri
     new_file_path = '%s/%s' % (path, file_name)
 
     return new_file_path
-
 
 """
 Lancement du serveur Flask
@@ -747,13 +797,3 @@ def get_token():
 		return jsonify({ 'success': False, 'msg': 'Echec de l\'authentification. Login ou mot de passe invalide.' }), 200
 	token=generate_token(user)
 	return jsonify({ 'success': True, 'token': token })
-
-@app.route("/")
-@crossdomain(origin="*")
-def hello():
-    return "Hello World!"
-
-@app.route("/favicon.ico")
-@crossdomain(origin="*")
-def favicon():
-    return send_from_directory('.', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
