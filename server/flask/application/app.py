@@ -15,17 +15,6 @@ import zipfile
 import time
 import pyclamd
 
-# PLOTLY
-import plotly
-import plotly.plotly as py
-import plotly.figure_factory as ff
-import pandas as pd
-from plotly.offline import plot, init_notebook_mode, enable_mpl_offline, iplot_mpl
-from plotly.graph_objs import Scatter
-import plotly.graph_objs as go
-import plotly.tools as tls
-from plotly import tools
-
 # BOKEH
 from bokeh.plotting import figure, show, output_file, save
 from bokeh.mpl import to_bokeh
@@ -73,9 +62,6 @@ from django.utils.datastructures import MultiValueDict
 # Configuration
 ROOT=os.path.abspath(os.getcwd()+'../../../../storage/users')
 SHOW_DOTFILES=True
-plotly.tools.set_credentials_file(username='tedramoni', api_key='3P2xka8m9hULLT2qP293')
-
-init_notebook_mode()
 
 """
 Decorateur
@@ -518,7 +504,7 @@ def coclustMod():
     col_indices = np.argsort(model.column_labels_)
     X_reorg = X[row_indices, :]
     X_reorg = X_reorg[:, col_indices]
-    size = model.n_clusters  * 2.7
+    size = 2  * 2.7
     plt.subplots(figsize = (size, size))
     plt.subplots_adjust(hspace = 0.200)
     plt.spy(X_reorg, precision=0.8, markersize=0.9)
@@ -557,16 +543,6 @@ def coclustMod():
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
 
-    # Plot and embed in ipython notebook!
-    #my_plot_div = plotly.offline.plot(plotly_fig,include_plotlyjs='False', output_type='div', show_link='False', auto_open='False')
-    #my_plot_div = plotly.offline.plot_mpl(mpl_fig, show_link=False, link_text='Voir sur plot.ly',
-                                      #validate=False, output_type='div', include_plotlyjs=False,
-                                      #filename='temp-plot.html', auto_open=False, image=None,
-                                      #image_filename='xcluster_plot_image', image_width=800, image_height=600)
-
-    #my_plot_div = py.iplot(plotly_fig, filename = 'basic-line')
-
-
     if n_terms > 0:
         top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
         return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path, 'plotly': my_plot_div })
@@ -603,7 +579,7 @@ def coclustSpecMod():
     col_indices = np.argsort(model.column_labels_)
     X_reorg = X[row_indices, :]
     X_reorg = X_reorg[:, col_indices]
-    size = model.n_clusters  * 2.7
+    size = 2  * 2.7
     plt.subplots(figsize = (size, size))
     plt.subplots_adjust(hspace = 0.200)
     plt.spy(X_reorg, precision=0.8, markersize=0.9)
@@ -665,7 +641,7 @@ def coclustInfo():
     col_indices = np.argsort(model.column_labels_)
     X_reorg = X[row_indices, :]
     X_reorg = X_reorg[:, col_indices]
-    size = model.n_col_clusters  * 2.7
+    size = 2  * 2.7
     plt.subplots(figsize = (size, size))
     plt.subplots_adjust(hspace = 0.200)
     plt.spy(X_reorg, precision=0.8, markersize=0.9)

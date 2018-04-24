@@ -19,5 +19,5 @@ six==1.10.0
 Werkzeug==0.11.15
 WTForms==2.1
 Django==1.11
-plotly
 pyclamd
+bokeh
