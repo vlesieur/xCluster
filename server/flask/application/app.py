@@ -13,6 +13,7 @@ import shutil
 import stat
 import zipfile
 import time
+import pyclamd
 
 # PLOTLY
 import plotly
@@ -391,12 +392,16 @@ def extract():
 @requires_auth
 def upload():
     try:
+        cd = pyclamd.ClamdAgnostic()
         destination = request.form['destination']
         print(request.files)
         files = MultiValueDict()
         for fileIndex in request.files:
             files.appendlist('file', request.files[fileIndex])
         files = files.getlist('file')
+        for f in files:
+            if cd.scan_stream(f.stream):
+                return jsonify({'result': {'success': 'false', 'error': 'The file ' + secure_filename(f.filename) + ' has a virus'}})
         for f in files: 
             print(f)
             filename = secure_filename(f.filename)
