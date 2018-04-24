@@ -1,4 +1,7 @@
 # coding: utf-8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 """
 Python Flask backend pour xCLuster
 """
@@ -16,12 +19,22 @@ import plotly
 import plotly.plotly as py
 import plotly.figure_factory as ff
 import pandas as pd
-from plotly.offline import plot
+from plotly.offline import plot, init_notebook_mode, enable_mpl_offline, iplot_mpl
 from plotly.graph_objs import Scatter
 import plotly.graph_objs as go
 import plotly.tools as tls
 from plotly import tools
 
+# BOKEH
+from bokeh.plotting import figure, show, output_file, save
+from bokeh.mpl import to_bokeh
+from bokeh.resources import CDN
+from bokeh.embed import file_html
+from bokeh.models import HoverTool
+from bokeh.models import LinearAxis
+from bokeh.models import ColumnDataSource
+from bokeh.models.glyphs import Line
+from bokeh.models import CustomJS, ColumnDataSource, TapTool
 
 # Ressources WebServices
 from flask import Flask, make_response, request, current_app, jsonify, send_from_directory
@@ -61,6 +74,7 @@ ROOT=os.path.abspath(os.getcwd()+'../../../../storage/users')
 SHOW_DOTFILES=True
 plotly.tools.set_credentials_file(username='tedramoni', api_key='3P2xka8m9hULLT2qP293')
 
+init_notebook_mode()
 
 """
 Decorateur
@@ -478,6 +492,11 @@ def coclustMod():
     matlab_dict = loadmat(original_file_path)
     print('dictionnaire %s' % dictionnaire)
     X = matlab_dict[dictionnaire]
+
+    doc_term_data = load_doc_term_data(original_file_path)
+    term_labels = doc_term_data['term_labels']
+    doc_labels = doc_term_data['doc_labels']
+
     model = CoclustMod(
         n_clusters=n_clusters,
         init=init,
@@ -502,12 +521,29 @@ def coclustMod():
     file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
-
     mpl_fig = plt.gcf()
-    plotly_fig = tls.mpl_to_plotly(mpl_fig)
 
-    plt.cla()
-    plt.clf()
+    bk = to_bokeh(mpl_fig)
+
+    source = ColumnDataSource(dict(doc = doc_labels, label= term_labels))
+
+    xaxis = LinearAxis()
+    bk.add_layout(xaxis, 'below')
+
+    scode = """
+        x = Math.round(cb_data.geometry.x);
+        y = Math.round(cb_data.geometry.y);
+        doc = source.attributes.data.doc[y];
+        label = source.attributes.data.label[x]; 
+        text = 'x, y : ' + x + ', '+ y+ ' [doc_term : '+doc + ' ; term_label : ' + label+ ']';
+        document.getElementById("callback").innerHTML=text; 
+        """
+    cb_click = CustomJS(args=dict(source=source),code = scode)
+
+    bk.add_tools(HoverTool(tooltips=None, callback=cb_click))
+
+    my_plot_div = file_html(bk, CDN, "Matrice réorganisée")
+
     rowArray = np.asarray(predicted_row_labels)
     columnArray = np.asarray(predicted_column_labels)
     csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
@@ -518,11 +554,10 @@ def coclustMod():
 
     # Plot and embed in ipython notebook!
     #my_plot_div = plotly.offline.plot(plotly_fig,include_plotlyjs='False', output_type='div', show_link='False', auto_open='False')
-    my_plot_div = plotly.offline.plot(plotly_fig, show_link=False, link_text='Voir sur plot.ly',
-                                      validate=False, output_type='div', include_plotlyjs=False,
-                                      filename='temp-plot.html', auto_open=False, image=None,
-                                      image_filename='xcluster_plot_image', image_width=800, image_height=600,
-                                      config=None)
+    #my_plot_div = plotly.offline.plot_mpl(mpl_fig, show_link=False, link_text='Voir sur plot.ly',
+                                      #validate=False, output_type='div', include_plotlyjs=False,
+                                      #filename='temp-plot.html', auto_open=False, image=None,
+                                      #image_filename='xcluster_plot_image', image_width=800, image_height=600)
 
     #my_plot_div = py.iplot(plotly_fig, filename = 'basic-line')
 

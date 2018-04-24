@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1b3bffc-4fec-4b4d-b2db-15ffd6f631b0" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/git.iml" afterPath="$PROJECT_DIR$/.idea/git.iml" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/js/controllers/main.js" afterPath="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/js/controllers/main.js" />
       <change beforePath="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/templates/modals.html" afterPath="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/templates/modals.html" />
-      <change beforePath="$PROJECT_DIR$/front/angular-seed/app/components/client/client.js" afterPath="" />
       <change beforePath="$PROJECT_DIR$/front/angular-seed/app/index.html" afterPath="$PROJECT_DIR$/front/angular-seed/app/index.html" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
       <change beforePath="$PROJECT_DIR$/server/flask/application/app.py" afterPath="$PROJECT_DIR$/server/flask/application/app.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,8 +20,8 @@
       <file leaf-file-name="app.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/flask/application/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="33">
-              <caret line="22" column="24" lean-forward="false" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
+            <state relative-caret-position="594">
+              <caret line="535" column="44" lean-forward="true" selection-start-line="535" selection-start-column="44" selection-end-line="535" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -43,29 +40,9 @@
       <file leaf-file-name="modals.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/templates/modals.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13794">
-              <caret line="418" column="35" lean-forward="false" selection-start-line="418" selection-start-column="35" selection-end-line="418" selection-end-column="35" />
-              <folding>
-                <element signature="e#251#258#1" expanded="true" />
-                <element signature="e#1384#1391#1" expanded="true" />
-                <element signature="e#2482#2489#1" expanded="true" />
-                <element signature="e#3546#3553#1" expanded="true" />
-                <element signature="e#4775#4782#1" expanded="true" />
-                <element signature="e#6134#6141#1" expanded="true" />
-                <element signature="e#8352#8359#1" expanded="true" />
-                <element signature="e#10224#10231#1" expanded="true" />
-                <element signature="e#11920#11927#1" expanded="true" />
-                <element signature="e#13071#13078#1" expanded="true" />
-                <element signature="e#13969#13976#0" expanded="true" />
-                <element signature="e#15607#15614#1" expanded="true" />
-                <element signature="e#15835#15842#1" expanded="true" />
-                <element signature="e#21871#21878#1" expanded="true" />
-                <element signature="e#22099#22106#1" expanded="true" />
-                <element signature="e#27741#27748#1" expanded="true" />
-                <element signature="e#27969#27976#1" expanded="true" />
-                <element signature="e#33992#33999#1" expanded="true" />
-                <element signature="e#36744#36751#1" expanded="true" />
-              </folding>
+            <state relative-caret-position="1038">
+              <caret line="426" column="14" lean-forward="false" selection-start-line="426" selection-start-column="14" selection-end-line="426" selection-end-column="14" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -83,8 +60,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/front/angular-seed/app/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1023">
-              <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state relative-caret-position="271">
+              <caret line="30" column="83" lean-forward="true" selection-start-line="30" selection-start-column="83" selection-end-line="30" selection-end-column="83" />
               <folding />
             </state>
           </provider>
@@ -144,8 +121,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>logger.warning</find>
-      <find>coclust/mod</find>
       <find>original_file_name</find>
       <find>datetime</find>
       <find>SpecMod</find>
@@ -166,7 +141,6 @@
       <find>storage</find>
       <find>topTermImg</find>
       <find>topTer</find>
-      <find>plotly</find>
       <find>$scope.row</find>
       <find>displayResult</find>
       <find>mpl_fig</find>
@@ -174,6 +148,9 @@
       <find>localhost</find>
       <find>URL</find>
       <find>coclustFormat</find>
+      <find>mod</find>
+      <find>LinearAxis</find>
+      <find>plotly</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\eagle\OneDrive\Documents\PPD\git\server</dir>
@@ -194,9 +171,9 @@
         <option value="$PROJECT_DIR$/front/angular-seed/app/view1/view1.js" />
         <option value="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/js/providers/config.js" />
         <option value="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/js/controllers/main.js" />
+        <option value="$PROJECT_DIR$/front/angular-seed/app/app.js" />
         <option value="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/templates/modals.html" />
         <option value="$PROJECT_DIR$/front/angular-seed/app/index.html" />
-        <option value="$PROJECT_DIR$/front/angular-seed/app/app.js" />
         <option value="$PROJECT_DIR$/server/flask/application/app.py" />
       </list>
     </option>
@@ -211,12 +188,13 @@
     <handled-path value="$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/node_modules" />
     <handled-path value="$PROJECT_DIR$/front/angular-seed/node_modules" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="169" />
     <option name="y" value="-24" />
     <option name="width" value="3030" />
     <option name="height" value="2030" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -232,6 +210,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -365,9 +345,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -517,14 +495,16 @@
       <workItem from="1522739507948" duration="10323000" />
       <workItem from="1523050165512" duration="12427000" />
       <workItem from="1523258326251" duration="15000" />
+      <workItem from="1523346150032" duration="7910000" />
+      <workItem from="1524467763936" duration="19582000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59180000" />
+    <option name="totallyTimeSpent" value="86672000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-13" y="-13" width="3026" height="1946" extended-state="6" />
+    <frame x="-13" y="-13" width="3026" height="1946" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -539,10 +519,12 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17453799" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17864476" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24982889" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -552,11 +534,9 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3364134" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="0" y="0" width="706" height="1746" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -634,27 +614,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="13596">
           <caret line="412" column="69" lean-forward="false" selection-start-line="412" selection-start-column="69" selection-end-line="412" selection-end-column="69" />
-          <folding>
-            <element signature="e#251#258#1" expanded="true" />
-            <element signature="e#1384#1391#1" expanded="true" />
-            <element signature="e#2482#2489#1" expanded="true" />
-            <element signature="e#3546#3553#1" expanded="true" />
-            <element signature="e#4775#4782#1" expanded="true" />
-            <element signature="e#6134#6141#1" expanded="true" />
-            <element signature="e#8352#8359#1" expanded="true" />
-            <element signature="e#10224#10231#1" expanded="true" />
-            <element signature="e#11920#11927#1" expanded="true" />
-            <element signature="e#13071#13078#1" expanded="true" />
-            <element signature="e#13969#13976#0" expanded="true" />
-            <element signature="e#15607#15614#1" expanded="true" />
-            <element signature="e#15835#15842#1" expanded="true" />
-            <element signature="e#21871#21878#1" expanded="true" />
-            <element signature="e#22099#22106#1" expanded="true" />
-            <element signature="e#27741#27748#1" expanded="true" />
-            <element signature="e#27969#27976#1" expanded="true" />
-            <element signature="e#33992#33999#1" expanded="true" />
-            <element signature="e#36744#36751#1" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -686,27 +646,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="13596">
           <caret line="412" column="69" lean-forward="false" selection-start-line="412" selection-start-column="69" selection-end-line="412" selection-end-column="69" />
-          <folding>
-            <element signature="e#251#258#1" expanded="true" />
-            <element signature="e#1384#1391#1" expanded="true" />
-            <element signature="e#2482#2489#1" expanded="true" />
-            <element signature="e#3546#3553#1" expanded="true" />
-            <element signature="e#4775#4782#1" expanded="true" />
-            <element signature="e#6134#6141#1" expanded="true" />
-            <element signature="e#8352#8359#1" expanded="true" />
-            <element signature="e#10224#10231#1" expanded="true" />
-            <element signature="e#11920#11927#1" expanded="true" />
-            <element signature="e#13071#13078#1" expanded="true" />
-            <element signature="e#13969#13976#0" expanded="true" />
-            <element signature="e#15607#15614#1" expanded="true" />
-            <element signature="e#15835#15842#1" expanded="true" />
-            <element signature="e#21871#21878#1" expanded="true" />
-            <element signature="e#22099#22106#1" expanded="true" />
-            <element signature="e#27741#27748#1" expanded="true" />
-            <element signature="e#27969#27976#1" expanded="true" />
-            <element signature="e#33992#33999#1" expanded="true" />
-            <element signature="e#36744#36751#1" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -738,27 +678,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="13596">
           <caret line="412" column="69" lean-forward="false" selection-start-line="412" selection-start-column="69" selection-end-line="412" selection-end-column="69" />
-          <folding>
-            <element signature="e#251#258#1" expanded="true" />
-            <element signature="e#1384#1391#1" expanded="true" />
-            <element signature="e#2482#2489#1" expanded="true" />
-            <element signature="e#3546#3553#1" expanded="true" />
-            <element signature="e#4775#4782#1" expanded="true" />
-            <element signature="e#6134#6141#1" expanded="true" />
-            <element signature="e#8352#8359#1" expanded="true" />
-            <element signature="e#10224#10231#1" expanded="true" />
-            <element signature="e#11920#11927#1" expanded="true" />
-            <element signature="e#13071#13078#1" expanded="true" />
-            <element signature="e#13969#13976#0" expanded="true" />
-            <element signature="e#15607#15614#1" expanded="true" />
-            <element signature="e#15835#15842#1" expanded="true" />
-            <element signature="e#21871#21878#1" expanded="true" />
-            <element signature="e#22099#22106#1" expanded="true" />
-            <element signature="e#27741#27748#1" expanded="true" />
-            <element signature="e#27969#27976#1" expanded="true" />
-            <element signature="e#33992#33999#1" expanded="true" />
-            <element signature="e#36744#36751#1" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -990,46 +910,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/templates/modals.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13794">
-          <caret line="418" column="35" lean-forward="false" selection-start-line="418" selection-start-column="35" selection-end-line="418" selection-end-column="35" />
-          <folding>
-            <element signature="e#251#258#1" expanded="true" />
-            <element signature="e#1384#1391#1" expanded="true" />
-            <element signature="e#2482#2489#1" expanded="true" />
-            <element signature="e#3546#3553#1" expanded="true" />
-            <element signature="e#4775#4782#1" expanded="true" />
-            <element signature="e#6134#6141#1" expanded="true" />
-            <element signature="e#8352#8359#1" expanded="true" />
-            <element signature="e#10224#10231#1" expanded="true" />
-            <element signature="e#11920#11927#1" expanded="true" />
-            <element signature="e#13071#13078#1" expanded="true" />
-            <element signature="e#13969#13976#0" expanded="true" />
-            <element signature="e#15607#15614#1" expanded="true" />
-            <element signature="e#15835#15842#1" expanded="true" />
-            <element signature="e#21871#21878#1" expanded="true" />
-            <element signature="e#22099#22106#1" expanded="true" />
-            <element signature="e#27741#27748#1" expanded="true" />
-            <element signature="e#27969#27976#1" expanded="true" />
-            <element signature="e#33992#33999#1" expanded="true" />
-            <element signature="e#36744#36751#1" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/flask/application/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="594">
           <caret line="18" column="8" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front/angular-seed/app/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1023">
-          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1058,10 +942,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/front/angular-seed/app/bower_components/angular-filemanager/src/templates/modals.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1038">
+          <caret line="426" column="14" lean-forward="false" selection-start-line="426" selection-start-column="14" selection-end-line="426" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front/angular-seed/app/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="30" column="83" lean-forward="true" selection-start-line="30" selection-start-column="83" selection-end-line="30" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server/flask/application/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="33">
-          <caret line="22" column="24" lean-forward="false" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
+        <state relative-caret-position="594">
+          <caret line="535" column="44" lean-forward="true" selection-start-line="535" selection-start-column="44" selection-end-line="535" selection-end-column="44" />
           <folding />
         </state>
       </provider>
