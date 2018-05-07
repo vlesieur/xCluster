@@ -528,6 +528,13 @@ def coclustMod():
         label = source.attributes.data.label[x]; 
         text = 'x, y : ' + x + ', '+ y+ ' [doc_term : '+doc + ' ; term_label : ' + label+ ']';
         document.getElementById("callback").innerHTML=text; 
+		document.addEventListener('mousemove', function(e) {
+		  document.getElementById("callback").style.position = 'relative';
+		  document.getElementById("callback").style.zIndex = 10000;
+	      document.getElementById("callback").style.left = (e.pageX - 200).toString() + 'px';
+	      document.getElementById("callback").style.top = (e.pageY - 600).toString() + 'px';
+	      document.getElementById("callback").style.backgroundColor = 'white';
+	    });
         """
     cb_click = CustomJS(args=dict(source=source),code = scode)
 
