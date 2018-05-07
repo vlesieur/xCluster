@@ -1,4 +1,4 @@
-# Sujet de PPD MIAGE M1 FA
+# Sujet de PPD de Master MIAGE FA
 ## Interface Web pour la Classification Croisée
 ### Contexte du sujet
 Avec l'expansion des volumes de données disponibles, notamment sur le web, la classification ne cesse de
@@ -11,6 +11,7 @@ Cependant, contrairement au méthodes de classification simple, très peu d'outi
 implémentent des méthodes de classification croisée et souvent ces outils n'offrent pas d'interface graphique
 pour les utilisateurs.
 ### Travail à effectuer
+#### M1
 Dans ce PPD on s’intéresse au package python Coclust [1] qui implémente plusieurs méthodes de
 classification croisée. L'objectif est de développer une interface web pour Coclust afin de le rendre plus
 accessible et plus simple à utiliser. En particulier cette interface devrait permettre :
@@ -23,6 +24,12 @@ applique une classification croisée sur ses données en indiquant (i) la métho
 classes lignes et colonnes, (iii) les paramètres spécifiques à l'algorithme choisi.
 Le travail à réaliser dans le cadre de ce PPD peut s’inspirer de gCLUTO [2] qui offre une interface graphique
 pour la classification simple.
+#### M2
+Dans la suite de ce PPD, il est demandé de restructurer l'application afin de la rendre davantage maintenable. C'est également l'occasion de rajouter des fonctionnalités. Les points évolutions suivantes sont attendues :
+1. Refactorisation du code
+2. Utilisation du framework Python Flask
+3. Graphique interactif
+4. Analyse antivirus
 ### Outils mis en oeuvre
 NodeJS [3], Python, MongoDB [4], zeroMQ [5], AzureAD [6], Node file manager (peut être...) [7]  
 ### Encadrant : Aghiles Salah (aghiles.salah@parisdescartes.fr).
