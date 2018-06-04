@@ -340,7 +340,6 @@
 			$scope.imgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.imgString + '&token=' + $window.sessionStorage.getItem("token");
             $scope.html = result.plotly;
             $scope.plotly = $sce.trustAsHtml($scope.html);
-			console.log($scope.plotly);
 
             if (result.topTermImg) {
 				$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';

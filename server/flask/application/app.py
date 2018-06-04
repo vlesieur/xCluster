@@ -476,7 +476,6 @@ def convertToBokeh(doc_labels, term_labels, mpl_fig):
     cb_click = CustomJS(args=dict(source=source),code = scode)
     bk.add_tools(HoverTool(tooltips=None, callback=cb_click))
     my_plot_div = file_html(bk, CDN, "Matrice réorganisée")
-    print('plotly : %s' % my_plot_div)
     return my_plot_div
 
 @app.route('/coclust/mod', methods = ['POST', 'OPTIONS'])
