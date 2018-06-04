@@ -459,6 +459,26 @@ def exit_handler(signal, frame):
 # tol (float, default: 1e-9) – Relative tolerance with regards to modularity to declare convergence
 #############################################################################
 
+def convertToBokeh(doc_labels, term_labels, mpl_fig):
+    bk = to_bokeh(mpl_fig)
+    source = ColumnDataSource(dict(doc = doc_labels, label = term_labels))
+    xaxis = LinearAxis()
+    bk.add_layout(xaxis, 'below')
+    scode = """
+        x = Math.round(cb_data.geometry.x);
+        y = Math.round(cb_data.geometry.y);
+        doc = source.attributes.data.doc[y];
+        label = source.attributes.data.label[x]; 
+        text = 'x, y : ' + x + ', '+ y+ ' [doc_term : '+doc + ' ; term_label : ' + label+ ']';
+        document.getElementById("callback").innerHTML=text;
+		document.getElementById("callback").style.zIndex = 10000;
+        """
+    cb_click = CustomJS(args=dict(source=source),code = scode)
+    bk.add_tools(HoverTool(tooltips=None, callback=cb_click))
+    my_plot_div = file_html(bk, CDN, "Matrice réorganisée")
+    print('plotly : %s' % my_plot_div)
+    return my_plot_div
+
 @app.route('/coclust/mod', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
 @requires_auth
@@ -514,28 +534,6 @@ def coclustMod():
     plt.savefig(file_path)
     mpl_fig = plt.gcf()
 
-    bk = to_bokeh(mpl_fig)
-
-    source = ColumnDataSource(dict(doc = doc_labels, label= term_labels))
-
-    xaxis = LinearAxis()
-    bk.add_layout(xaxis, 'below')
-
-    scode = """
-        x = Math.round(cb_data.geometry.x);
-        y = Math.round(cb_data.geometry.y);
-        doc = source.attributes.data.doc[y];
-        label = source.attributes.data.label[x]; 
-        text = 'x, y : ' + x + ', '+ y+ ' [doc_term : '+doc + ' ; term_label : ' + label+ ']';
-        document.getElementById("callback").innerHTML=text;
-		document.getElementById("callback").style.zIndex = 10000;
-        """
-    cb_click = CustomJS(args=dict(source=source),code = scode)
-
-    bk.add_tools(HoverTool(tooltips=None, callback=cb_click))
-
-    my_plot_div = file_html(bk, CDN, "Matrice réorganisée")
-
     rowArray = np.asarray(predicted_row_labels)
     columnArray = np.asarray(predicted_column_labels)
     csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
@@ -546,8 +544,8 @@ def coclustMod():
 
     if n_terms > 0:
         top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
-        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path, 'plotly': my_plot_div })
-    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None, 'plotly': my_plot_div })
+        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
+    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
 
 @app.route('/coclust/spec', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
@@ -572,6 +570,11 @@ def coclustSpecMod():
     original_file_path = '%s/%s/%s' % (ROOT, path, original_file_name)
     matlab_dict = loadmat(original_file_path)
     X = matlab_dict[dictionnaire]
+
+    doc_term_data = load_doc_term_data(original_file_path)
+    term_labels = doc_term_data['term_labels']
+    doc_labels = doc_term_data['doc_labels']
+
     model = CoclustSpecMod(n_clusters=n_clusters, max_iter=max_iter, n_init=n_init, random_state=random_state, tol=tol)
     model.fit(X)
     predicted_row_labels = model.row_labels_
@@ -588,8 +591,8 @@ def coclustSpecMod():
     file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
-    plt.cla()
-    plt.clf()
+    mpl_fig = plt.gcf()
+    
     rowArray = np.asarray(predicted_row_labels);
     columnArray = np.asarray(predicted_column_labels);
     csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
@@ -600,8 +603,8 @@ def coclustSpecMod():
 
     if n_terms > 0:
         top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
-        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path })
-    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None })
+        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
+    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'toph TermImg': None, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
 
 @app.route('/coclust/info', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
@@ -627,6 +630,11 @@ def coclustInfo():
     original_file_path = '%s/%s/%s' % (ROOT, path, original_file_name)
     matlab_dict = loadmat(original_file_path)
     X = matlab_dict[dictionnaire]
+
+    doc_term_data = load_doc_term_data(original_file_path)
+    term_labels = doc_term_data['term_labels']
+    doc_labels = doc_term_data['doc_labels']
+
     model = CoclustInfo(
         n_row_clusters=n_row_clusters,
         n_col_clusters=n_col_clusters,
@@ -650,8 +658,8 @@ def coclustInfo():
     file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
-    plt.cla()
-    plt.clf()
+    mpl_fig = plt.gcf()
+
     rowArray = np.asarray(predicted_row_labels);
     columnArray = np.asarray(predicted_column_labels);
     csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
@@ -662,8 +670,8 @@ def coclustInfo():
 
     if n_terms > 0:
         top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
-        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path })
-    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None })
+        return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
+    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
 
 def createUserDirectory(username, mode=0777):
     directory = '%s\\%s' % (ROOT.replace("/", "\\"), username)

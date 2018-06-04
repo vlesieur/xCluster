@@ -272,22 +272,8 @@
             }, function() {
                 $scope.apiMiddleware.apiHandler.asyncSuccess = false;
             });
-        };        
+        };   
 		
-		$scope.coclustMod = function() {	
-			var item = $scope.singleSelection();		
-            if (item.isCoclustCompatible()) {
-				$scope.apiMiddleware.coclustMod($scope.temp)
-                .then(function(result) {
-					$scope.displayResult(result);
-					$scope.modal('coclustMod', false);
-				}, function(reason){
-                    $scope.modal('coclustMod', false);
-                    $window.location.reload();
-                });
-            }
-		};	
-
 		$scope.resetCoclustModal = function() {
 			$scope.row = '';
             $scope.column = '';
@@ -303,11 +289,27 @@
 			$scope.modal('coclustInfo', true);
 		};
 		
+		$scope.coclustMod = function() {	
+			var item = $scope.singleSelection();		
+            if (item.isCoclustCompatible()) {
+				$scope.apiMiddleware.coclustMod($scope.temp)
+                .then(function(result) {
+					$scope.displayResult(result);
+					$scope.modal('coclustMod', false);
+				}, function(reason){
+                    $scope.modal('coclustMod', false);
+                    $window.location.reload();
+                });
+            }
+		};	
+
+		
 		$scope.coclustSpecMod = function() {
 			var item = $scope.singleSelection();
-                    if (item.isCoclustCompatible()) {
-                        $scope.apiMiddleware.coclustSpecMod($scope.temp).then(function(result) {
-                            $scope.displayResult(result);
+            if (item.isCoclustCompatible()) {
+                $scope.apiMiddleware.coclustSpecMod($scope.temp)
+				.then(function(result) {
+                    $scope.displayResult(result);
 					$scope.modal('coclustSpecMod', false);
 				}, function(reason){
                     $scope.modal('coclustSpecMod', false);
@@ -338,6 +340,7 @@
 			$scope.imgUrl = fileManagerConfig.downloadFileUrl + '?action=download&path='+ $scope.imgString + '&token=' + $window.sessionStorage.getItem("token");
             $scope.html = result.plotly;
             $scope.plotly = $sce.trustAsHtml($scope.html);
+			console.log($scope.plotly);
 
             if (result.topTermImg) {
 				$scope.topTermImg = '../storage/users/' + result.topTermImg + '.svg';
