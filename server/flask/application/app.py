@@ -461,6 +461,7 @@ def exit_handler(signal, frame):
 
 def convertToBokeh(doc_labels, term_labels, mpl_fig):
     bk = to_bokeh(mpl_fig)
+    print('bl: %s' % bk)
     source = ColumnDataSource(dict(doc = doc_labels, label = term_labels))
     xaxis = LinearAxis()
     bk.add_layout(xaxis, 'below')
@@ -562,7 +563,7 @@ def coclustSpecMod():
     dictionnaire= json['dict'] if json['dict'] != None else "doc_term_matrix"
     label_matrix= json['label_matrix'] if json['label_matrix'] != None else "term_labels"
     n_terms= json['n_terms'] if json['n_terms'] != None else 0
-    
+
     plt.cla()
     plt.clf()
     print('coclustSpecMod appel le : %s' % getDateTimeNowString())
@@ -591,7 +592,7 @@ def coclustSpecMod():
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
     mpl_fig = plt.gcf()
-    
+
     rowArray = np.asarray(predicted_row_labels);
     columnArray = np.asarray(predicted_column_labels);
     csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
@@ -601,9 +602,9 @@ def coclustSpecMod():
     new_file_path = '%s/%s' % (path, file_name)
 
     if n_terms > 0:
-        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
+        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'spec')
         return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
-    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'toph TermImg': None, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
+    return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
 
 @app.route('/coclust/info', methods = ['POST', 'OPTIONS'])
 @crossdomain(origin="*")
@@ -668,7 +669,7 @@ def coclustInfo():
     new_file_path = '%s/%s' % (path, file_name)
 
     if n_terms > 0:
-        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'mod')
+        top_terms_file_path = coclustFormat(path, original_file_name, model , n_terms, dictionnaire, label_matrix, 'info')
         return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': top_terms_file_path, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
     return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
 

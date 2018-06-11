@@ -163,6 +163,13 @@
             $scope.modal('edit');
         };
 
+        $scope.openCoclust = function(id) {
+            if(id=='coclustMod') $scope.type='mod';
+            if(id=='coclustSpecMod') $scope.type='spec';
+            if(id=='coclustInfo') $scope.type='info';
+            $scope.modal(id);
+        };
+
         $scope.modal = function(id, hide, returnElement) {
             var element = $('#' + id);
             element.modal(hide ? 'hide' : 'show');
@@ -275,6 +282,7 @@
         };   
 		
 		$scope.resetCoclustModal = function() {
+		    $scope.type = '';
 			$scope.row = '';
             $scope.column = '';
             $scope.img = '';
@@ -348,7 +356,7 @@
 			} else {
 				$scope.topTermImg = result.topTermImg;
 			}
-		}
+		};
 
         $scope.remove = function() {
             $scope.apiMiddleware.remove($scope.temps).then(function() {

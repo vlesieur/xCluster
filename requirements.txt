@@ -21,3 +21,4 @@ WTForms==2.1
 Django==1.11
 pyclamd
 bokeh
+flask-autodoc

@@ -30,7 +30,7 @@ angular.module('myApp.view1', ['constants', 'ngRoute', 'FileManagerApp'])
       extractUrl: env.API_URL+'extract',
       permissionsUrl: env.API_URL+'permissions',
       coclustModUrl: env.API_URL+'coclust/mod',
-	    coclustSpecModUrl: env.API_URL+'coclust/spec',
+        coclustSpecModUrl: env.API_URL+'coclust/spec',
 	    coclustInfoUrl: env.API_URL+'coclust/info'
     });
     var newDefaults = config.$get();

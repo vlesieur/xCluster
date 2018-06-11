@@ -401,7 +401,7 @@
             <div class="col-sm-3"></div>
           </div>
         </div>
-        <div ng-if="row" class="modal-body">
+        <div ng-if="row && type=='mod'" class="modal-body">
           <p>{{"row" | translate}}: <button class="btn btn-primary btn-sm" type="button" ng-click="toggleRow ? toggleRow = false : toggleRow = true"><i ng-class="toggleRow ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i></button></p>
 		  <p ng-if="toggleRow">{{row}}</p>
           <p>{{"file_saved_at" | translate}} "{{img | csvrowuserpath}}</p>
@@ -510,7 +510,7 @@
             <div class="col-sm-3"></div>
           </div>
         </div>
-        <div ng-if="row" class="modal-body">
+        <div ng-if="row && type=='spec'" class="modal-body">
           <p>{{"row" | translate}}: <button class="btn btn-primary btn-sm" type="button" ng-click="toggleRow ? toggleRow = false : toggleRow = true"><i ng-class="toggleRow ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i></button></p>
 		  <p ng-if="toggleRow">{{row}}</p>
           <p>{{"file_saved_at" | translate}} "{{img | csvrowuserpath}}</p>
@@ -626,7 +626,7 @@
             <div class="col-sm-3"></div>
           </div>
         </div>
-        <div ng-if="row" class="modal-body">
+        <div ng-if="row && type=='info'" class="modal-body">
           <p>{{"row" | translate}}: <button class="btn btn-primary btn-sm" type="button" ng-click="toggleRow ? toggleRow = false : toggleRow = true"><i ng-class="toggleRow ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i></button></p>
 		  <p ng-if="toggleRow">{{row}}</p>
           <p>{{"file_saved_at" | translate}} "{{img | csvrowuserpath}}</p>
