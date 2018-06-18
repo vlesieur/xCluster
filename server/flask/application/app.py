@@ -760,6 +760,10 @@ Lancement du serveur Flask
 def get_user():
     return jsonify(result=g.current_user)
 
+@crossdomain(origin="*")
+@app.route("/", methods=["GET","POST", "OPTIONS"])
+def home():
+    return "OK"
 
 @app.route("/api/signup", methods=["POST", "OPTIONS"])
 @crossdomain(origin="*")
