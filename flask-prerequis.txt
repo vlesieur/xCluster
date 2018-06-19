@@ -1,4 +1,4 @@
 Flask
-Flask MongoKit
-Flask JWT
+Flask-MongoKit
+Flask-JWT
 Flask-Autodoc

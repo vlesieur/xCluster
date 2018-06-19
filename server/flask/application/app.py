@@ -13,7 +13,7 @@ import shutil
 import stat
 import zipfile
 import time
-import pyclamd
+#import pyclamd
 
 # BOKEH
 from bokeh.plotting import figure, show, output_file, save
@@ -39,6 +39,8 @@ from index import app, db
 from .utils.auth import generate_token, requires_auth
 
 # Ressources Coclust
+import matplotlib
+matplotlib.pyplot.switch_backend('agg')
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as PathEffects
 import numpy as np
@@ -378,16 +380,16 @@ def extract():
 @requires_auth
 def upload():
     try:
-        cd = pyclamd.ClamdAgnostic()
+        # cd = pyclamd.ClamdAgnostic()
         destination = request.form['destination']
         print(request.files)
         files = MultiValueDict()
         for fileIndex in request.files:
             files.appendlist('file', request.files[fileIndex])
         files = files.getlist('file')
-        for f in files:
-            if cd.scan_stream(f.stream):
-                return jsonify({'result': {'success': 'false', 'error': 'The file ' + secure_filename(f.filename) + ' has a virus'}})
+        #for f in files:
+        #    if cd.scan_stream(f.stream):
+        #        return jsonify({'result': {'success': 'false', 'error': 'The file ' + secure_filename(f.filename) + ' has a virus'}})
         for f in files: 
             print(f)
             filename = secure_filename(f.filename)
@@ -529,15 +531,15 @@ def coclustMod():
     plt.subplots_adjust(hspace = 0.200)
     plt.spy(X_reorg, precision=0.8, markersize=0.9)
     file_name ='%s-mod-%s' % (original_file_name.split(".",1)[0], int(time.time()))
-    file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    file_path = '%s/%s/%s.png' % (ROOT.replace("/", "/"), path.replace("/", "/"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
     mpl_fig = plt.gcf()
 
     rowArray = np.asarray(predicted_row_labels)
     columnArray = np.asarray(predicted_column_labels)
-    csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
-    csv_path_col = '%s\\%s\\%s-columnLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    csv_path_row = '%s/%s/%s-rowLabels.csv' % (ROOT.replace("/", "/"), path.replace("/", "/"), file_name)
+    csv_path_col = '%s/%s/%s-columnLabels.csv' % (ROOT.replace("/", "/"), path.replace("/", "/"), file_name)
     np.savetxt(csv_path_row, rowArray, delimiter=";")
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
@@ -588,15 +590,15 @@ def coclustSpecMod():
     plt.subplots_adjust(hspace = 0.200)
     plt.spy(X_reorg, precision=0.8, markersize=0.9)
     file_name ='%s-spec-%s' % (original_file_name.split(".",1)[0], int(time.time()))
-    file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    file_path = '%s/%s/%s.png' % (ROOT.replace("/", "/"), path.replace("/", "/"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
     mpl_fig = plt.gcf()
 
     rowArray = np.asarray(predicted_row_labels);
     columnArray = np.asarray(predicted_column_labels);
-    csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
-    csv_path_col = '%s\\%s\\%s-columnLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    csv_path_row = '%s/%s/%s-rowLabels.csv' % (ROOT.replace("/", "/"), path.replace("/", "/"), file_name)
+    csv_path_col = '%s/%s/%s-columnLabels.csv' % (ROOT.replace("/", "/"), path.replace("/", "/"), file_name)
     np.savetxt(csv_path_row, rowArray, delimiter=";")
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
@@ -655,15 +657,15 @@ def coclustInfo():
     plt.subplots_adjust(hspace = 0.200)
     plt.spy(X_reorg, precision=0.8, markersize=0.9)
     file_name ='%s-info-%s' % (original_file_name.split(".",1)[0], int(time.time()))
-    file_path = '%s\\%s\\%s.png' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    file_path = '%s/%s/%s.png' % (ROOT.replace("/", "/"), path.replace("/", "/"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path)
     mpl_fig = plt.gcf()
 
     rowArray = np.asarray(predicted_row_labels);
     columnArray = np.asarray(predicted_column_labels);
-    csv_path_row = '%s\\%s\\%s-rowLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
-    csv_path_col = '%s\\%s\\%s-columnLabels.csv' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    csv_path_row = '%s/%s/%s-rowLabels.csv' % (ROOT.replace("/", "/"), path.replace("/", "/"), file_name)
+    csv_path_col = '%s/%s/%s-columnLabels.csv' % (ROOT.replace("/", "/"), path.replace("/", "/"), file_name)
     np.savetxt(csv_path_row, rowArray, delimiter=";")
     np.savetxt(csv_path_col, columnArray, delimiter=";")
     new_file_path = '%s/%s' % (path, file_name)
@@ -674,7 +676,7 @@ def coclustInfo():
     return jsonify({ 'row': predicted_row_labels, 'column': predicted_column_labels, 'img': new_file_path, 'topTermImg': None, 'plotly': convertToBokeh(doc_labels, term_labels, mpl_fig) })
 
 def createUserDirectory(username, mode=0777):
-    directory = '%s\\%s' % (ROOT.replace("/", "\\"), username)
+    directory = '%s/%s' % (ROOT.replace("/", "/"), username)
     if not os.path.exists(directory) and not os.path.isdir(directory) :
         os.mkdir(directory, mode)
     success = os.path.exists(directory) and os.path.isdir(directory)
@@ -739,7 +741,7 @@ def coclustFormat(path, original_file_name,  model, n_terms, matrix, label_matri
     plt.tight_layout()
     plt.subplots_adjust(top = 0.88)
     file_name ='%s-%s-%s-%s' % (original_file_name.split(".",1)[0], method, 'topTerms', int(time.time()))
-    file_path = '%s\\%s\\%s.svg' % (ROOT.replace("/", "\\"), path.replace("/", "\\"), file_name)
+    file_path = '%s/%s/%s.svg' % (ROOT.replace("/", "/"), path.replace("/", "/"), file_name)
     plt.tick_params(axis='both', which='both', bottom='off', top='off',right='off', left='off')
     plt.savefig(file_path, format = 'svg')
     plt.cla()

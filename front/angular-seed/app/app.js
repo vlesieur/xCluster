@@ -3,7 +3,7 @@
 // Declare app level module which depends on views, and components
 angular.module('constants', []) 
 .constant('env', {
-  API_URL: "http://localhost:8090/"
+  API_URL: "http://193.70.37.85:8090/"
 }
 )
 
